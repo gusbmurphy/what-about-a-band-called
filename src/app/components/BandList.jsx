@@ -1,12 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const UnconnectedBandList = ({ bands }) => (
+import { requestBandCreation, modifyBandScore } from "../store/mutations";
+
+const UnconnectedBandList = ({ bands, addPointsTo, createBand }) => (
   <div>
     <h3>All Bands</h3>
+    <button onClick={() => createBand()}>New Band</button>
     {bands.map((band) => (
-      <div>
+      <div key={band.id}>
         {band.name} ({band.score})
+        <button onClick={() => addPointsTo(band.id, 1)}>+</button>
+        <button onClick={() => addPointsTo(band.id, -1)}>-</button>
       </div>
     ))}
   </div>
@@ -18,4 +23,15 @@ function mapStateToProps(state) {
   };
 }
 
-export const BandList = connect(mapStateToProps)(UnconnectedBandList);
+function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        addPointsTo: (id, value) => {
+            dispatch(modifyBandScore(id, "U1", value))
+        },
+        createBand: () => {
+            dispatch(requestBandCreation("U1"));
+        }
+    }
+}
+
+export const BandList = connect(mapStateToProps, mapDispatchToProps)(UnconnectedBandList);
