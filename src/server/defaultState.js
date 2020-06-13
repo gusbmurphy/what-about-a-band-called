@@ -1,15 +1,23 @@
+import md5 from "md5";
+
 export const defaultState = {
+    // session: {
+    //     authenticated: false
+    // },
     users: [{
         id: "U1",
-        name: "Jordan"
+        name: "Jordan",
+        passHash: md5("goodguy")
     },
     {
         id: "U2",
-        name: "David"
+        name: "David",
+        passHash: md5("wawa")
     },
     {
         id: "U3",
-        name: "Brock"
+        name: "Brock",
+        passHash: md5("hello")
     }],
     bands: [{
         id: "B1",

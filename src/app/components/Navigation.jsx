@@ -7,6 +7,9 @@ const UnconnectedNavigation = () => (
     <Link to="/bands">
       <h2>Bands</h2>
     </Link>
+    <Link to="/newband">
+      <h2>New Band</h2>
+    </Link>
   </div>
 );
 

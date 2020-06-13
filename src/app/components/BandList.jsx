@@ -6,7 +6,6 @@ import { requestBandCreation, modifyBandScore } from "../store/mutations";
 const UnconnectedBandList = ({ bands, addPointsTo, createBand }) => (
   <div>
     <h3>All Bands</h3>
-    <button onClick={() => createBand()}>New Band</button>
     {bands.map((band) => (
       <div key={band.id}>
         {band.name} ({band.score})
@@ -27,9 +26,6 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         addPointsTo: (id, value) => {
             dispatch(modifyBandScore(id, "U1", value))
-        },
-        createBand: () => {
-            dispatch(requestBandCreation("U1"));
         }
     }
 }
