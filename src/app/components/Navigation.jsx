@@ -5,10 +5,10 @@ import React from "react";
 const UnconnectedNavigation = () => (
   <div>
     <Link to="/bands">
-      <h2>Bands</h2>
+      Bands
     </Link>
     <Link to="/newband">
-      <h2>New Band</h2>
+      New Band
     </Link>
   </div>
 );

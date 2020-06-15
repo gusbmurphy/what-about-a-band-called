@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import { authenticationRoute } from "./authenticate"
+import { authenticationRoute } from "./routes/authentication";
+import { bandRoutes } from "./routes/bands";
 import { connectDB } from "./connect-db";
 import "./initialize-db";
 
@@ -18,18 +19,4 @@ app.use(
 );
 
 authenticationRoute(app);
-
-export const addNewBand = async (band) => {
-    var db = await connectDB();
-    var collection = db.collection("bands");
-    await collection.insertOne(band);
-}
-
-app.post("/band/new", async (req, res) => {
-    var band = req.body
-    await addNewBand(band);
-    res.status(200).send();
-});
-
-// app.post("/band/modify", async (req, res) => {
-// });
+bandRoutes(app);
