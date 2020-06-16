@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import * as mutations from "../store/mutations";
+import { NOT_AUTHENTICATED } from "../store/action-types";
+import { requestAuthenticateUser } from "../store/action-creators";
 
 const UnconnectedLogin = ({ authenticateUser, authenticated }) => (
   <div>
@@ -9,7 +10,7 @@ const UnconnectedLogin = ({ authenticateUser, authenticated }) => (
     <form onSubmit={authenticateUser}>
       <input type="text" placeholder="Username" name="username" />
       <input type="text" placeholder="Password" name="password" />
-      {authenticated === mutations.NOT_AUTHENTICATED ? <p>Login incorrect.</p> : null}
+      {authenticated === NOT_AUTHENTICATED ? <p>Login incorrect.</p> : null}
       <button type="submit">Login</button>
     </form>
   </div>

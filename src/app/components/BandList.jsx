@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { AUTHENTICATED } from "../store/action-types"
 import {
   requestModifyBandScore,
-  AUTHENTICATED,
   beginFetchBands
-} from "../store/mutations";
+} from "../store/action-creators";
 
 class UnconnectedBandList extends React.Component {
   componentDidMount() {

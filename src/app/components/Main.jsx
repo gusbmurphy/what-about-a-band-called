@@ -20,13 +20,14 @@ const RouteGuard = (Component) => ({ match }) => {
 };
 
 export const Main = () => (
+  // TODO: What is the Router's "history" all about?
   <Router history={history}>
     <h1>What about a band called...</h1>
     <Provider store={store}>
       <Navigation />
-      <Route exact path="/" component={Login} />
+      <Route exact path="/bands" component={BandList} />
+      <Route exact path="/login" component={Login} />
       <Route exact path="/newband" render={RouteGuard(CreateBand)} />
-      <BandList />
     </Provider>
   </Router>
 );

@@ -4,10 +4,6 @@ import { connectDB } from "../connect-db";
 
 const authenticationTokens = [];
 
-// async function assembleUserState(user) {
-//     var db = await connectDB();
-// }
-
 export const authenticationRoute = (app) => {
   app.post("/authenticate", async (req, res) => {
     let { username, password } = req.body;

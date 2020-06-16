@@ -10,6 +10,9 @@ const UnconnectedNavigation = () => (
     <Link to="/newband">
       New Band
     </Link>
+    <Link to="/login">
+      Login
+    </Link>
   </div>
 );
 

@@ -2,13 +2,14 @@ import { take, put, select } from "redux-saga/effects";
 import { v1 as uuid } from "uuid";
 import axios from "axios";
 
-import * as mutations from "./mutations";
+import * as mutations from "./action-creators";
+import * as actions from "./action-types";
 
 const url = "http://localhost:7777";
 
 export function* fetchBandsSaga() {
   while (true) {
-    yield take(mutations.FETCH_BANDS_BEGIN);
+    yield take(actions.FETCH_BANDS_BEGIN);
 
     try {
       let response = yield axios.get(url + "/bands/get");
@@ -22,7 +23,7 @@ export function* fetchBandsSaga() {
 
 export function* bandCreationSaga() {
   while (true) {
-    let { creatingUserID, name } = yield take(mutations.REQUEST_BAND_CREATION);
+    let { creatingUserID, name } = yield take(actions.REQUEST_BAND_CREATION);
     let id = uuid();
 
     yield put(mutations.createBand(id, creatingUserID, name));
@@ -42,7 +43,7 @@ export function* bandCreationSaga() {
 export function* bandModificationSaga() {
   while (true) {
     let { bandID, modifyingUserID, value } = yield take(
-      mutations.REQUEST_MODIFY_BAND_SCORE
+      actions.REQUEST_MODIFY_BAND_SCORE
     );
     try {
       let response = yield axios.post(url + "/band/modify", {
@@ -57,7 +58,7 @@ export function* bandModificationSaga() {
       }
       yield put(
         mutations.processModifyBandScore(
-          mutations.AUTHENTICATED,
+          actions.AUTHENTICATED,
           bandID,
           modifyingUserID,
           value
@@ -65,7 +66,7 @@ export function* bandModificationSaga() {
       );
     } catch (e) {
       console.log("ERROR in bandModificationSaga: ", e);
-      yield put(mutations.processModifyBandScore(mutations.NOT_AUTHENTICATED));
+      yield put(mutations.processModifyBandScore(actions.NOT_AUTHENTICATED));
     }
   }
 }
@@ -73,7 +74,7 @@ export function* bandModificationSaga() {
 export function* userAuthenticationSaga() {
   while (true) {
     let { username, password } = yield take(
-      mutations.REQUEST_AUTHENTICATE_USER
+      actions.REQUEST_AUTHENTICATE_USER
     );
     try {
       let { data } = yield axios.post(url + "/authenticate", {
@@ -85,10 +86,10 @@ export function* userAuthenticationSaga() {
       }
       let session = { userID: data.userID };
       yield put(
-        mutations.processAuthenticateUser(mutations.AUTHENTICATED, session)
+        mutations.processAuthenticateUser(actions.AUTHENTICATED, session)
       );
     } catch (e) {
-      yield put(mutations.processAuthenticateUser(mutations.NOT_AUTHENTICATED));
+      yield put(mutations.processAuthenticateUser(actions.NOT_AUTHENTICATED));
     }
   }
 }
