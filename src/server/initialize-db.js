@@ -1,8 +1,8 @@
-import { defaultState } from "./defaultState";
-import { connectDB } from "./connect-db";
+import { defaultState } from "./default-state";
+import { getConnection } from "./connect-db";
 
 async function initializeDB() {
-  let db = await connectDB();
+  let db = await getConnection();
 
   // Check to see if we have loaded the default data in, and if not do so
   let user = await db.collection("users").findOne({ id: "U1" });

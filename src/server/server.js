@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 
 import { authenticationRoute } from "./routes/authentication";
 import { bandRoutes } from "./routes/bands";
-import { connectDB } from "./connect-db";
+import { getConnection } from "./connect-db";
 import "./initialize-db";
 
 const port = 7777;

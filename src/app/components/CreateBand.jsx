@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { requestBandCreation } from "../store/action-creators";
+import { beginBandCreation } from "../store/action-creators";
 
 const UnconnectedCreateBand = ({ createBand, session }) => (
   <div>
     What about a band called
     <input type="text" id="bandName" name="bandName"></input>
     <button
-      onClick={() => createBand(session.userID, document.getElementById("bandName").value)}
+      onClick={() => createBand(session.userId, document.getElementById("bandName").value)}
     >
       Create Band
     </button>
@@ -24,8 +24,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    createBand: (userID, name) => {
-      dispatch(requestBandCreation(userID, name));
+    createBand: (userId, bandName) => {
+      dispatch(beginBandCreation(userId, bandName));
     },
   };
 }

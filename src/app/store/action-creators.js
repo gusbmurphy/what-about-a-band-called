@@ -1,56 +1,69 @@
-import * as actions from "./action-types";
+import * as actionTypes from "./action-types";
 
-export const requestBandCreation = (creatingUserID, name) => ({
-    type: actions.REQUEST_BAND_CREATION,
-    creatingUserID,
-    name
+// Band creation
+export const beginBandCreation = (creatingUserId, bandName) => ({
+    type: actionTypes.CREATE_BAND_BEGIN,
+    creatingUserId: creatingUserId,
+    bandName
+});
+export const bandCreationSuccess = (newBand) => ({
+    type: actionTypes.CREATE_BAND_SUCCESS,
+    newBand
+});
+export const bandCreationFailure = () => ({
+    type: actionTypes.CREATE_BAND_FAILURE
 });
 
+// Band fetching
 export const beginFetchBands = () => ({
-    type: actions.FETCH_BANDS_BEGIN
+    type: actionTypes.FETCH_BANDS_BEGIN
 });
-
 export const fetchBandsSuccess = (bands) => ({
-    type: actions.FETCH_BANDS_SUCCESS,
+    type: actionTypes.FETCH_BANDS_SUCCESS,
     bands
-})
-
-export const createBand = (id, owner, name) => ({
-    type: actions.CREATE_BAND,
-    id,
-    owner,
-    name
+});
+export const fetchBandsFailure = () => ({
+    type: actionTypes.FETCH_BANDS_FAILURE
 });
 
-// TODO: Implement modiying band score with unique users. Should only be able to perform one modification from each user
-export const requestModifyBandScore = (bandID, modifyingUserID, value) => ({
-    type: actions.REQUEST_MODIFY_BAND_SCORE,
-    bandID,
-    modifyingUserID,
-    value
+// Band modification
+export const beginModifyBandScore = (targetBandId, modifyingUserId, modificationValue) => ({
+    type: actionTypes.MODIFY_BAND_SCORE_BEGIN,
+    targetBandId,
+    modifyingUserId,
+    modificationValue
 }); 
+export const modifyBandScoreSuccess = (modifiedBandId, modificationValue) => ({
+    type: actionTypes.MODIFY_BAND_SCORE_SUCCESS,
+    modifiedBandId,
+    modificationValue
+});
+export const modifyBandScoreFailure = () => ({
+    type: actionTypes.MODIFY_BAND_SCORE_FAILURE
+});
 
-export const processModifyBandScore = (status, bandID, modifiyingUserID, value) => ({
-    type: actions.MODIFY_BAND_SCORE,
-    status,
-    bandID,
-    modifiyingUserID,
-    value
-}); 
-
-export const requestAuthenticateUser = (username, password) => ({
-    type: actions.REQUEST_AUTHENTICATE_USER,
+// User authentication
+export const beginAuthenticateUser = (username, password) => ({
+    type: actionTypes.AUTHENTICATE_USER_BEGIN,
     username,
     password
 });
-
-export const processAuthenticateUser = (status = AUTHENTICATING, session = null) => ({
-    type: actions.PROCESSING_AUTHENTICATE_USER,
-    session,
-    authenticated: status
+export const authenticateUserSuccess = (userId) => ({
+    type: actionTypes.AUTHENTICATE_USER_SUCCESS,
+    userId
+});
+export const authenticateUserFailure = () => ({
+    type: actionTypes.AUTHENTICATE_USER_FAILURE
 });
 
-export const setState = (state = {}) => ({
-    type: actions.SET_STATE,
-    state
-});
+
+// export const processAuthenticateUser = (status = AUTHENTICATING, session = null) => ({
+//     type: actions.PROCESSING_AUTHENTICATE_USER,
+//     session,
+//     authenticated: status
+// });
+
+// export const setState = (state = {}) => ({
+//     type: actions.SET_STATE,
+//     state
+// });

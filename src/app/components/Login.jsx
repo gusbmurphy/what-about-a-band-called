@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { NOT_AUTHENTICATED } from "../store/action-types";
-import { requestAuthenticateUser } from "../store/action-creators";
+import { AuthenticationStatuses } from "../store/action-types";
+import { beginAuthenticateUser } from "../store/action-creators";
 
 const UnconnectedLogin = ({ authenticateUser, authenticated }) => (
   <div>
@@ -10,7 +10,7 @@ const UnconnectedLogin = ({ authenticateUser, authenticated }) => (
     <form onSubmit={authenticateUser}>
       <input type="text" placeholder="Username" name="username" />
       <input type="text" placeholder="Password" name="password" />
-      {authenticated === NOT_AUTHENTICATED ? <p>Login incorrect.</p> : null}
+      {authenticated === AuthenticationStatuses.NOT_AUTHENTICATED ? <p>Login incorrect.</p> : null}
       <button type="submit">Login</button>
     </form>
   </div>
@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
         e.preventDefault();
         var username = e.target["username"].value;
         var password = e.target["password"].value;
-        dispatch(mutations.requestAuthenticateUser(username, password));
+        dispatch(beginAuthenticateUser(username, password));
     }
 })
 

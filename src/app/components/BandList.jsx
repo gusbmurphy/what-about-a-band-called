@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { AUTHENTICATED } from "../store/action-types"
+import { AuthenticationStatuses } from "../store/action-types"
 import {
-  requestModifyBandScore,
+  beginModifyBandScore,
   beginFetchBands
 } from "../store/action-creators";
 
@@ -18,13 +18,13 @@ class UnconnectedBandList extends React.Component {
     return (
       <div>
         <h3>All Bands</h3>
-        {bands.map((band) => (
+        {bands.items.map((band) => (
           <div key={band.id}>
             {band.name} ({band.score})
-            {session.authenticated === AUTHENTICATED && (
+            {session.authenticated === AuthenticationStatuses.AUTHENTICATED && (
               <div>
-                <button onClick={() => addPointsTo(band.id, 1)}>+</button>
-                <button onClick={() => addPointsTo(band.id, -1)}>-</button>
+                <button onClick={() => addPointsTo(band.id, session.userId, 1)}>+</button>
+                <button onClick={() => addPointsTo(band.id, session.userId, -1)}>-</button>
               </div>
             )}
           </div>
@@ -43,8 +43,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    addPointsTo: (id, value) => {
-      dispatch(requestModifyBandScore(id, "U1", value));
+    addPointsTo: (targetBandId, userId, modificationValue) => {
+      dispatch(beginModifyBandScore(targetBandId, userId, modificationValue));
     },
     beginFetchBands: () => {
       dispatch(beginFetchBands());
