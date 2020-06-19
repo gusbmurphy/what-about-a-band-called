@@ -10,6 +10,7 @@ import { Navigation } from "./Navigation";
 import { BandList } from "./BandList";
 import { CreateBand } from "./CreateBand";
 import { Login } from "./Login";
+import { NewUser } from "./NewUser";
 
 const RouteGuard = (Component) => ({ match }) => {
   console.info("Route guard", match);
@@ -27,6 +28,7 @@ export const Main = () => (
       <Navigation />
       <Route exact path="/bands" component={BandList} />
       <Route exact path="/login" component={Login} />
+      <Route exact path="/new-user" component={NewUser} />
       <Route exact path="/newband" render={RouteGuard(CreateBand)} />
     </Provider>
   </Router>

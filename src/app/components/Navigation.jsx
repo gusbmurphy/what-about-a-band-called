@@ -13,6 +13,9 @@ const UnconnectedNavigation = () => (
     <Link to="/login">
       Login
     </Link>
+    <Link to="/new-user">
+      New User
+    </Link>
   </div>
 );
 

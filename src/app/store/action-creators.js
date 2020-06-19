@@ -42,6 +42,20 @@ export const modifyBandScoreFailure = () => ({
     type: actionTypes.MODIFY_BAND_SCORE_FAILURE
 });
 
+// User creation
+export const beginCreateUser = (username, password) => ({
+    type: actionTypes.CREATE_USER_BEGIN,
+    username,
+    password
+});
+export const createUserSuccess = () => ({
+    type: actionTypes.CREATE_USER_SUCCESS
+});
+export const createUserFailure = (reason) => ({
+    type: actionTypes.CREATE_USER_FAILURE,
+    reason
+});
+
 // User authentication
 export const beginAuthenticateUser = (username, password) => ({
     type: actionTypes.AUTHENTICATE_USER_BEGIN,
@@ -55,15 +69,3 @@ export const authenticateUserSuccess = (userId) => ({
 export const authenticateUserFailure = () => ({
     type: actionTypes.AUTHENTICATE_USER_FAILURE
 });
-
-
-// export const processAuthenticateUser = (status = AUTHENTICATING, session = null) => ({
-//     type: actions.PROCESSING_AUTHENTICATE_USER,
-//     session,
-//     authenticated: status
-// });
-
-// export const setState = (state = {}) => ({
-//     type: actions.SET_STATE,
-//     state
-// });

@@ -30,6 +30,7 @@ export function* bandCreationSaga() {
     try {
       let response = yield axios.post(url + "/band/new", newBand);
       if (response.status != 200) throw new Error();
+      // TODO: This shouldn't take a new band, but just the _id returned from the server
       yield put(actionCreators.bandCreationSuccess(newBand));
     } catch {
       yield put(actionCreators.bandCreationFailure());
@@ -68,6 +69,22 @@ export function* userAuthenticationSaga() {
       yield put(actionCreators.authenticateUserSuccess(response.data.userId));
     } catch {
       yield put(actionCreators.authenticateUserFailure());
+    }
+  }
+}
+
+export function* userCreationSaga() {
+  while (true) {
+    let { username, password } = yield take(actions.CREATE_USER_BEGIN);
+    try {
+      let response = yield axios.post(url + "/create-user", {
+        username,
+        password
+      });
+      if (response.status != 200) throw new Error();
+      yield put(actionCreators.createUserSuccess());
+    } catch {
+      yield put(actionCreators.createUserFailure(response.data.reason));
     }
   }
 }

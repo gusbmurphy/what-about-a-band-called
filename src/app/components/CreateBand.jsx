@@ -6,9 +6,9 @@ import { beginBandCreation } from "../store/action-creators";
 const UnconnectedCreateBand = ({ createBand, session }) => (
   <div>
     What about a band called
-    <input type="text" id="bandName" name="bandName"></input>
+    <input type="text" id="band-name" name="band-name"></input>
     <button
-      onClick={() => createBand(session.userId, document.getElementById("bandName").value)}
+      onClick={() => createBand(session.userId, document.getElementById("band-name").value)}
     >
       Create Band
     </button>

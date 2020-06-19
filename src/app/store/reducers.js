@@ -2,30 +2,49 @@ import * as actionTypes from "./action-types";
 
 export function session(
   state = {
-    authenticated: actionTypes.AuthenticationStatuses.NOT_AUTHENTICATED,
+    authenticationStatus: actionTypes.AuthenticationStatuses.NOT_TRYING,
     userId: null,
+    userCreationStatus: actionTypes.UserCreationStatuses.NOT_TRYING
   },
   action
 ) {
   switch (action.type) {
+    // AUTHENTICATE_USER
     case actionTypes.AUTHENTICATE_USER_BEGIN:
       return {
         ...state,
-        authenticated: actionTypes.AuthenticationStatuses.AUTHENTICATING,
+        authenticationStatus: actionTypes.AuthenticationStatuses.AUTHENTICATING,
         userId: null,
       };
     case actionTypes.AUTHENTICATE_USER_SUCCESS:
       return {
         ...state,
-        authenticated: actionTypes.AuthenticationStatuses.AUTHENTICATED,
+        authenticationStatus: actionTypes.AuthenticationStatuses.AUTHENTICATED,
         userId: action.userId,
       };
     case actionTypes.AUTHENTICATE_USER_FAILURE:
       return {
         ...state,
-        authenticated: actionTypes.AuthenticationStatuses.NOT_AUTHENTICATED,
+        authenticationStatus: actionTypes.AuthenticationStatuses.NOT_AUTHENTICATED,
         userId: null,
       };
+
+    // CREATE_USER
+    case actionTypes.CREATE_USER_BEGIN:
+      return {
+        ...state,
+        userCreationStatus: actionTypes.UserCreationStatuses.PROCESSING
+      };
+    case actionTypes.CREATE_USER_SUCCESS:
+      return {
+        ...state,
+        userCreationStatus: actionTypes.UserCreationStatuses.NOT_TRYING
+      }
+    case actionTypes.CREATE_USER_FAILURE:
+      return {
+        ...state,
+        userCreationStatus: action.reason
+      }
     default:
       return state;
   }
