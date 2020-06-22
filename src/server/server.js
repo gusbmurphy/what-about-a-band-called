@@ -3,9 +3,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
-import { authenticationRoute } from "./routes/authentication";
-import { bandRoutes } from "./routes/bands";
-import { userCreationRoute } from "./routes/user-creation";
+import * as authenticationHandlers from "./route-handlers/authentication";
+import * as bandHandlers from "./route-handlers/bands";
+import * as userCreationHandlers from "./route-handlers/user-creation";
 
 export const dbUrl = "mongodb://127.0.0.1:27017/wababc";
 const port = 7777;
@@ -17,6 +17,8 @@ app.listen(port, console.log("Server listening on port " + port));
 
 app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
 
-authenticationRoute(app);
-bandRoutes(app);
-userCreationRoute(app);
+app.post("/authenticate", authenticationHandlers.postUserAuthenticate);
+app.get("/bands/get", bandHandlers.getBands);
+app.post("/band/modify", bandHandlers.postModifyBand);
+app.post("/band/new", bandHandlers.postNewBand);
+app.post("/create-user", userCreationHandlers.postCreateUser);
