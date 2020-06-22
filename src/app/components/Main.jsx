@@ -5,6 +5,7 @@ import { Redirect } from "react-router";
 
 import { store } from "../store";
 import { history } from "../store/history";
+import { AuthenticationStatuses } from "../store/action-types"
 
 import { Navigation } from "./Navigation";
 import { BandList } from "./BandList";
@@ -14,7 +15,7 @@ import { NewUser } from "./NewUser";
 
 const RouteGuard = (Component) => ({ match }) => {
   console.info("Route guard", match);
-  if (!store.getState().session.authenticated) {
+  if (store.getState().session.authenticationStatus !== AuthenticationStatuses.AUTHENTICATED) {
     return <Redirect to="/" />;
   }
   return <Component match={match} />;

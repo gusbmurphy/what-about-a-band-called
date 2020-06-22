@@ -23,7 +23,7 @@ export const bandRoutes = (app) => {
         console.info('Error in "/band/new" route:\n', err);
         return res.status(500).send();
       }
-      return status(200).send(newBand._id);
+      return res.status(200).send(newBand._id);
     });
   });
 

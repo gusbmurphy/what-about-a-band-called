@@ -12,6 +12,9 @@ export const authenticationRoute = (app) => {
           console.info("Error in authentication route:\n", err)
           return res.status(500).send();
         }
+        if (!user) {
+          return res.status(500).send();
+        }
         if (user.passwordHash === md5(password)) {
           return res.status(200).send({ userId: user._id });
         } else {

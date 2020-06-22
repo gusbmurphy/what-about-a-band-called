@@ -1,25 +1,21 @@
-import { Schema, ObjectId } from "mongoose"
+import mongoose from "mongoose";
 
-import { getConnection } from "./connect-db";
-
-let connection = getConnection();
-
-let bandSchema = new Schema({
+let bandSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    ownerId: { type: ObjectId, required: true },
+    ownerId: { type: mongoose.ObjectId, required: true },
     score: Number
 });
-export const Band = connection.model("Band", bandSchema);
+export const Band = mongoose.model("Band", bandSchema);
 
-let bandModificationSchema = new Schema({
-    ownerId: { type: ObjectId, required: true },
-    bandId: { type: ObjectId, required: true },
+let bandModificationSchema = new mongoose.Schema({
+    ownerId: { type: mongoose.ObjectId, required: true },
+    bandId: { type: mongoose.ObjectId, required: true },
     value: { type: Number, required: true }
 });
-export const BandModification = connection.model("BandModification", bandModificationSchema);
+export const BandModification = mongoose.model("BandModification", bandModificationSchema);
 
-let userSchema = new Schema({
+let userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     passwordHash: { type: String, required: true }
 });
-export const User = connection.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
