@@ -34,4 +34,10 @@ export const CREATE_BAND_BEGIN = "CREATE_BAND_BEGIN";
 export const CREATE_BAND_SUCCESS = "CREATE_BAND_SUCCESS";
 export const CREATE_BAND_FAILURE = "CREATE_BAND_FAILURE";
 
+export const BandCreationStatuses = {
+  CREATING: "CREATING",
+  CREATED: "CREATED",
+  BAND_EXISTS: "BAND_EXISTS",
+};
+
 export const SET_STATE = "SET_STATE";

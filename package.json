@@ -4,7 +4,7 @@
   "description": "A way to share and rank band name ideas.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require @babel/register --recursive \"./src/**/*.spec.js\"",
+    "test": "mocha --require @babel/register \"./src/**/*.spec.js\"",
     "start": "webpack",
     "dev": "webpack-dev-server --open",
     "initialize": "babel-node src/server/initialize-db",

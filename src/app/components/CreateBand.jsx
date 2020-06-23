@@ -8,7 +8,9 @@ const UnconnectedCreateBand = ({ createBand, session }) => (
     What about a band called
     <input type="text" id="band-name" name="band-name"></input>
     <button
-      onClick={() => createBand(session.userId, document.getElementById("band-name").value)}
+      onClick={() =>
+        createBand(session.userId, document.getElementById("band-name").value)
+      }
     >
       Create Band
     </button>

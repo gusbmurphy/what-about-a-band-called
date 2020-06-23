@@ -18,7 +18,7 @@ const UnconnectedNewUser = ({ tryCreateUser, userCreationStatus }) => (
 );
 
 const mapStateToProps = ({ session }) => ({
-  userCreationStatus: session.userCreationStatus
+  userCreationStatus: session.userCreationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -36,6 +36,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const NewUser = connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(UnconnectedNewUser);
+  mapStateToProps,
+  mapDispatchToProps
+)(UnconnectedNewUser);

@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { AuthenticationStatuses } from "../store/action-types"
+import { AuthenticationStatuses } from "../store/action-types";
 import {
   beginModifyBandScore,
-  beginFetchBands
+  beginFetchBands,
 } from "../store/action-creators";
 
 class UnconnectedBandList extends React.Component {
@@ -23,8 +23,12 @@ class UnconnectedBandList extends React.Component {
             {band.name} ({band.score})
             {authenticationStatus === AuthenticationStatuses.AUTHENTICATED && (
               <div>
-                <button onClick={() => addPointsTo(band.id, userId, 1)}>+</button>
-                <button onClick={() => addPointsTo(band.id, userId, -1)}>-</button>
+                <button onClick={() => addPointsTo(band.id, userId, 1)}>
+                  +
+                </button>
+                <button onClick={() => addPointsTo(band.id, userId, -1)}>
+                  -
+                </button>
               </div>
             )}
           </div>
@@ -38,7 +42,7 @@ function mapStateToProps(state) {
   return {
     bands: state.bands,
     authenticationStatus: state.authenticationStatus,
-    userId: state.userId
+    userId: state.userId,
   };
 }
 

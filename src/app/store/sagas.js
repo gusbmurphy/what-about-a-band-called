@@ -50,7 +50,9 @@ export function* bandScoreModificationSaga() {
         modificationValue,
       });
       if (response.status != 200) throw new Error();
-      yield put(actionCreators.modifyBandScoreSuccess(targetBandId, modificationValue));
+      yield put(
+        actionCreators.modifyBandScoreSuccess(targetBandId, modificationValue)
+      );
     } catch {
       yield put(actionCreators.modifyBandScoreFailure());
     }
@@ -79,7 +81,7 @@ export function* userCreationSaga() {
     try {
       let response = yield axios.post(url + "/create-user", {
         username,
-        password
+        password,
       });
       if (response.status != 200) throw new Error();
       yield put(actionCreators.createUserSuccess());

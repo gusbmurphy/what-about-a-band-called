@@ -4,7 +4,7 @@ export function session(
   state = {
     authenticationStatus: actionTypes.AuthenticationStatuses.NOT_TRYING,
     userId: null,
-    userCreationStatus: actionTypes.UserCreationStatuses.NOT_TRYING
+    userCreationStatus: actionTypes.UserCreationStatuses.NOT_TRYING,
   },
   action
 ) {
@@ -25,7 +25,8 @@ export function session(
     case actionTypes.AUTHENTICATE_USER_FAILURE:
       return {
         ...state,
-        authenticationStatus: actionTypes.AuthenticationStatuses.NOT_AUTHENTICATED,
+        authenticationStatus:
+          actionTypes.AuthenticationStatuses.NOT_AUTHENTICATED,
         userId: null,
       };
 
@@ -33,18 +34,18 @@ export function session(
     case actionTypes.CREATE_USER_BEGIN:
       return {
         ...state,
-        userCreationStatus: actionTypes.UserCreationStatuses.PROCESSING
+        userCreationStatus: actionTypes.UserCreationStatuses.PROCESSING,
       };
     case actionTypes.CREATE_USER_SUCCESS:
       return {
         ...state,
-        userCreationStatus: actionTypes.UserCreationStatuses.NOT_TRYING
-      }
+        userCreationStatus: actionTypes.UserCreationStatuses.NOT_TRYING,
+      };
     case actionTypes.CREATE_USER_FAILURE:
       return {
         ...state,
-        userCreationStatus: action.reason
-      }
+        userCreationStatus: action.reason,
+      };
     default:
       return state;
   }

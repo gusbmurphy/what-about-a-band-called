@@ -8,7 +8,7 @@ export async function postUserAuthenticate(req, res) {
   let { username, password } = req.body;
   User.findOne({ name: username }).exec((err, user) => {
     if (err) {
-      console.info("Error in authentication route:\n", err)
+      console.info("Error in authentication route:\n", err);
       return res.status(500).send();
     }
     if (!user) {

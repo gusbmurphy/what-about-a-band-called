@@ -1,5 +1,5 @@
 import { Band, BandModification } from "../models";
-
+import { BandCreationStatuses } from "../../app/store/action-types";
 
 export async function getBands(req, res) {
   Band.find({}).exec((err, bands) => {
@@ -13,6 +13,9 @@ export async function getBands(req, res) {
 
 export async function postNewBand(req, res) {
   let { bandName, creatingUserId } = req.body;
+  if (await Band.exists({ name: bandName })) {
+    return res.status(500).send({ reason: BandCreationStatuses.BAND_EXISTS });
+  }
   let newBand = new Band({
     name: bandName,
     ownerId: creatingUserId,
@@ -23,12 +26,19 @@ export async function postNewBand(req, res) {
       console.info('Error in "/band/new" route:\n', err);
       return res.status(500).send();
     }
-    return res.status(200).send(newBand._id);
+    return res.status(200).send({ newBandId: newBand._id });
   });
-};
+}
 
 export async function postModifyBand(req, res) {
   let { targetBandId, modifyingUserId, modificationValue } = req.body;
+
+  // Check to make sure that the target band exists
+  if (!(await Band.exists({ _id: targetBandId }))) {
+    return res.status(500).send();
+  }
+
+  // Check to see if the user has already modified this band
   if (
     await BandModification.exists({
       ownerId: modifyingUserId,

@@ -6,7 +6,9 @@ import { UserCreationStatuses } from "../../app/store/action-types";
 export async function postCreateUser(req, res) {
   let { username, password } = req.body;
   if (await User.exists({ name: username })) {
-    return res.status(500).send({ reason: UserCreationStatuses.USERNAME_TAKEN });
+    return res
+      .status(500)
+      .send({ reason: UserCreationStatuses.USERNAME_TAKEN });
   } else {
     let newUser = new User({
       name: username,
@@ -15,7 +17,9 @@ export async function postCreateUser(req, res) {
     newUser.save((err) => {
       if (err) {
         console.info("Error in user creation route:\n", err);
-        return res.status(500).send({ reason: UserCreationStatuses.SERVER_ERROR });
+        return res
+          .status(500)
+          .send({ reason: UserCreationStatuses.SERVER_ERROR });
       }
       return res.status(200).send();
     });
