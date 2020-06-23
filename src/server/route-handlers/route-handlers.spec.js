@@ -1,4 +1,5 @@
-import { assert, expect } from "chai";
+// TODO: Could the Chai require statement and usage of should be done better? Maybe in a way that puts it in the global namespace?
+
 let chai = require("chai");
 let should = require("chai").should();
 import httpMocks from "node-mocks-http";
