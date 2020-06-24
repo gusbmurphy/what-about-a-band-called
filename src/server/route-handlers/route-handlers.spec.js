@@ -287,7 +287,7 @@ describe("Route Handler Unit Tests", function () {
       res.statusCode.should.equal(500, "status code should be 500");
     });
 
-    it("if the modification is valid, Band.findOneAndUpdate should be called, and then a BandModification should be saved", async function () {
+    it("if the modification is valid, 'Band.findOneAndUpdate()' should be called, and then a BandModification should be saved", async function () {
       let req = httpMocks.createRequest({
         body: {
           targetBandId: "someband",
