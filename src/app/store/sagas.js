@@ -4,13 +4,13 @@ import axios from "axios";
 import * as actionCreators from "./action-creators";
 import * as actionTypes from "./action-types";
 
-const url = "http://localhost:7777";
+export const serverUrl = "http://localhost:7777";
 
 export function* bandFetchingSaga() {
   while (true) {
     yield take(actionTypes.FETCH_BANDS_BEGIN);
     try {
-      let response = yield call(axios.get, url + "/bands/get");
+      let response = yield call(axios.get, serverUrl + "/bands/get");
       if (response.status != 200) throw new Error();
       yield put(actionCreators.fetchBandsSuccess(response.data));
     } catch(error) {
@@ -27,7 +27,7 @@ export function* bandCreationSaga() {
       bandName,
     };
     try {
-      let response = yield call(axios.post, url + "/band/new", newBand);
+      let response = yield call(axios.post, serverUrl + "/band/new", newBand);
       if (response.status != 200) throw new Error();
       // TODO: This shouldn't take a new band, but just the _id returned from the server
       yield put(actionCreators.bandCreationSuccess(newBand));
@@ -43,7 +43,7 @@ export function* bandScoreModificationSaga() {
       actionTypes.MODIFY_BAND_SCORE_BEGIN
     );
     try {
-      let response = yield call(axios.post, url + "/band/modify", {
+      let response = yield call(axios.post, serverUrl + "/band/modify", {
         targetBandId,
         modifyingUserId,
         modificationValue,
@@ -62,7 +62,7 @@ export function* userAuthenticationSaga() {
   while (true) {
     let { username, password } = yield take(actionTypes.AUTHENTICATE_USER_BEGIN);
     try {
-      let response = yield call(axios.post, url + "/authenticate", {
+      let response = yield call(axios.post, serverUrl + "/authenticate", {
         username,
         password,
       });
@@ -78,7 +78,7 @@ export function* userCreationSaga() {
   while (true) {
     let { username, password } = yield take(actionTypes.CREATE_USER_BEGIN);
     try {
-      let response = yield call(axios.post, url + "/create-user", {
+      let response = yield call(axios.post, serverUrl + "/create-user", {
         username,
         password,
       });
