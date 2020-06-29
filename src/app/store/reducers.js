@@ -80,8 +80,7 @@ export function bands(
     // CREATE_BAND
     case actionTypes.CREATE_BAND_BEGIN:
     case actionTypes.CREATE_BAND_FAILURE:
-      // TODO: Should I be doing more, like getting something to display a failure,
-      // or that there is a process taking place?
+      // TODO: Should I be doing more, like getting something to display a failure, or that there is a process taking place?
       return state;
     case actionTypes.CREATE_BAND_SUCCESS:
       return {
@@ -92,8 +91,7 @@ export function bands(
     // MODIFY_BAND_SCORE
     case actionTypes.MODIFY_BAND_SCORE_BEGIN:
     case actionTypes.MODIFY_BAND_SCORE_FAILURE:
-      // TODO: Should I be doing more, like getting something to display a failure,
-      // or that there is a process taking place?
+      // TODO: Should I be doing more, like getting something to display a failure, or that there is a process taking place?
       return state;
     case actionTypes.MODIFY_BAND_SCORE_SUCCESS:
       let bandsCopy = [...state.items];

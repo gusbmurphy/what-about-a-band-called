@@ -1,7 +1,4 @@
-// TODO: Could the Chai require statement and usage of should be done better? Maybe in a way that puts it in the global namespace?
-
-let chai = require("chai");
-let should = require("chai").should();
+import 'chai/register-should';
 import httpMocks from "node-mocks-http";
 import sinon from "sinon";
 import md5 from "md5";
@@ -19,6 +16,10 @@ import { postUserAuthenticate } from "../route-handlers/authentication";
 import { postNewBand, postModifyBand, getBands } from "../route-handlers/bands";
 
 describe("Route Handler Unit Tests", function () {
+  describe("Band Retrieval", function () {
+    it("retrieves all bands");
+  });
+
   describe("User Creation", function () {
     beforeEach(function () {
       sinon.stub(User, "exists");

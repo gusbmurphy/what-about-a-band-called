@@ -1,20 +1,19 @@
-import { take, put, select } from "redux-saga/effects";
-import { v1 as uuid } from "uuid";
+import { take, put, call } from "redux-saga/effects";
 import axios from "axios";
 
 import * as actionCreators from "./action-creators";
-import * as actions from "./action-types";
+import * as actionTypes from "./action-types";
 
 const url = "http://localhost:7777";
 
-export function* fetchBandsSaga() {
+export function* bandFetchingSaga() {
   while (true) {
-    yield take(actions.FETCH_BANDS_BEGIN);
+    yield take(actionTypes.FETCH_BANDS_BEGIN);
     try {
-      let response = yield axios.get(url + "/bands/get");
+      let response = yield call(axios.get, url + "/bands/get");
       if (response.status != 200) throw new Error();
       yield put(actionCreators.fetchBandsSuccess(response.data));
-    } catch {
+    } catch(error) {
       yield put(actionCreators.fetchBandsFailure());
     }
   }
@@ -22,17 +21,17 @@ export function* fetchBandsSaga() {
 
 export function* bandCreationSaga() {
   while (true) {
-    let { creatingUserId, bandName } = yield take(actions.CREATE_BAND_BEGIN);
+    let { creatingUserId, bandName } = yield take(actionTypes.CREATE_BAND_BEGIN);
     let newBand = {
       creatingUserId,
       bandName,
     };
     try {
-      let response = yield axios.post(url + "/band/new", newBand);
+      let response = yield call(axios.post, url + "/band/new", newBand);
       if (response.status != 200) throw new Error();
       // TODO: This shouldn't take a new band, but just the _id returned from the server
       yield put(actionCreators.bandCreationSuccess(newBand));
-    } catch {
+    } catch(error) {
       yield put(actionCreators.bandCreationFailure());
     }
   }
@@ -41,10 +40,10 @@ export function* bandCreationSaga() {
 export function* bandScoreModificationSaga() {
   while (true) {
     let { targetBandId, modifyingUserId, modificationValue } = yield take(
-      actions.MODIFY_BAND_SCORE_BEGIN
+      actionTypes.MODIFY_BAND_SCORE_BEGIN
     );
     try {
-      let response = yield axios.post(url + "/band/modify", {
+      let response = yield call(axios.post, url + "/band/modify", {
         targetBandId,
         modifyingUserId,
         modificationValue,
@@ -53,7 +52,7 @@ export function* bandScoreModificationSaga() {
       yield put(
         actionCreators.modifyBandScoreSuccess(targetBandId, modificationValue)
       );
-    } catch {
+    } catch(error) {
       yield put(actionCreators.modifyBandScoreFailure());
     }
   }
@@ -61,15 +60,15 @@ export function* bandScoreModificationSaga() {
 
 export function* userAuthenticationSaga() {
   while (true) {
-    let { username, password } = yield take(actions.AUTHENTICATE_USER_BEGIN);
+    let { username, password } = yield take(actionTypes.AUTHENTICATE_USER_BEGIN);
     try {
-      let response = yield axios.post(url + "/authenticate", {
+      let response = yield call(axios.post, url + "/authenticate", {
         username,
         password,
       });
       if (response.status != 200) throw new Error();
       yield put(actionCreators.authenticateUserSuccess(response.data.userId));
-    } catch {
+    } catch(error) {
       yield put(actionCreators.authenticateUserFailure());
     }
   }
@@ -77,15 +76,15 @@ export function* userAuthenticationSaga() {
 
 export function* userCreationSaga() {
   while (true) {
-    let { username, password } = yield take(actions.CREATE_USER_BEGIN);
+    let { username, password } = yield take(actionTypes.CREATE_USER_BEGIN);
     try {
-      let response = yield axios.post(url + "/create-user", {
+      let response = yield call(axios.post, url + "/create-user", {
         username,
         password,
       });
       if (response.status != 200) throw new Error();
       yield put(actionCreators.createUserSuccess());
-    } catch {
+    } catch(error) {
       yield put(actionCreators.createUserFailure(response.data.reason));
     }
   }

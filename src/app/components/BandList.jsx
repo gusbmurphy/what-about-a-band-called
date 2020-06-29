@@ -13,26 +13,35 @@ class UnconnectedBandList extends React.Component {
   }
 
   render() {
-    let { bands, authenticationStatus, addPointsTo } = this.props;
+    let { bands, authenticationStatus, userId, addPointsTo } = this.props;
 
     return (
       <div>
         <h3>All Bands</h3>
-        {bands.items.map((band) => (
-          <div key={band._id}>
-            {band.name} ({band.score})
-            {authenticationStatus === AuthenticationStatuses.AUTHENTICATED && (
-              <div>
-                <button onClick={() => addPointsTo(band.id, userId, 1)}>
-                  +
-                </button>
-                <button onClick={() => addPointsTo(band.id, userId, -1)}>
-                  -
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
+        <div className="bandList">
+          {bands.items.map((band) => (
+            <div key={band._id} className="bandListing">
+              {band.name} ({band.score})
+              {authenticationStatus ===
+                AuthenticationStatuses.AUTHENTICATED && (
+                <div>
+                  <button
+                    className="incScoreButton"
+                    onClick={() => addPointsTo(band._id, userId, 1)}
+                  >
+                    +
+                  </button>
+                  <button
+                    className="decScoreButton"
+                    onClick={() => addPointsTo(band._id, userId, -1)}
+                  >
+                    -
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

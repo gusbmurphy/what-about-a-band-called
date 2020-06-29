@@ -13,8 +13,7 @@ import { CreateBand } from "./CreateBand";
 import { Login } from "./Login";
 import { NewUser } from "./NewUser";
 
-const RouteGuard = (Component) => ({ match }) => {
-  console.info("Route guard", match);
+const AuthenticationGuard = (Component) => ({ match }) => {
   if (
     store.getState().session.authenticationStatus !==
     AuthenticationStatuses.AUTHENTICATED
@@ -33,7 +32,7 @@ export const Main = () => (
       <Route exact path="/bands" component={BandList} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/new-user" component={NewUser} />
-      <Route exact path="/newband" render={RouteGuard(CreateBand)} />
+      <Route exact path="/newband" render={AuthenticationGuard(CreateBand)} />
     </Provider>
   </Router>
 );

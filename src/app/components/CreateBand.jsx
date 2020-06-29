@@ -8,6 +8,7 @@ const UnconnectedCreateBand = ({ createBand, session }) => (
     What about a band called
     <input type="text" id="band-name" name="band-name"></input>
     <button
+      className="createBandButton"
       onClick={() =>
         createBand(session.userId, document.getElementById("band-name").value)
       }
@@ -19,7 +20,7 @@ const UnconnectedCreateBand = ({ createBand, session }) => (
 
 function mapStateToProps(state) {
   return {
-    bands: state.bands,
+    // bands: state.bands,
     session: state.session,
   };
 }
