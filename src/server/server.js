@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import * as authenticationHandlers from "./route-handlers/authentication";
 import * as bandHandlers from "./route-handlers/bands";
 import * as userCreationHandlers from "./route-handlers/user-creation";
+import * as paths from "./paths";
 
 export const dbUrl = "mongodb://127.0.0.1:27017/wababc";
 const port = 7777;
@@ -17,8 +18,8 @@ app.listen(port, console.log("Server listening on port " + port));
 
 app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
 
-app.post("/authenticate", authenticationHandlers.postUserAuthenticate);
-app.get("/bands/get", bandHandlers.getBands);
-app.post("/band/modify", bandHandlers.postModifyBand);
-app.post("/band/new", bandHandlers.postNewBand);
-app.post("/create-user", userCreationHandlers.postCreateUser);
+app.post(paths.authenticate, authenticationHandlers.postUserAuthenticate);
+app.get(paths.getBands, bandHandlers.getBands);
+app.post(paths.modifyBand, bandHandlers.postModifyBand);
+app.post(paths.newBand, bandHandlers.postNewBand);
+app.post(paths.createUser, userCreationHandlers.postCreateUser);

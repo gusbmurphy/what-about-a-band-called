@@ -10,8 +10,9 @@ export const bandCreationSuccess = (newBand) => ({
   type: actionTypes.CREATE_BAND_SUCCESS,
   newBand,
 });
-export const bandCreationFailure = () => ({
+export const bandCreationFailure = (reason) => ({
   type: actionTypes.CREATE_BAND_FAILURE,
+  reason
 });
 
 // Band fetching
