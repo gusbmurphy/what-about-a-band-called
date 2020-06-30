@@ -25,8 +25,7 @@ export function session(
     case actionTypes.AUTHENTICATE_USER_FAILURE:
       return {
         ...state,
-        authenticationStatus:
-          actionTypes.AuthenticationStatuses.NOT_AUTHENTICATED,
+        authenticationStatus: action.reason,
         userId: null,
       };
 
@@ -39,7 +38,7 @@ export function session(
     case actionTypes.CREATE_USER_SUCCESS:
       return {
         ...state,
-        userCreationStatus: actionTypes.UserCreationStatuses.NOT_TRYING,
+        userCreationStatus: actionTypes.UserCreationStatuses.SUCCESS,
       };
     case actionTypes.CREATE_USER_FAILURE:
       return {
@@ -55,6 +54,11 @@ export function bands(
   state = {
     fetching: false,
     items: [],
+    creationStatus: actionTypes.BandCreationStatuses.NOT_TRYING,
+    scoreModification: {
+      status: actionTypes.BandScoreModificationStatuses.NOT_TRYING,
+      target: null,
+    },
   },
   action
 ) {
@@ -79,24 +83,43 @@ export function bands(
 
     // CREATE_BAND
     case actionTypes.CREATE_BAND_BEGIN:
+      return {
+        ...state,
+        creationStatus: actionTypes.BandCreationStatuses.CREATING,
+      };
     case actionTypes.CREATE_BAND_FAILURE:
-      // TODO: Should I be doing more, like getting something to display a failure, or that there is a process taking place?
-      return state;
+      return {
+        ...state,
+        creationStatus: action.reason,
+      };
     case actionTypes.CREATE_BAND_SUCCESS:
       return {
         ...state,
+        creationStatus: actionTypes.BandCreationStatuses.CREATED,
         items: [...state.items, action.newBand],
       };
 
     // MODIFY_BAND_SCORE
     case actionTypes.MODIFY_BAND_SCORE_BEGIN:
+      return {
+        ...state,
+        scoreModification: {
+          status: actionTypes.BandScoreModificationStatuses.ATTEMPTING,
+          target: action.target,
+        },
+      };
     case actionTypes.MODIFY_BAND_SCORE_FAILURE:
-      // TODO: Should I be doing more, like getting something to display a failure, or that there is a process taking place?
-      return state;
+      return {
+        ...state,
+        scoreModification: {
+          status: actionTypes.BandScoreModificationStatuses.FAILURE,
+          target: null,
+        },
+      };
     case actionTypes.MODIFY_BAND_SCORE_SUCCESS:
       let bandsCopy = [...state.items];
       let targetBandIndex = bandsCopy.findIndex(
-        (band) => band.id === action.modifiedBandId
+        (band) => band._id === action.modifiedBandId
       );
       let targetBand = bandsCopy.splice(targetBandIndex, 1)[0];
       targetBand.score = targetBand.score + action.modificationValue;
@@ -104,6 +127,10 @@ export function bands(
       return {
         ...state,
         items: bandsCopy,
+        scoreModification: {
+          ...state.scoreModification,
+          status: actionTypes.BandScoreModificationStatuses.SUCCESS,
+        },
       };
 
     default:
