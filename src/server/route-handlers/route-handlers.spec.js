@@ -1,4 +1,4 @@
-import 'chai/register-should';
+import "chai/register-should";
 import httpMocks from "node-mocks-http";
 import sinon from "sinon";
 import md5 from "md5";
@@ -13,7 +13,7 @@ import {
 } from "../../app/store/action-types";
 import { postCreateUser } from "../route-handlers/user-creation";
 import { postUserAuthenticate } from "../route-handlers/authentication";
-import { postNewBand, postModifyBand, getBands } from "../route-handlers/bands";
+import { postNewBand, postModifyBand } from "../route-handlers/bands";
 
 describe("Route Handler Component Tests", function () {
   describe("Band Retrieval", function () {

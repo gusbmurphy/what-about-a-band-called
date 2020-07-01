@@ -55,7 +55,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
   return {
     addPointsTo: (targetBandId, userId, modificationValue) => {
       dispatch(beginModifyBandScore(targetBandId, userId, modificationValue));
