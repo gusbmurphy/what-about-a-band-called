@@ -50,8 +50,8 @@ class UnconnectedBandList extends React.Component {
 function mapStateToProps(state) {
   return {
     bands: state.bands,
-    authenticationStatus: state.authenticationStatus,
-    userId: state.userId,
+    authenticationStatus: state.session.authenticationStatus,
+    userId: state.session.userId,
   };
 }
 

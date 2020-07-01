@@ -15,7 +15,7 @@ import { postCreateUser } from "../route-handlers/user-creation";
 import { postUserAuthenticate } from "../route-handlers/authentication";
 import { postNewBand, postModifyBand, getBands } from "../route-handlers/bands";
 
-describe("Route Handler Unit Tests", function () {
+describe("Route Handler Component Tests", function () {
   describe("Band Retrieval", function () {
     it("retrieves all bands");
   });

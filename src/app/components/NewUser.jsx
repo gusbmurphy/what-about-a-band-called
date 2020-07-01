@@ -37,6 +37,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     let username = e.target["username"].value;
     let password = e.target["password"].value;
     let repeatPassword = e.target["repeat-password"].value;
+    if (username.length == 0 || password.length == 0 || repeatPassword.length == 0) {
+      return dispatch(createUserFailure(UserCreationStatuses.EMPTY_FIELDS));
+    }
     if (password == repeatPassword) {
       dispatch(beginCreateUser(username, password));
     } else {
