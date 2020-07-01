@@ -45,7 +45,7 @@ class UnconnectedLogin extends React.Component {
         <h2>Please Login</h2>
         <form onSubmit={authenticateUser} className="loginForm">
           <input type="text" placeholder="Username" name="username" />
-          <input type="text" placeholder="Password" name="password" />
+          <input type="password" placeholder="Password" name="password" />
           <button type="submit">Login</button>
         </form>
         <div className="loginStatus">

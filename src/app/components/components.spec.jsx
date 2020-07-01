@@ -1,18 +1,24 @@
-import 'chai/register-should';
+import "chai/register-should";
 import sinon from "sinon";
-import { shallow, mount } from "enzyme";
-import React, { Component } from "react";
+import { mount } from "enzyme";
+import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 import { BandList } from "./BandList";
 import { Login } from "./Login";
+import { NewUser } from "./NewUser";
 import { CreateBand } from "./CreateBand";
-import { AuthenticationStatuses, CREATE_BAND_BEGIN } from "../store/action-types";
+import {
+  AuthenticationStatuses,
+  UserCreationStatuses,
+} from "../store/action-types";
 import {
   beginFetchBands,
   beginModifyBandScore,
-  beginBandCreation
+  beginBandCreation,
+  beginCreateUser,
+  createUserFailure,
 } from "../store/action-creators";
 
 const mockStore = configureStore([]);
@@ -229,9 +235,83 @@ describe("React Component Unit Tests", function () {
     });
   });
 
+  describe("New User", function () {
+    let wrapper,
+      formWrapper,
+      nameInputWrapper,
+      pwInputWrapper,
+      pwRepeatInputWrapper,
+      alertWrapper,
+      store;
+
+    it("has a form with class 'newUserForm', with username, password and password repeat text inputs", function () {
+      store = mockStore({
+        session: {
+          userCreationStatus: UserCreationStatuses.NOT_TRYING,
+        },
+      });
+
+      wrapper = mount(
+        <Provider store={store}>
+          <NewUser />
+        </Provider>
+      );
+
+      formWrapper = wrapper.find("form.newUserForm");
+      formWrapper.should.have.lengthOf(1);
+
+      nameInputWrapper = formWrapper.find("input[name='username']");
+      nameInputWrapper.should.have.lengthOf(1);
+
+      pwInputWrapper = formWrapper.find("input[name='password']");
+      pwInputWrapper.should.have.lengthOf(1);
+
+      pwRepeatInputWrapper = formWrapper.find("input[name='repeat-password']");
+      pwRepeatInputWrapper.should.have.lengthOf(1);
+    });
+
+    it("hides the text entered into the password fields", function () {
+      pwInputWrapper.prop("type").should.equal("password");
+      pwRepeatInputWrapper.prop("type").should.equal("password");
+    });
+
+    it("has an element that displays information regarding the process", function () {
+      alertWrapper = wrapper.find("div.processAlert");
+      alertWrapper.should.have.lengthOf(1);
+    });
+
+    let password = "password1";
+    let notPassword = "psdfsdfg";
+    let userName = "name1";
+
+    it("should not allow a submission with any field left blank");
+
+    it("when the password and repeated password do not match a user creation failure action is dispatched", function () {
+      // TODO: Dear Lord
+      nameInputWrapper.getDOMNode().value = userName;
+      pwInputWrapper.getDOMNode().value = password;
+      pwRepeatInputWrapper.getDOMNode().value = notPassword;
+
+      let dispatchSpy = sinon.spy(store, "dispatch");
+
+      formWrapper.simulate("submit");
+      dispatchSpy.calledOnce.should.equal(true, "dispatch should be called once");
+      dispatchSpy.firstCall.args.should.deep.include(
+        createUserFailure(UserCreationStatuses.PASSWORDS_DONT_MATCH), "the dispatch call should be with a user creation failure action"
+      );
+
+      dispatchSpy.restore();
+    });
+
+    it("dispatches a user creation action if the passwords match");
+    it("informs the user that an attempt is being made to create the account");
+    it("informs the user if the username is already taken");
+    it("informs the user if there was a server error");
+  });
+
   describe.skip("Create Band", function () {
-    afterEach(function() {
-      sinon.restore()
+    afterEach(function () {
+      sinon.restore();
     });
 
     it("has a button that when clicked dispatches an action to create a new band if the user is logged in", function () {
@@ -255,14 +335,17 @@ describe("React Component Unit Tests", function () {
 
       // let bandNameInputWrapper = wrapper.find("input[name='band-name']");
       // bandNameInputWrapper.should.have.lengthOf(1);
-      let getElementStub = sinon.stub(document, "getElementById").withArgs("band-name");
+      let getElementStub = sinon
+        .stub(document, "getElementById")
+        .withArgs("band-name");
       getElementStub.returns({
-        value: "BandName"
+        value: "BandName",
       });
 
       buttonWrapper.simulate("click");
       getElementStub.called.should.be.true;
-      dispatchSpy.calledWith(beginBandCreation("userId1", "BandName")).should.be.true;
+      dispatchSpy.calledWith(beginBandCreation("userId1", "BandName")).should.be
+        .true;
     });
 
     it(

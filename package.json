@@ -4,7 +4,8 @@
   "description": "A way to share and rank band name ideas.",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --include 'src' --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --exclude 'src/util/test-setup.js' --all mocha --require @babel/register --require './src/util/test-setup.js' './src/**/*.spec.js' './src/**/*.spec.jsx'",
+    "test-nyc": "nyc --include 'src' --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --exclude 'src/util/test-setup.js' --all mocha --require @babel/register --require './src/util/test-setup.js' './src/**/*.spec.js' './src/**/*.spec.jsx'",
+    "test": "mocha --require @babel/register --require './src/util/test-setup.js' './src/**/*.spec.js' './src/**/*.spec.jsx'",
     "start": "webpack",
     "dev": "webpack-dev-server --open",
     "initialize": "babel-node src/server/initialize-db",

@@ -4,24 +4,34 @@ import { connect } from "react-redux";
 import { beginCreateUser, createUserFailure } from "../store/action-creators";
 import { UserCreationStatuses } from "../store/action-types";
 
-const UnconnectedNewUser = ({ tryCreateUser, userCreationStatus }) => (
-  <div>
-    <h2>Create new user</h2>
-    <form onSubmit={tryCreateUser}>
-      <input type="text" placeholder="Username" name="username" />
-      <input type="text" placeholder="Password" name="password" />
-      <input type="text" placeholder="Repeat password" name="repeat-password" />
-      <button type="submit">Login</button>
-    </form>
-    <p>{userCreationStatus}</p>
-  </div>
-);
+class UnconnectedNewUser extends React.Component {
+  render() {
+    let { tryCreateUser, userCreationStatus } = this.props;
+
+    return (
+      <div>
+        <h2>Create new user</h2>
+        <form onSubmit={tryCreateUser} className="newUserForm">
+          <input type="text" placeholder="Username" name="username" />
+          <input type="password" placeholder="Password" name="password" />
+          <input
+            type="password"
+            placeholder="Repeat password"
+            name="repeat-password"
+          />
+          <button type="submit">Submit</button>
+        </form>
+        <div className="processAlert">{userCreationStatus}</div>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = ({ session }) => ({
   userCreationStatus: session.userCreationStatus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   tryCreateUser(e) {
     e.preventDefault();
     let username = e.target["username"].value;
