@@ -11,7 +11,8 @@
     "initialize": "babel-node src/server/initialize-db",
     "server": "babel-node src/server/server",
     "server-test": "babel-node src/server/server.spec",
-    "start-dev": "concurrently \"npm run server\" \"npm run dev\""
+    "start-dev": "concurrently \"npm run server\" \"npm run dev\"",
+    "load-dummy-data": "babel-node src/util/load-dummy-db.js"
   },
   "keywords": [],
   "author": "Gus Murphy",
@@ -37,6 +38,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.20.3",
     "express": "^4.17.1",
+    "faker": "^4.1.0",
     "jsdom": "^16.2.2",
     "mocha": "^8.0.1",
     "mongodb": "^3.5.8",

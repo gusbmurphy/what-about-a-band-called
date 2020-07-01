@@ -8,11 +8,11 @@ import * as bandHandlers from "./route-handlers/bands";
 import * as userCreationHandlers from "./route-handlers/user-creation";
 import * as paths from "./paths";
 
-export const dbUrl = "mongodb://127.0.0.1:27017/wababc";
+export const localDbUrl = "mongodb://127.0.0.1:27017/wababc";
 const port = 7777;
 export const app = express();
 
-mongoose.connect(dbUrl);
+mongoose.connect(localDbUrl);
 
 app.listen(port, console.log("Server listening on port " + port));
 
