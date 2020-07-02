@@ -68,7 +68,7 @@ describe("Route Handler Component Tests", function () {
     });
   });
 
-  describe("User Authentication", function () {
+  describe.only("User Authentication", function () {
     beforeEach(function () {
       sinon.stub(User, "findOne");
     });
@@ -77,23 +77,27 @@ describe("Route Handler Component Tests", function () {
       User.findOne.restore();
     });
 
-    it("should respond with a code of 200 and the user's ObjectId if provided with a correct username and password", async function () {
+    it("should respond with a code of 200 and the user's ObjectId, username, and an array of band id's they've modified if provided with a correct username and password", async function () {
       let password = "CorrectPassword";
+      let username = "ExistingUsername";
+      let bandsModified = ["band1", "band2"];
       let req = httpMocks.createRequest({
         body: {
-          username: "ExistingUsername",
+          username,
           password,
         },
       });
       let res = httpMocks.createResponse();
 
       // Since findOne() will be chained with exec(), we need to return a
-      // dumby exec function that passes a dumby user object
+      // dummy exec function that passes a dummy user object
       User.findOne.returns({
         exec: function (cb) {
           cb(null, {
             _id: new ObjectId(),
+            name: username,
             passwordHash: md5(password),
+            bandsModified,
           });
         },
       });
@@ -103,6 +107,20 @@ describe("Route Handler Component Tests", function () {
       res.statusCode.should.equal(200, "status code should be 200");
       let isObjectId = ObjectId.isValid(res._getData().userId);
       isObjectId.should.equal(true, "returned user ID should be an ObjectId");
+      res
+        ._getData()
+        .should.haveOwnProperty(
+          "username",
+          username,
+          "response should have a username property"
+        );
+      res
+        ._getData()
+        .should.haveOwnProperty(
+          "bandsModified",
+          bandsModified,
+          "response should have a bandsModified property"
+        );
     });
 
     it("should respond with a status of 500 if provided with a username that doesn't exist", async function () {

@@ -15,7 +15,7 @@ export async function postUserAuthenticate(req, res) {
       return res.status(500).send();
     }
     if (user.passwordHash === md5(password)) {
-      return res.status(200).send({ userId: user._id });
+      return res.status(200).send({ userId: user._id, username: user.name, bandsModified: user.bandsModified});
     } else {
       // TODO: Should we be telling the client that the password was wrong explicitly here?
       return res.status(500).send();

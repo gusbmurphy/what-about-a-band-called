@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 let bandSchema = new mongoose.Schema({
   name: { type: String, required: true },
   ownerId: { type: mongoose.ObjectId, required: true },
+  ownerName: { type: String, required: true },
   score: Number,
 });
 export const Band = mongoose.model("Band", bandSchema);
@@ -20,5 +21,6 @@ export const BandModification = mongoose.model(
 let userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   passwordHash: { type: String, required: true },
+  bandsModified: { type: Array, default: [] },
 });
 export const User = mongoose.model("User", userSchema);

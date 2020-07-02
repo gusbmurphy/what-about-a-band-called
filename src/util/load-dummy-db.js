@@ -12,13 +12,14 @@ let numOfModifications = 500;
 mongoose.connect(localDbUrl);
 
 (async function loadDummyDb() {
-  let userIds = [];
+  let usersInfo = [];
   for (let i = 0; i < numOfUsers; i++) {
     let newUser = new User({
       name: faker.internet.userName(),
       passwordHash: md5(faker.internet.password),
+      bandsModified: []
     });
-    userIds.push(newUser._id);
+    usersInfo.push({id: newUser._id, name: newUser.name});
     await newUser.save();
   }
 
@@ -30,10 +31,11 @@ mongoose.connect(localDbUrl);
       randomName.concat(" " + faker.random.word());
     }
 
-    let randomUserId = userIds[Math.floor(Math.random() * numOfUsers)];
+    let randomUser = usersInfo[Math.floor(Math.random() * numOfUsers)];
     let newBand = new Band({
       name: randomName,
-      ownerId: randomUserId,
+      ownerId: randomUser.id,
+      ownerName: randomUser.name,
       score: 0,
     });
     bandIds.push(newBand._id);
@@ -41,12 +43,12 @@ mongoose.connect(localDbUrl);
   }
 
   for (let i = 0; i < numOfModifications; i++) {
-    let randomUserId = userIds[Math.floor(Math.random() * numOfUsers)];
+    let randomUser = usersInfo[Math.floor(Math.random() * numOfUsers)];
     let randomBandId = bandIds[Math.floor(Math.random() * numOfBands)];
 
     while (
       await BandModification.exists({
-        ownerId: randomUserId,
+        ownerId: randomUser.id,
         bandId: randomBandId,
       })
     ) {
@@ -56,7 +58,7 @@ mongoose.connect(localDbUrl);
     let modificationValue = Math.random() < 0.5 ? -1 : 1;
 
     let newBandModification = new BandModification({
-      ownerId: randomUserId,
+      ownerId: randomUser.id,
       bandId: randomBandId,
       value: modificationValue,
     });
@@ -66,5 +68,6 @@ mongoose.connect(localDbUrl);
       { _id: randomBandId },
       { $inc: { score: modificationValue } }
     );
+    await User.findByIdAndUpdate(randomUser.id, { $push: { bandsModified: randomBandId }})
   }
 })();

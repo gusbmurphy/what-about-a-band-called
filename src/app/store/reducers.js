@@ -21,6 +21,8 @@ export function session(
         ...state,
         authenticationStatus: actionTypes.AuthenticationStatuses.AUTHENTICATED,
         userId: action.userId,
+        username: action.username,
+        bandsModified: action.bandsModified
       };
     case actionTypes.AUTHENTICATE_USER_FAILURE:
       return {
@@ -116,7 +118,7 @@ export function bands(
           target: null,
         },
       };
-    case actionTypes.MODIFY_BAND_SCORE_SUCCESS:
+    case actionTypes.MODIFY_BAND_SCORE_SUCCESS: {
       let bandsCopy = [...state.items];
       let targetBandIndex = bandsCopy.findIndex(
         (band) => band._id === action.modifiedBandId
@@ -132,7 +134,7 @@ export function bands(
           status: actionTypes.BandScoreModificationStatuses.SUCCESS,
         },
       };
-
+    }
     default:
       return state;
   }

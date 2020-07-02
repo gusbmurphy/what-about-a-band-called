@@ -4,13 +4,13 @@ import axios from "axios";
 import * as actionCreators from "./action-creators";
 import * as actionTypes from "./action-types";
 
-import { serverUrl } from "../../server/paths";
+import * as paths from "../../server/paths";
 
 export function* bandFetchingSaga() {
   while (true) {
     yield take(actionTypes.FETCH_BANDS_BEGIN);
     try {
-      let response = yield call(axios.get, serverUrl + "/bands/get");
+      let response = yield call(axios.get, paths.serverUrl + paths.getBands);
       if (response.status != 200) throw new Error();
       yield put(actionCreators.fetchBandsSuccess(response.data));
     } catch (error) {
@@ -28,7 +28,11 @@ export function* bandCreationSaga() {
       creatingUserId,
       bandName,
     };
-    let response = yield call(axios.post, serverUrl + "/band/new", newBand);
+    let response = yield call(
+      axios.post,
+      paths.serverUrl + paths.newBand,
+      newBand
+    );
     try {
       if (response.status != 200) throw new Error();
       newBand._id = response.newBandId;
@@ -45,7 +49,7 @@ export function* bandScoreModificationSaga() {
     let { targetBandId, modifyingUserId, modificationValue } = yield take(
       actionTypes.MODIFY_BAND_SCORE_BEGIN
     );
-    let response = yield call(axios.post, serverUrl + "/band/modify", {
+    let response = yield call(axios.post, paths.serverUrl + paths.modifyBand, {
       targetBandId,
       modifyingUserId,
       modificationValue,
@@ -66,13 +70,17 @@ export function* userAuthenticationSaga() {
     let { username, password } = yield take(
       actionTypes.AUTHENTICATE_USER_BEGIN
     );
-    let response = yield call(axios.post, serverUrl + "/authenticate", {
-      username,
-      password,
-    });
+    let response = yield call(
+      axios.post,
+      paths.serverUrl + paths.authenticate,
+      {
+        username,
+        password,
+      }
+    );
     try {
       if (response.status != 200) throw new Error();
-      yield put(actionCreators.authenticateUserSuccess(response.data.userId));
+      yield put(actionCreators.authenticateUserSuccess(response.data.userId, response.data.username, response.data.bandsModified));
     } catch (error) {
       yield put(actionCreators.authenticateUserFailure());
     }
@@ -82,7 +90,7 @@ export function* userAuthenticationSaga() {
 export function* userCreationSaga() {
   while (true) {
     let { username, password } = yield take(actionTypes.CREATE_USER_BEGIN);
-    let response = yield call(axios.post, serverUrl + "/create-user", {
+    let response = yield call(axios.post, paths.serverUrl + paths.createUser, {
       username,
       password,
     });

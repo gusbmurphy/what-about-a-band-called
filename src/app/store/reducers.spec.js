@@ -5,7 +5,7 @@ import * as actionTypes from "./action-types";
 
 describe("Store Reducer Unit Tests", function () {
   describe("Session Reducer", function () {
-    describe("Authentication", function () {
+    describe.only("Authentication", function () {
       let state;
 
       it("has a default state where authentication status us 'NOT_TRYING' and userId is null", function () {
@@ -22,8 +22,10 @@ describe("Store Reducer Unit Tests", function () {
       });
 
       let userId = "userId1";
+      let username = "username";
+      let bandsModified = ["band1", "band2"];
 
-      it("changes the authentication status and user id appropriately when recieving authentication begin and success actions", function () {
+      it("changes the authentication status, username, bands modified, and user id appropriately when recieving authentication begin and success actions", function () {
         state = reducers.session(state, {
           type: actionTypes.AUTHENTICATE_USER_BEGIN,
         });
@@ -35,15 +37,17 @@ describe("Store Reducer Unit Tests", function () {
         state = reducers.session(state, {
           type: actionTypes.AUTHENTICATE_USER_SUCCESS,
           userId,
+          username,
+          bandsModified,
         });
         state.authenticationStatus.should.equal(
           actionTypes.AuthenticationStatuses.AUTHENTICATED,
           "status should be AUTHENTICATED after recieving success action"
         );
-        state.userId.should.equal(
-          userId,
-          "user id should be set from the success action's payload"
-        );
+
+        state.should.haveOwnProperty("userId", userId);
+        state.should.haveOwnProperty("username", username);
+        state.should.haveOwnProperty("bandsModified", bandsModified);
       });
 
       it("sets authentication status to be reason of failure, and does not have a user id in the state when a authentication failure action is recieved", function () {

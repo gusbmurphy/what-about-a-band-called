@@ -23,7 +23,7 @@ import {
 const mockStore = configureStore([]);
 
 describe("React Component Component/Unit Tests", function () {
-  describe("Band List", function () {
+  describe.skip("Band List", function () {
     let mockBands = {
       items: [
         { _id: "bandId1", name: "Band1", ownerId: "userId1", score: 0 },
@@ -156,7 +156,7 @@ describe("React Component Component/Unit Tests", function () {
     });
   });
 
-  describe("Individual Band Listing", function () {
+  describe.skip("Individual Band Listing", function () {
     it("takes an object representing a band");
     it("displays the band name");
     it("displays the points a band has");

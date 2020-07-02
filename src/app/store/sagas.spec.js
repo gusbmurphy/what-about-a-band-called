@@ -144,7 +144,7 @@ describe("Redux Saga Unit Tests", function () {
     });
   });
 
-  describe("User Authentication Saga", function () {
+  describe.only("User Authentication Saga", function () {
     let generator = cloneableGenerator(sagas.userAuthenticationSaga)();
 
     it("waits for an AUTHENTICATE_USER_BEGIN action", function () {
@@ -166,13 +166,14 @@ describe("Redux Saga Unit Tests", function () {
     });
 
     let userId = "userId1";
+    let bandsModified = ["band1", "band2"]
 
-    it("if the response status is 200, it yields a put effect that the authentication was successful with the user's id", function () {
+    it("if the response status is 200, it yields a put effect that the authentication was successful with the user's id, name, and array of modified bands", function () {
       let clone = generator.clone();
       clone
-        .next({ status: 200, data: { userId } })
+        .next({ status: 200, data: { userId, bandsModified, username } })
         .value.should.deep.equal(
-          put(actionCreators.authenticateUserSuccess(userId))
+          put(actionCreators.authenticateUserSuccess(userId, username, bandsModified))
         );
     });
 
@@ -188,7 +189,7 @@ describe("Redux Saga Unit Tests", function () {
     });
   });
 
-  describe("User Creation Saga", function () {
+  describe.only("User Creation Saga", function () {
     let generator = cloneableGenerator(sagas.userCreationSaga)();
 
     it("waits for a CREATE_USER_BEGIN action", function () {

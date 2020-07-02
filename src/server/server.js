@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import * as authenticationHandlers from "./route-handlers/authentication";
 import * as bandHandlers from "./route-handlers/bands";
 import * as userCreationHandlers from "./route-handlers/user-creation";
+// import * as userInfoHandlers from "./route-handlers/users";
 import * as paths from "./paths";
 
 export const localDbUrl = "mongodb://127.0.0.1:27017/wababc";
@@ -23,3 +24,4 @@ app.get(paths.getBands, bandHandlers.getBands);
 app.post(paths.modifyBand, bandHandlers.postModifyBand);
 app.post(paths.newBand, bandHandlers.postNewBand);
 app.post(paths.createUser, userCreationHandlers.postCreateUser);
+// app.get(paths.getUsername, userInfoHandlers.getUserNameFromId);

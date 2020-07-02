@@ -7,64 +7,50 @@ import {
   beginModifyBandScore,
   beginFetchBands,
 } from "../store/action-creators";
+import BandListing from "./BandListing";
 
-class UnconnectedBandList extends React.Component {
-  componentDidMount() {
-    this.props.beginFetchBands();
-  }
+// class UnconnectedBandList extends React.Component {
+//   componentDidMount() {
+//     this.props.beginFetchBands();
+//   }
 
-  render() {
-    let { bands, authenticationStatus, userId, addPointsTo } = this.props;
+//   render() {
+//     let { bands, authenticationStatus, userId, addPointsTo } = this.props;
 
-    return (
-      <div>
-        <h3>All Bands</h3>
-        <div className="bandList">
-          {bands.items.map((band) => (
-            <div key={band._id} className="bandListing">
-              {band.name} ({band.score})
-              {authenticationStatus ===
-                AuthenticationStatuses.AUTHENTICATED && (
-                <div>
-                  <button
-                    className="incScoreButton"
-                    onClick={() => addPointsTo(band._id, userId, 1)}
-                  >
-                    +
-                  </button>
-                  <button
-                    className="decScoreButton"
-                    onClick={() => addPointsTo(band._id, userId, -1)}
-                  >
-                    -
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-}
+//     return (
+//       <div>
+//         <h3>All Bands</h3>
+//         <div className="bandList">
+//           {bands.items.map((band) => (
+//             <BandListing 
+//             key={band._id} 
+//             bandName={band.name} 
+//             bandScore={band.score}
+//             bandCreatorName={} />
+//           ))}
+//         </div>
+//       </div>
+//     );
+//   }
+// }
 
-UnconnectedBandList.propTypes = {
-  bands: PropTypes.shape({
-    items: PropTypes.arrayOf(
-      PropTypes.shape({
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        ownerId: PropTypes.string,
-        score: PropTypes.number,
-      })
-    ),
-  }),
-  authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses))
-    .isRequired,
-  userId: PropTypes.string,
-  addPointsTo: PropTypes.func.isRequired,
-  beginFetchBands: PropTypes.func.isRequired,
-};
+// UnconnectedBandList.propTypes = {
+//   bands: PropTypes.shape({
+//     items: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         _id: PropTypes.string,
+//         name: PropTypes.string,
+//         ownerId: PropTypes.string,
+//         score: PropTypes.number,
+//       })
+//     ),
+//   }),
+//   authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses))
+//     .isRequired,
+//   userId: PropTypes.string,
+//   addPointsTo: PropTypes.func.isRequired,
+//   beginFetchBands: PropTypes.func.isRequired,
+// };
 
 function mapStateToProps(state) {
   return {
@@ -85,7 +71,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export const BandList = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UnconnectedBandList);
+// export const BandList = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(UnconnectedBandList);

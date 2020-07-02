@@ -12,7 +12,7 @@ export const bandCreationSuccess = (newBand) => ({
 });
 export const bandCreationFailure = (reason) => ({
   type: actionTypes.CREATE_BAND_FAILURE,
-  reason
+  reason,
 });
 
 // Band fetching
@@ -67,10 +67,27 @@ export const beginAuthenticateUser = (username, password) => ({
   username,
   password,
 });
-export const authenticateUserSuccess = (userId) => ({
+export const authenticateUserSuccess = (userId, username, bandsModified) => ({
   type: actionTypes.AUTHENTICATE_USER_SUCCESS,
   userId,
+  username,
+  bandsModified,
 });
+// TODO: Shouldn't there be a reason here?
 export const authenticateUserFailure = () => ({
   type: actionTypes.AUTHENTICATE_USER_FAILURE,
+});
+
+// Username fetching
+export const beginFetchUsername = (userId) => ({
+  type: actionTypes.GET_USERNAME_BEGIN,
+  userId,
+});
+export const fetchUsernameSuccess = (username) => ({
+  type: actionTypes.GET_USERNAME_SUCCESS,
+  username,
+});
+export const fetchUsernameFailure = (reason) => ({
+  type: actionTypes.GET_USERNAME_FAILURE,
+  reason,
 });
