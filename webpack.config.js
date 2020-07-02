@@ -22,4 +22,5 @@ module.exports = {
       },
     ],
   },
+  externals: [{ mongoose: "commonjs mongoose" }],
 };

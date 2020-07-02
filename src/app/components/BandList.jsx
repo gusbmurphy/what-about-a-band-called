@@ -1,6 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { typeOfObjectId } from "./util/prop-helpers";
 import { AuthenticationStatuses } from "../store/action-types";
 import {
   beginModifyBandScore,
@@ -46,6 +48,24 @@ class UnconnectedBandList extends React.Component {
     );
   }
 }
+
+UnconnectedBandList.propTypes = {
+  bands: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: typeOfObjectId,
+        name: PropTypes.string,
+        ownerId: typeOfObjectId,
+        score: PropTypes.number,
+      })
+    ),
+  }),
+  authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses))
+    .isRequired,
+  userId: typeOfObjectId,
+  addPointsTo: PropTypes.func.isRequired,
+  beginFetchBands: PropTypes.func.isRequired,
+};
 
 function mapStateToProps(state) {
   return {

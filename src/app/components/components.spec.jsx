@@ -17,7 +17,6 @@ import {
   beginFetchBands,
   beginModifyBandScore,
   beginBandCreation,
-  beginCreateUser,
   createUserFailure,
 } from "../store/action-creators";
 
@@ -123,7 +122,6 @@ describe("React Component Component/Unit Tests", function () {
         },
         session: {
           authenticationStatus: AuthenticationStatuses.AUTHENTICATED,
-          authenticationStatus: AuthenticationStatuses.AUTHENTICATED,
           userId,
         },
       });
@@ -157,6 +155,14 @@ describe("React Component Component/Unit Tests", function () {
       dispatchSpy.restore();
     });
   });
+
+  describe("Individual Band Listing", function () {
+    it("takes an object representing a band");
+    it("displays the band name");
+    it("displays the points a band has");
+    it("displays the band's creator");
+    it("displays buttons for adding/subtracting score");
+  })
 
   describe("Login", function () {
     it("has a form with the class 'loginForm', with username and password text inputs", function () {
