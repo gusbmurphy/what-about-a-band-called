@@ -5,6 +5,7 @@ let bandSchema = new mongoose.Schema({
   ownerId: { type: mongoose.ObjectId, required: true },
   ownerName: { type: String, required: true },
   score: Number,
+  createdOn: Date,
 });
 export const Band = mongoose.model("Band", bandSchema);
 

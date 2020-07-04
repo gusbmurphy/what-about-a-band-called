@@ -20,7 +20,7 @@ app.listen(port, console.log("Server listening on port " + port));
 app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
 
 app.post(paths.authenticate, authenticationHandlers.postUserAuthenticate);
-app.get(paths.getBands, bandHandlers.getBands);
+app.post(paths.postBands, bandHandlers.postBands);
 app.post(paths.modifyBand, bandHandlers.postModifyBand);
 app.post(paths.newBand, bandHandlers.postNewBand);
 app.post(paths.createUser, userCreationHandlers.postCreateUser);

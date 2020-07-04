@@ -5,7 +5,7 @@ import { Redirect } from "react-router";
 
 import { store } from "../store";
 import { history } from "../store/history";
-import { AuthenticationStatuses } from "../store/action-types";
+import { AuthenticationStatuses, BandSortTypes } from "../store/action-types";
 
 import { Navigation } from "./Navigation";
 import { BandList } from "./BandList";
@@ -29,10 +29,16 @@ export const Main = () => (
     <h1>What about a band called...</h1>
     <Provider store={store}>
       <Navigation />
-      <Route exact path="/bands" component={BandList} />
+      {/* <Route exact path="/bands" component={BandList} /> */}
       <Route exact path="/login" component={Login} />
       <Route exact path="/new-user" component={NewUser} />
       <Route exact path="/newband" render={AuthenticationGuard(CreateBand)} />
+      <h4>Top 10 Bands</h4>
+      <BandList maxBands={10} sortBy={BandSortTypes.BEST} />
+      <h4>Most Recent Bands</h4>
+      <BandList maxBands={10} sortBy={BandSortTypes.MOST_RECENT} />
+      <h4>Bottom 10 Bands</h4>
+      <BandList maxBands={10} sortBy={BandSortTypes.WORST} />
     </Provider>
   </Router>
 );

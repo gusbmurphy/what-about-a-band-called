@@ -16,8 +16,10 @@ export const bandCreationFailure = (reason) => ({
 });
 
 // Band fetching
-export const beginFetchBands = () => ({
+export const beginFetchBands = (maxBands = undefined, sortBy = undefined) => ({
   type: actionTypes.FETCH_BANDS_BEGIN,
+  maxBands,
+  sortBy
 });
 export const fetchBandsSuccess = (bands) => ({
   type: actionTypes.FETCH_BANDS_SUCCESS,
@@ -76,18 +78,4 @@ export const authenticateUserSuccess = (userId, username, bandsModified) => ({
 // TODO: Shouldn't there be a reason here?
 export const authenticateUserFailure = () => ({
   type: actionTypes.AUTHENTICATE_USER_FAILURE,
-});
-
-// Username fetching
-export const beginFetchUsername = (userId) => ({
-  type: actionTypes.GET_USERNAME_BEGIN,
-  userId,
-});
-export const fetchUsernameSuccess = (username) => ({
-  type: actionTypes.GET_USERNAME_SUCCESS,
-  username,
-});
-export const fetchUsernameFailure = (reason) => ({
-  type: actionTypes.GET_USERNAME_FAILURE,
-  reason,
 });

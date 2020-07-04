@@ -1,8 +1,30 @@
 import { Band, BandModification } from "../models";
-import { BandCreationStatuses } from "../../app/store/action-types";
+import {
+  BandCreationStatuses,
+  BandSortTypes,
+} from "../../app/store/action-types";
 
-export async function getBands(req, res) {
-  Band.find({}).exec((err, bands) => {
+export async function postBands(req, res) {
+  let { maxBands, sortBy } = req.body;
+  let query = Band.find({});
+
+  switch (sortBy) {
+    case BandSortTypes.BEST:
+      query.sort({ score: -1 });
+      break;
+    case BandSortTypes.MOST_RECENT:
+      query.sort({ createdOn: -1 });
+      break;
+    case BandSortTypes.WORST:
+      query.sort({ score: 1 });
+      break;
+    default:
+      break;
+  }
+
+  if (maxBands) query.limit(maxBands);
+
+  query.exec((err, bands) => {
     if (err) {
       console.info('Error in "/bands/get" route:\n', err);
       return res.status(500).send();

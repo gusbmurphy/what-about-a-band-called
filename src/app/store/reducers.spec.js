@@ -2,6 +2,7 @@ import "chai/register-should";
 
 import * as reducers from "./reducers";
 import * as actionTypes from "./action-types";
+import { ObjectId } from "mongodb";
 
 describe("Store Reducer Unit Tests", function () {
   describe("Session Reducer", function () {
@@ -114,7 +115,7 @@ describe("Store Reducer Unit Tests", function () {
   });
 
   describe("Bands Reducer", function () {
-    describe("Band Fetching", function () {
+    describe.only("Band Fetching", function () {
       let state;
 
       it("starts with state with an empty array for items, and a fetching value of false", function () {
@@ -129,15 +130,64 @@ describe("Store Reducer Unit Tests", function () {
         state.fetching.should.be.true;
       });
 
-      let bands = "bands";
+      let firstBands = [];
+      for (let i = 0; i < 3; i++) {
+        firstBands.push({ _id: new ObjectId() });
+      }
 
-      it("sets the items array to the recieved bands and fetching to false when the fetch succeeds", function () {
-        state = reducers.bands(state, {
-          type: actionTypes.FETCH_BANDS_SUCCESS,
-          bands,
-        });
-        state.fetching.should.be.false;
-        state.items.should.equal(bands);
+      let secondBands = [];
+      for (let i = 0; i < 3; i++) {
+        secondBands.push({ _id: new ObjectId() });
+      }
+
+      it("adds the recieved bands to the existing array once they're recieved", function () {
+        state = reducers.bands(
+          { items: firstBands },
+          { type: actionTypes.FETCH_BANDS_SUCCESS, bands: secondBands }
+        );
+
+        state.items.should.deep.include.members(
+          firstBands,
+          "the items array should still have the bands it started with"
+        );
+        state.items.should.deep.include.members(
+          secondBands,
+          "the items array should have the new bands in it"
+        );
+      });
+
+      it("does not add objects with duplicate ObjectIds to the array", function () {
+        let moreNewBands = [];
+        for (let i = 0; i < 3; i++) {
+          moreNewBands.push({ _id: new ObjectId() });
+        }
+        let duplicateBands = [...firstBands];
+        console.log("duplicateBands: ", duplicateBands);
+
+        state = reducers.bands(
+          { items: firstBands },
+          {
+            type: actionTypes.FETCH_BANDS_SUCCESS,
+            bands: [...moreNewBands, ...duplicateBands],
+          }
+        );
+
+        state.items.should.deep.include.members(
+          moreNewBands,
+          "it should correctly add non-duplicate bands"
+        );
+
+        let hasDuplicateEntries = false;
+        let countedEntries = [];
+        for (let i = 0; i < state.items.length && !hasDuplicateEntries; i++) {
+          let entry = state.items[i];
+          if (countedEntries.some((band) => band._id == entry._id))
+            hasDuplicateEntries = true;
+          else countedEntries.push(entry);
+        }
+
+        hasDuplicateEntries.should.be.false;
+        console.log("state.items: ", state.items);
       });
 
       it("sets fetching to false when the fetch fails", function () {
@@ -146,6 +196,8 @@ describe("Store Reducer Unit Tests", function () {
         });
         state.fetching.should.be.false;
       });
+
+      it("sets fetching to false after the fetch succeeds");
     });
 
     describe("Band Creation", function () {

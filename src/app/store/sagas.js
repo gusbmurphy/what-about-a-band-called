@@ -1,4 +1,4 @@
-import { take, put, call } from "redux-saga/effects";
+import { take, takeEvery, put, call } from "redux-saga/effects";
 import axios from "axios";
 
 import * as actionCreators from "./action-creators";
@@ -6,16 +6,37 @@ import * as actionTypes from "./action-types";
 
 import * as paths from "../../server/paths";
 
-export function* bandFetchingSaga() {
-  while (true) {
-    yield take(actionTypes.FETCH_BANDS_BEGIN);
-    try {
-      let response = yield call(axios.get, paths.serverUrl + paths.getBands);
-      if (response.status != 200) throw new Error();
-      yield put(actionCreators.fetchBandsSuccess(response.data));
-    } catch (error) {
-      yield put(actionCreators.fetchBandsFailure());
-    }
+export function* watchFetchBands() {
+  yield takeEvery(actionTypes.FETCH_BANDS_BEGIN, fetchBands);
+}
+
+// while (true) {
+//   let { maxBands, sortBy } = yield take(actionTypes.FETCH_BANDS_BEGIN);
+//   let response;
+//   try {
+//     response = yield call(axios.post, paths.serverUrl + paths.postBands, {
+//       maxBands,
+//       sortBy,
+//     });
+//     if (response.status != 200) throw new Error();
+//     yield put(actionCreators.fetchBandsSuccess(response.data));
+//   } catch (error) {
+//     yield put(actionCreators.fetchBandsFailure());
+//   }
+// }
+
+function* fetchBands(action) {
+  let { maxBands, sortBy } = action;
+  let response;
+  try {
+    response = yield call(axios.post, paths.serverUrl + paths.postBands, {
+      maxBands,
+      sortBy,
+    });
+    if (response.status != 200) throw new Error();
+    yield put(actionCreators.fetchBandsSuccess(response.data));
+  } catch (error) {
+    yield put(actionCreators.fetchBandsFailure());
   }
 }
 
@@ -80,7 +101,13 @@ export function* userAuthenticationSaga() {
     );
     try {
       if (response.status != 200) throw new Error();
-      yield put(actionCreators.authenticateUserSuccess(response.data.userId, response.data.username, response.data.bandsModified));
+      yield put(
+        actionCreators.authenticateUserSuccess(
+          response.data.userId,
+          response.data.username,
+          response.data.bandsModified
+        )
+      );
     } catch (error) {
       yield put(actionCreators.authenticateUserFailure());
     }

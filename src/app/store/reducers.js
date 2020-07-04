@@ -71,12 +71,18 @@ export function bands(
         ...state,
         fetching: true,
       };
-    case actionTypes.FETCH_BANDS_SUCCESS:
+    case actionTypes.FETCH_BANDS_SUCCESS: {
+      let nonDuplicateBands = [...state.items];
+      action.bands.forEach(newBand => {
+        if (!nonDuplicateBands.some(band => band._id == newBand._id)) nonDuplicateBands.push(newBand);
+      })
+
       return {
         ...state,
         fetching: false,
-        items: action.bands,
+        items: nonDuplicateBands,
       };
+    }
     case actionTypes.FETCH_BANDS_FAILURE:
       return {
         ...state,

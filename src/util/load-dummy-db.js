@@ -17,9 +17,9 @@ mongoose.connect(localDbUrl);
     let newUser = new User({
       name: faker.internet.userName(),
       passwordHash: md5(faker.internet.password),
-      bandsModified: []
+      bandsModified: [],
     });
-    usersInfo.push({id: newUser._id, name: newUser.name});
+    usersInfo.push({ id: newUser._id, name: newUser.name });
     await newUser.save();
   }
 
@@ -37,6 +37,7 @@ mongoose.connect(localDbUrl);
       ownerId: randomUser.id,
       ownerName: randomUser.name,
       score: 0,
+      createdOn: faker.date.between(new Date(2018, 11, 17), new Date()),
     });
     bandIds.push(newBand._id);
     await newBand.save();
@@ -68,6 +69,8 @@ mongoose.connect(localDbUrl);
       { _id: randomBandId },
       { $inc: { score: modificationValue } }
     );
-    await User.findByIdAndUpdate(randomUser.id, { $push: { bandsModified: randomBandId }})
+    await User.findByIdAndUpdate(randomUser.id, {
+      $push: { bandsModified: randomBandId },
+    });
   }
 })();

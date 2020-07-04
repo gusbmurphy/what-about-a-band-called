@@ -22,7 +22,7 @@ describe("Redux Saga Unit Tests", function () {
       generator
         .next()
         .value.should.deep.equal(
-          call(axios.get, paths.serverUrl + paths.getBands)
+          call(axios.get, paths.serverUrl + paths.postBands)
         );
     });
 
