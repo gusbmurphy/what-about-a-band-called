@@ -33,12 +33,12 @@ export const Main = () => (
       <Route exact path="/login" component={Login} />
       <Route exact path="/new-user" component={NewUser} />
       <Route exact path="/newband" render={AuthenticationGuard(CreateBand)} />
-      <h4>Top 10 Bands</h4>
-      <BandList maxBands={10} sortBy={BandSortTypes.BEST} />
       <h4>Most Recent Bands</h4>
       <BandList maxBands={10} sortBy={BandSortTypes.MOST_RECENT} />
       <h4>Bottom 10 Bands</h4>
       <BandList maxBands={10} sortBy={BandSortTypes.WORST} />
+      <h4>Top 10 Bands</h4>
+      <BandList maxBands={10} sortBy={BandSortTypes.BEST} />
     </Provider>
   </Router>
 );

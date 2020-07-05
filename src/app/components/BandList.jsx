@@ -58,20 +58,20 @@ UnconnectedBandList.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  let desiredBands = state.bands.items;
-
+  let desiredBands = [...state.bands.items];
+  
   switch (ownProps.sortBy) {
     case BandSortTypes.BEST:
-      console.log("Hello!");
       desiredBands.sort((a, b) => b.score - a.score);
+      console.log("Bands sorted by BEST: ", desiredBands);
       break;
     case BandSortTypes.MOST_RECENT:
-      console.log("What's up!");
       desiredBands.sort((a, b) => a.createdOn - b.createdOn);
+      console.log("Bands sorted by MOST_RECENT: ", desiredBands);
       break;
     case BandSortTypes.WORST:
-      console.log("Bye Bye!");
       desiredBands.sort((a, b) => a.score - b.score);
+      console.log("Bands sorted by WORST: ", desiredBands);
       break;
     default:
       break;
