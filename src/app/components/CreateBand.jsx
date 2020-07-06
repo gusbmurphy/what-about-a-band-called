@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { beginBandCreation } from "../store/action-creators";
@@ -18,6 +19,13 @@ const UnconnectedCreateBand = ({ createBand, session }) => (
   </div>
 );
 
+UnconnectedCreateBand.propTypes = {
+  createBand: PropTypes.func.isRequired,
+  session: PropTypes.shape({
+    userId: PropTypes.string,
+  }),
+};
+
 function mapStateToProps(state) {
   return {
     // bands: state.bands,
@@ -25,7 +33,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
   return {
     createBand: (userId, bandName) => {
       dispatch(beginBandCreation(userId, bandName));

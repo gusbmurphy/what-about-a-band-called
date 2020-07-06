@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { beginCreateUser, createUserFailure } from "../store/action-creators";
@@ -26,6 +27,11 @@ class UnconnectedNewUser extends React.Component {
     );
   }
 }
+
+UnconnectedNewUser.propTypes = {
+  tryCreateUser: PropTypes.func,
+  userCreationStatus: PropTypes.oneOf(Object.values(UserCreationStatuses)),
+};
 
 const mapStateToProps = ({ session }) => ({
   userCreationStatus: session.userCreationStatus,

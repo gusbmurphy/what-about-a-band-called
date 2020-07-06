@@ -15,7 +15,7 @@ class UnconnectedBandList extends React.Component {
   }
 
   render() {
-    let { bands, authenticationStatus, userId, addPointsTo } = this.props;
+    let { bands, authenticationStatus } = this.props;
     let isAuthenticated =
       authenticationStatus == AuthenticationStatuses.AUTHENTICATED;
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { AuthenticationStatuses } from "../store/action-types";
 import { beginAuthenticateUser } from "../store/action-creators";
@@ -55,6 +56,11 @@ class UnconnectedLogin extends React.Component {
     );
   }
 }
+
+UnconnectedLogin.propTypes = {
+  authenticateUser: PropTypes.func,
+  authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses)),
+};
 
 const mapStateToProps = ({ session }) => ({
   authenticationStatus: session.authenticationStatus,
