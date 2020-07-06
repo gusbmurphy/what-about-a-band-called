@@ -162,7 +162,6 @@ describe("Store Reducer Unit Tests", function () {
           moreNewBands.push({ _id: new ObjectId() });
         }
         let duplicateBands = [...firstBands];
-        console.log("duplicateBands: ", duplicateBands);
 
         state = reducers.bands(
           { items: firstBands },
@@ -187,7 +186,6 @@ describe("Store Reducer Unit Tests", function () {
         }
 
         hasDuplicateEntries.should.be.false;
-        console.log("state.items: ", state.items);
       });
 
       it("sets fetching to false when the fetch fails", function () {
