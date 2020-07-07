@@ -1,22 +1,68 @@
 import "chai/register-should";
 import { cloneableGenerator } from "@redux-saga/testing-utils";
-import { take, put, call } from "redux-saga/effects";
+import { take, put, call, actionChannel } from "redux-saga/effects";
+import { channel } from "redux-saga";
 import axios from "axios";
 
 import * as sagas from ".";
+import { fetchBands } from "./watch-fetch-bands";
 import * as actionCreators from "../action-creators";
 import * as actionTypes from "../action-types";
 import * as paths from "../../../server/paths";
 
-describe("Redux Saga Unit Tests", function () {
-  describe.skip("Band Fetching Saga", function () {
-    // let generator = cloneableGenerator(sagas.bandFetchingSaga)();
+describe("Redux Saga Unit/Component Tests", function () {
+  describe("Band Fetching Saga", function () {
+    let generator = cloneableGenerator(sagas.watchFetchBandsSaga)();
 
-    // it("should wait for a FETCH_BANDS_BEGIN action", function () {
-    //   generator
-    //     .next()
-    //     .value.should.deep.equal(take(actionTypes.FETCH_BANDS_BEGIN));
-    // });
+    it("creates an action channel for band fetch request actions", function () {
+      generator
+        .next()
+        .value.should.deep.equal(
+          actionChannel(actionTypes.REQUEST_FETCH_BANDS)
+        );
+    });
+
+    it("passes the maximum bands and sort type from a request into the fetch bands generator", function () {
+      let maxBands = 30;
+      let sortBy = "SORTING_TYPE";
+      let mockChannel = channel();
+      generator.next(mockChannel).value.should.deep.equal(take(mockChannel));
+      generator
+        .next({ maxBands, sortBy })
+        .value.should.deep.equal(call(fetchBands, maxBands, sortBy));
+    });
+
+    describe("Fetch Bands Generator", function () {
+      let maxBands = 30;
+      let sortBy = "SORTING_TYPE";
+      let generator = cloneableGenerator(fetchBands)(maxBands, sortBy);
+
+      it("yields a call Effect to get bands with the provided requirements", function () {
+        generator.next().value.should.deep.equal(
+          call(axios.post, paths.serverUrl + paths.postBands, {
+            maxBands,
+            sortBy,
+          })
+        );
+      });
+      it("dispatches a fetch bands success action with the retrieved bands if the response status is 200", function () {
+        let clone = generator.clone();
+        let data = "data";
+        clone
+          .next({ status: 200, data })
+          .value.should.deep.equal(
+            put(actionCreators.fetchBandsSuccess(data))
+          );
+      });
+      it("dispatches a fetch bands failure action if the response is not 500", function () {
+        let clone = generator.clone();
+        clone
+          .next({ status: 500 })
+          .value.should.deep.equal(
+            put(actionCreators.fetchBandsFailure())
+          );
+      });
+    });
 
     // it("should yield a call Effect to the get bands url", function () {
     //   generator
@@ -95,7 +141,7 @@ describe("Redux Saga Unit Tests", function () {
     });
   });
 
-  describe("Band Score Modification Saga", function () {
+  describe.only("Band Score Modification Saga", function () {
     let generator = cloneableGenerator(sagas.bandScoreModificationSaga)();
 
     it("waits for a MODIFY_BAND_SCORE_BEGIN action", function () {
@@ -144,7 +190,7 @@ describe("Redux Saga Unit Tests", function () {
     });
   });
 
-  describe.only("User Authentication Saga", function () {
+  describe("User Authentication Saga", function () {
     let generator = cloneableGenerator(sagas.userAuthenticationSaga)();
 
     it("waits for an AUTHENTICATE_USER_BEGIN action", function () {
@@ -166,14 +212,20 @@ describe("Redux Saga Unit Tests", function () {
     });
 
     let userId = "userId1";
-    let bandsModified = ["band1", "band2"]
+    let bandsModified = ["band1", "band2"];
 
     it("if the response status is 200, it yields a put effect that the authentication was successful with the user's id, name, and array of modified bands", function () {
       let clone = generator.clone();
       clone
         .next({ status: 200, data: { userId, bandsModified, username } })
         .value.should.deep.equal(
-          put(actionCreators.authenticateUserSuccess(userId, username, bandsModified))
+          put(
+            actionCreators.authenticateUserSuccess(
+              userId,
+              username,
+              bandsModified
+            )
+          )
         );
     });
 
@@ -189,7 +241,7 @@ describe("Redux Saga Unit Tests", function () {
     });
   });
 
-  describe.only("User Creation Saga", function () {
+  describe("User Creation Saga", function () {
     let generator = cloneableGenerator(sagas.userCreationSaga)();
 
     it("waits for a CREATE_USER_BEGIN action", function () {

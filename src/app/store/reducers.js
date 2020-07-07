@@ -22,7 +22,7 @@ export function session(
         authenticationStatus: actionTypes.AuthenticationStatuses.AUTHENTICATED,
         userId: action.userId,
         username: action.username,
-        bandsModified: action.bandsModified
+        bandsModified: action.bandsModified,
       };
     case actionTypes.AUTHENTICATE_USER_FAILURE:
       return {
@@ -54,7 +54,7 @@ export function session(
 
 export function bands(
   state = {
-    fetching: false,
+    pendingFetches: 0,
     items: [],
     creationStatus: actionTypes.BandCreationStatuses.NOT_TRYING,
     scoreModification: {
@@ -66,27 +66,32 @@ export function bands(
 ) {
   switch (action.type) {
     // FETCH_BANDS
+    case actionTypes.REQUEST_FETCH_BANDS:
+      return {
+        ...state,
+        pendingFetches: state.pendingFetches + 1,
+      };
     case actionTypes.FETCH_BANDS_BEGIN:
       return {
         ...state,
-        fetching: true,
       };
     case actionTypes.FETCH_BANDS_SUCCESS: {
       let nonDuplicateBands = [...state.items];
-      action.bands.forEach(newBand => {
-        if (!nonDuplicateBands.some(band => band._id == newBand._id)) nonDuplicateBands.push(newBand);
-      })
+      action.bands.forEach((newBand) => {
+        if (!nonDuplicateBands.some((band) => band._id == newBand._id))
+          nonDuplicateBands.push(newBand);
+      });
 
       return {
         ...state,
-        fetching: false,
+        pendingFetches: state.pendingFetches - 1,
         items: nonDuplicateBands,
       };
     }
     case actionTypes.FETCH_BANDS_FAILURE:
       return {
         ...state,
-        fetching: false,
+        pendingFetches: state.pendingFetches - 1,
       };
 
     // CREATE_BAND

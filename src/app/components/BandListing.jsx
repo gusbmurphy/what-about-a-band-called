@@ -8,26 +8,41 @@ export default class BandListing extends React.Component {
       bandName,
       bandScore,
       bandCreatorName,
-      // isAuthenticated,
+      userIsAuthenticated,
       // addPointsTo
     } = this.props;
+
+    let buttons = userIsAuthenticated ? activeButtons() : inactiveButtons();
 
     return (
       <div className="bandListing">
         {bandName} ({bandScore}) by {bandCreatorName}
-        {/* {isAuthenticated && (
-          <div>
-            <button className="incScoreButton" onClick={addPointsTo(bandId)}>
-              +
-            </button>
-            <button className="decScoreButton" onClick={() => handleDecrement}>
-              -
-            </button>
-          </div>
-        )} */}
+        {buttons}
       </div>
     );
   }
+}
+
+function activeButtons() {
+  return (
+    <>
+      <button className="incScoreButton">+</button>
+      <button className="decScoreButton">-</button>
+    </>
+  );
+}
+
+function inactiveButtons() {
+  return (
+    <>
+      <button className="incScoreButton" disabled>
+        +
+      </button>
+      <button className="decScoreButton" disabled>
+        -
+      </button>
+    </>
+  );
 }
 
 BandListing.propTypes = {
@@ -35,6 +50,6 @@ BandListing.propTypes = {
   bandName: PropTypes.string.isRequired,
   bandScore: PropTypes.number.isRequired,
   bandCreatorName: PropTypes.string.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+  userIsAuthenticated: PropTypes.bool.isRequired,
   // addPointsTo: PropTypes.func.isRequired,
 };

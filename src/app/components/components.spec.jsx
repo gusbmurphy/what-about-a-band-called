@@ -12,157 +12,134 @@ import { CreateBand } from "./CreateBand";
 import {
   AuthenticationStatuses,
   UserCreationStatuses,
+  BandSortTypes,
 } from "../store/action-types";
 import {
-  beginFetchBands,
-  beginModifyBandScore,
   beginBandCreation,
   createUserFailure,
+  requestFetchBands,
 } from "../store/action-creators";
+import { createMockBands } from "../../utility/mock-bands";
+import BandListing from "./BandListing";
 
 const mockStore = configureStore([]);
 
 describe("React Component Component/Unit Tests", function () {
-  describe.skip("Band List", function () {
-    let mockBands = {
-      items: [
-        { _id: "bandId1", name: "Band1", ownerId: "userId1", score: 0 },
-        { _id: "bandId2", name: "Band2", ownerId: "userId2", score: 0 },
-      ],
-    };
+  describe("Band List", function () {
+    let maxBands = 15;
+    let sortBy = BandSortTypes.BEST;
+    let store = mockStore({
+      bands: { items: createMockBands(30), pendingFetches: 0 },
+      session: {
+        authenticationStatus: AuthenticationStatuses.NOT_AUTHENTICATED,
+        userId: null,
+      },
+    });
+    let storeSpy = sinon.spy(store, "dispatch");
+    let wrapper = mount(
+      <Provider store={store}>
+        <BandList maxBands={maxBands} sortBy={sortBy} />
+      </Provider>
+    );
 
-    it("dispatches an action to begin fetching bands on mount", function () {
-      let store = mockStore({
-        bands: { items: [] },
-        session: {
-          authenticationStatus: AuthenticationStatuses.NOT_TRYING,
-          userId: null,
-        },
-      });
-
-      let dispatchStub = sinon.stub(store, "dispatch");
-
-      mount(
-        <Provider store={store}>
-          <BandList />
-        </Provider>
-      );
-
-      dispatchStub.calledOnceWith(beginFetchBands()).should.equal(true);
-      dispatchStub.restore();
+    it("dispatches a request to fetch bands with the parameters provided to props on mount", function () {
+      storeSpy.calledOnceWith(requestFetchBands(maxBands, sortBy)).should.be
+        .true;
     });
 
-    it("renders a div with the class 'bandList'", function () {
-      let store = mockStore({
-        bands: { items: [] },
+    it("renders just a div with the class '.loadingMessage' if the app is still fetching bands", function () {
+      let loadingStore = mockStore({
+        bands: { items: [], pendingFetches: 2 },
         session: {
-          authenticationStatus: AuthenticationStatuses.NOT_TRYING,
+          authenticationStatus: AuthenticationStatuses.NOT_AUTHENTICATED,
           userId: null,
         },
       });
-      let wrapper = mount(
-        <Provider store={store}>
-          <BandList />
+      let loadingWrapper = mount(
+        <Provider store={loadingStore}>
+          <BandList maxBands={maxBands} sortBy={sortBy} />
         </Provider>
       );
 
+      loadingWrapper.find("div.loadingMessage").should.have.lengthOf(1);
+      loadingWrapper.find("div.bandList").should.have.lengthOf(0);
+    });
+
+    it("renders a div with the class 'bandList' if the app is not fetching bands", function () {
       wrapper.find("div.bandList").should.have.lengthOf(1);
     });
 
-    it("renders one div with the class 'bandListing' for every band in the state", function () {
-      let store = mockStore({
-        bands: mockBands,
-        session: {
-          authenticationStatus: AuthenticationStatuses.AUTHENTICATED,
-          userId: null,
-        },
-      });
-      let wrapper = mount(
-        <Provider store={store}>
-          <BandList />
-        </Provider>
-      );
-
+    it("renders one div with the class 'bandListing' for the maximum number of bands", function () {
       wrapper
         .find("div.bandList")
         .find("div.bandListing")
-        .should.have.lengthOf(mockBands.items.length);
+        .should.have.lengthOf(maxBands);
     });
 
-    it("should display buttons with classes 'incScoreButton' and 'decScoreButton' to modify a band's score if the user status is AUTHENTICATED", function () {
-      let store = mockStore({
-        bands: mockBands,
-        session: {
-          authenticationStatus: AuthenticationStatuses.AUTHENTICATED,
-          userId: null,
-        },
-      });
-      let wrapper = mount(
-        <Provider store={store}>
-          <BandList />
-        </Provider>
-      );
-
-      wrapper
-        .find("div.bandList")
-        .find("div.bandListing")
-        .forEach((node) => {
-          node.find("button.incScoreButton").should.have.lengthOf(1);
-          node.find("button.decScoreButton").should.have.lengthOf(1);
-        });
-    });
-
-    it("dispatches an action to modify a band when a band modification button is pressed", function () {
-      let userId = "userId3";
-      let store = mockStore({
-        bands: {
-          items: [
-            { _id: "bandId1", name: "Band1", ownerId: "userId1", score: 0 },
-          ],
-        },
-        session: {
-          authenticationStatus: AuthenticationStatuses.AUTHENTICATED,
-          userId,
-        },
-      });
-
-      let dispatchSpy = sinon.spy(store, "dispatch");
-
-      let wrapper = mount(
-        <Provider store={store}>
-          <BandList />
-        </Provider>
-      );
-
-      wrapper
-        .find("div.bandList")
-        .find("div.bandListing")
-        .first()
-        .find("button.incScoreButton")
-        .simulate("click");
-      wrapper
-        .find("div.bandList")
-        .find("div.bandListing")
-        .first()
-        .find("button.decScoreButton")
-        .simulate("click");
-
-      dispatchSpy.calledWith(beginModifyBandScore("bandId1", userId, 1)).should
-        .be.true;
-      dispatchSpy.calledWith(beginModifyBandScore("bandId1", userId, -1)).should
-        .be.true;
-
-      dispatchSpy.restore();
-    });
+    it("correctly sorts the bands by highest score");
+    it("correctly sorts the bands by lowest score");
+    it("correctly sorts the bands by latest date");
   });
 
-  describe.skip("Individual Band Listing", function () {
-    it("takes an object representing a band");
-    it("displays the band name");
-    it("displays the points a band has");
-    it("displays the band's creator");
-    it("displays buttons for adding/subtracting score");
-  })
+  describe.only("Individual Band Listing", function () {
+    let bandName = "bandName";
+    let bandId = "1234";
+    let bandScore = 32;
+    let bandCreatorName = "creatorName";
+
+    let wrapper = mount(
+      <BandListing
+        bandId={bandId}
+        bandName={bandName}
+        bandScore={bandScore}
+        bandCreatorName={bandCreatorName}
+        userIsAuthenticated={true}
+      />
+    );
+    let divWrapper = wrapper.find("div.bandListing");
+
+    it("renders a div with the class 'bandListing'", function () {
+      divWrapper.should.have.lengthOf(1);
+    });
+
+    it("displays the band name", function () {
+      divWrapper.text().should.contain(bandName);
+    });
+
+    it("displays the points the band has", function () {
+      divWrapper.text().should.contain(bandScore);
+    });
+
+    it("displays the band's creator", function () {
+      divWrapper.text().should.contain(bandCreatorName);
+    });
+
+    it("has a button for adding score", function () {
+      divWrapper.find("button.incScoreButton").should.have.lengthOf(1);
+    });
+
+    it("has a button for adding score", function () {
+      divWrapper.find("button.decScoreButton").should.have.lengthOf(1);
+    });
+
+    it("has the buttons disabled if the user is not logged in", function () {
+      let notAuthenticatedWrapper = mount(
+        <BandListing
+          bandId={bandId}
+          bandName={bandName}
+          bandScore={bandScore}
+          bandCreatorName={bandCreatorName}
+          userIsAuthenticated={false}
+        />
+      );
+
+      let buttonsWrapper = notAuthenticatedWrapper.find("div.bandListing").find("button");
+      buttonsWrapper.should.have.lengthOf(2);
+    });
+
+    it("disables the increment button if the user has added points to the band");
+    it("disables the decrement button if the user has subtracted points from the band");
+  });
 
   describe("Login", function () {
     it("has a form with the class 'loginForm', with username and password text inputs", function () {

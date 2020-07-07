@@ -3,6 +3,7 @@ import "chai/register-should";
 import * as reducers from "./reducers";
 import * as actionTypes from "./action-types";
 import { ObjectId } from "mongodb";
+import { func } from "prop-types";
 
 describe("Store Reducer Unit Tests", function () {
   describe("Session Reducer", function () {
@@ -115,19 +116,21 @@ describe("Store Reducer Unit Tests", function () {
   });
 
   describe("Bands Reducer", function () {
-    describe.only("Band Fetching", function () {
+    describe("Band Fetching", function () {
       let state;
 
-      it("starts with state with an empty array for items, and a fetching value of false", function () {
+      it("starts with state with an empty array for items, and a pending fetches value of 0", function () {
         state = reducers.bands(undefined, {});
-        state.should.haveOwnProperty("fetching", false);
+        state.should.haveOwnProperty("pendingFetches", 0);
         state.should.haveOwnProperty("items");
         state.items.should.have.lengthOf(0);
       });
 
-      it("should set fetching to true when an FETCH_BANDS_BEGIN action is recieved", function () {
-        state = reducers.bands(state, { type: actionTypes.FETCH_BANDS_BEGIN });
-        state.fetching.should.be.true;
+      it("increments the amount of pending fetches when a REQUEST_FETCH_BANDS action is recieved", function () {
+        state = reducers.bands(undefined, {
+          type: actionTypes.REQUEST_FETCH_BANDS,
+        });
+        state.pendingFetches.should.equal(1);
       });
 
       let firstBands = [];
@@ -188,14 +191,21 @@ describe("Store Reducer Unit Tests", function () {
         hasDuplicateEntries.should.be.false;
       });
 
-      it("sets fetching to false when the fetch fails", function () {
-        state = reducers.bands(state, {
-          type: actionTypes.FETCH_BANDS_FAILURE,
-        });
-        state.fetching.should.be.false;
+      it("decrements the pending fetches when a fetch succeeds", function () {
+        state = reducers.bands(
+          { pendingFetches: 1, items: [] },
+          { type: actionTypes.FETCH_BANDS_SUCCESS, bands: [] }
+        );
+        state.pendingFetches.should.equal(0);
       });
 
-      it("sets fetching to false after the fetch succeeds");
+      it("decrements the amount of pending fetches when a fetch fails", function () {
+        state = reducers.bands(
+          { pendingFetches: 1 },
+          { type: actionTypes.FETCH_BANDS_FAILURE }
+        );
+        state.pendingFetches.should.equal(0);
+      });
     });
 
     describe("Band Creation", function () {
@@ -242,7 +252,7 @@ describe("Store Reducer Unit Tests", function () {
       });
     });
 
-    describe("Score Modification", function () {
+    describe.only("Score Modification", function () {
       let store;
       let targetBandId = "bandId1";
       let bandScore = 1;

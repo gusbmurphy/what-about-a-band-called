@@ -68,7 +68,7 @@ describe("Route Handler Component Tests", function () {
     });
   });
 
-  describe.only("User Authentication", function () {
+  describe("User Authentication", function () {
     beforeEach(function () {
       sinon.stub(User, "findOne");
     });
@@ -256,7 +256,7 @@ describe("Route Handler Component Tests", function () {
     });
   });
 
-  describe("Band Modification", function () {
+  describe.only("Band Modification", function () {
     beforeEach(function () {
       sinon.stub(Band, "exists");
       sinon.stub(BandModification, "exists");

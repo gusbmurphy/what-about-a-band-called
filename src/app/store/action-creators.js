@@ -16,6 +16,11 @@ export const bandCreationFailure = (reason) => ({
 });
 
 // Band fetching
+export const requestFetchBands = (maxBands = undefined, sortBy = undefined) => ({
+  type: actionTypes.REQUEST_FETCH_BANDS,
+  maxBands,
+  sortBy
+});
 export const beginFetchBands = (maxBands = undefined, sortBy = undefined) => ({
   type: actionTypes.FETCH_BANDS_BEGIN,
   maxBands,
