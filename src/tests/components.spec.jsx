@@ -5,28 +5,27 @@ import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
-import { BandList } from "./BandList";
-import { Login } from "./Login";
-import { NewUser } from "./NewUser";
-import { CreateBand } from "./CreateBand";
+import { BandList } from "../app/components/BandList";
+import { Login } from "../app/components/Login";
+import { NewUser } from "../app/components/NewUser";
+import { CreateBand } from "../app/components/CreateBand";
 import {
   AuthenticationStatuses,
   UserCreationStatuses,
   BandSortTypes,
-} from "../store/action-types";
+} from "../app/store/action-types";
 import {
   beginBandCreation,
   createUserFailure,
   requestFetchBands,
-  beginModifyBandScore,
-} from "../store/action-creators";
-import { createMockBands } from "../../utility/mock-bands";
-import BandListing from "./BandListing";
+} from "../app/store/action-creators";
+import { createMockBands } from "../utility/mock-bands";
+import BandListing from "../app/components/BandListing";
 
 const mockStore = configureStore([]);
 
 describe("React Component Tests", function () {
-  describe.only("Band Components", function () {
+  describe("Band Components", function () {
     let maxBands = 15;
     let sortBy = BandSortTypes.BEST;
     let store = mockStore({
