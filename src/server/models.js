@@ -1,4 +1,13 @@
+// @flow
+
 import mongoose from "mongoose";
+
+function foo(x: ?number): string {
+  if (x) {
+    return x;
+  }
+  return "default string";
+}
 
 let bandSchema = new mongoose.Schema({
   name: { type: String, required: true },
