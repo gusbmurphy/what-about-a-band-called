@@ -5,6 +5,7 @@ export function session(
     authenticationStatus: actionTypes.AuthenticationStatuses.NOT_TRYING,
     userId: null,
     userCreationStatus: actionTypes.UserCreationStatuses.NOT_TRYING,
+    bandsModified: [],
   },
   action
 ) {
@@ -46,6 +47,19 @@ export function session(
       return {
         ...state,
         userCreationStatus: action.reason,
+      };
+
+    // BAND_MODIFICATIONS
+    case actionTypes.MODIFY_BAND_SCORE_SUCCESS:
+      return {
+        ...state,
+        bandsModified: [
+          ...state.bandsModified,
+          {
+            targetBandId: action.modifiedBandId,
+            value: action.modificationValue,
+          },
+        ],
       };
     default:
       return state;

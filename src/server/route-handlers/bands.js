@@ -1,4 +1,4 @@
-import { Band, BandModification } from "../models";
+import { Band, BandModification, User } from "../models";
 import {
   BandCreationStatuses,
   BandSortTypes,
@@ -91,7 +91,26 @@ export async function postModifyBand(req, res) {
             console.info('Error in "/band/modify" route:\n', err);
             return res.status(500).send();
           }
-          return res.status(200).send();
+
+          // And finally update the modifying user's modified bands array
+          User.findByIdAndUpdate(
+            modifyingUserId,
+            {
+              $push: {
+                bandsModified: {
+                  targetBandId,
+                  value: modificationValue,
+                },
+              },
+            },
+            (err) => {
+              if (err) {
+                console.info('Error in "/band/modify" route:\n', err);
+                return res.status(500).send();
+              }
+              return res.status(200).send();
+            }
+          );
         });
       }
     );

@@ -2,47 +2,95 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export default class BandListing extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleModificationClick.bind(this);
+  }
+
+  handleModificationClick(modValue) {
+    this.props.modifyBand(modValue);
+  }
+
   render() {
     let {
-      // bandId,
       bandName,
       bandScore,
       bandCreatorName,
       userIsAuthenticated,
-      // addPointsTo
+      modificationPerformed,
     } = this.props;
 
-    let buttons = userIsAuthenticated ? activeButtons() : inactiveButtons();
+    let incButton = (
+      <button
+        className="incScoreButton"
+        onClick={() => this.handleModificationClick(1)}
+      >
+        +
+      </button>
+    );
+    let decButton = (
+      <button
+        className="decScoreButton"
+        onClick={() => this.handleModificationClick(-1)}
+      >
+        -
+      </button>
+    );
+    let disabledIncButton = (
+      <button className="incScoreButton" disabled>
+        +
+      </button>
+    );
+    let disabledDecButton = (
+      <button className="decScoreButton" disabled>
+        -
+      </button>
+    );
+
+    const getButtons = () => {
+      if (!userIsAuthenticated) {
+        return (
+          <>
+            {disabledIncButton}
+            {disabledDecButton}
+          </>
+        );
+      }
+
+      switch (modificationPerformed) {
+        case 1:
+          return (
+            <>
+              {disabledIncButton}
+              {decButton}
+            </>
+          );
+        case -1:
+          return (
+            <>
+              {incButton}
+              {disabledDecButton}
+            </>
+          );
+        default:
+          break;
+      }
+
+      return (
+        <>
+          {incButton}
+          {decButton}
+        </>
+      );
+    };
 
     return (
       <div className="bandListing">
         {bandName} ({bandScore}) by {bandCreatorName}
-        {buttons}
+        {getButtons()}
       </div>
     );
   }
-}
-
-function activeButtons() {
-  return (
-    <>
-      <button className="incScoreButton">+</button>
-      <button className="decScoreButton">-</button>
-    </>
-  );
-}
-
-function inactiveButtons() {
-  return (
-    <>
-      <button className="incScoreButton" disabled>
-        +
-      </button>
-      <button className="decScoreButton" disabled>
-        -
-      </button>
-    </>
-  );
 }
 
 BandListing.propTypes = {
@@ -51,5 +99,6 @@ BandListing.propTypes = {
   bandScore: PropTypes.number.isRequired,
   bandCreatorName: PropTypes.string.isRequired,
   userIsAuthenticated: PropTypes.bool.isRequired,
-  // addPointsTo: PropTypes.func.isRequired,
+  modificationPerformed: PropTypes.number,
+  modifyBand: PropTypes.func.isRequired,
 };

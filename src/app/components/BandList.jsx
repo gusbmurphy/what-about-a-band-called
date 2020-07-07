@@ -10,11 +10,6 @@ import {
 import BandListing from "./BandListing";
 
 class UnconnectedBandList extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.filterBands = filterBands.bind.this;
-  // }
-
   componentDidMount() {
     this.props.requestFetchBands(this.props.maxBands, this.props.sortBy);
   }
@@ -42,16 +37,25 @@ class UnconnectedBandList extends React.Component {
   }
 
   render() {
-    console.log(this.props.sortBy + " list rendered.");
-    // let { authenticationStatus } = this.props;
-    // let isAuthenticated =
-    //   authenticationStatus == AuthenticationStatuses.AUTHENTICATED;
-
     if (this.props.appIsFetchingBands) {
       return <div className="loadingMessage">Loading bands...</div>;
     }
 
     let filteredBands = this.filterBands();
+
+    const modifyBand = (targetBandId, userId) => {
+      return (modificationValue) =>
+        this.props.addPointsTo(targetBandId, userId, modificationValue);
+    };
+
+    const getModificationPerformedToBand = (targetBandId) => {
+      if (!this.props.userIsAuthenticated) return null;
+      let modification = this.props.usersModifications.find(
+        (modification) => modification.targetBandId == targetBandId
+      );
+      if (modification) return modification.value;
+      else return null;
+    };
 
     return (
       <div className="bandList">
@@ -63,7 +67,8 @@ class UnconnectedBandList extends React.Component {
             bandScore={band.score}
             bandCreatorName={band.ownerName}
             userIsAuthenticated={this.props.userIsAuthenticated}
-            // addPointsTo={addPointsTo}
+            modifyBand={modifyBand(band._id, this.props.userId)}
+            modificationPerformed={getModificationPerformedToBand(band._id)}
           />
         ))}
       </div>
@@ -82,6 +87,7 @@ UnconnectedBandList.propTypes = {
   ),
   userIsAuthenticated: PropTypes.bool.isRequired,
   userId: PropTypes.string,
+  usersModifications: PropTypes.array,
   addPointsTo: PropTypes.func.isRequired,
   requestFetchBands: PropTypes.func.isRequired,
   appIsFetchingBands: PropTypes.bool.isRequired,
@@ -90,24 +96,6 @@ UnconnectedBandList.propTypes = {
 };
 
 function mapStateToProps(state) {
-  // let desiredBands = [...state.bands.items];
-
-  // switch (ownProps.sortBy) {
-  //   case BandSortTypes.BEST:
-  //     desiredBands.sort((a, b) => b.score - a.score);
-  //     break;
-  //   case BandSortTypes.MOST_RECENT:
-  //     desiredBands.sort((a, b) => a.createdOn - b.createdOn);
-  //     break;
-  //   case BandSortTypes.WORST:
-  //     desiredBands.sort((a, b) => a.score - b.score);
-  //     break;
-  //   default:
-  //     break;
-  // }
-
-  // desiredBands = desiredBands.slice(0, ownProps.maxBands);
-
   return {
     appIsFetchingBands: state.bands.pendingFetches > 0 ? true : false,
     bands: state.bands.items,
@@ -116,6 +104,7 @@ function mapStateToProps(state) {
         ? true
         : false,
     userId: state.session.userId,
+    usersModifications: state.session.bandsModified,
   };
 }
 

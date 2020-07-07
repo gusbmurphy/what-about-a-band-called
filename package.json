@@ -12,7 +12,7 @@
     "server": "babel-node src/server/server",
     "server-test": "babel-node src/server/server.spec",
     "start-dev": "concurrently \"npm run server\" \"npm run dev\"",
-    "load-dummy-data": "babel-node src/util/load-dummy-db.js"
+    "load-dummy-data": "babel-node src/utility/load-dummy-db.js"
   },
   "keywords": [],
   "author": "Gus Murphy",

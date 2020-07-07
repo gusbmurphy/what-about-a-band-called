@@ -141,7 +141,7 @@ describe("Redux Saga Unit/Component Tests", function () {
     });
   });
 
-  describe.only("Band Score Modification Saga", function () {
+  describe("Band Score Modification Saga", function () {
     let generator = cloneableGenerator(sagas.bandScoreModificationSaga)();
 
     it("waits for a MODIFY_BAND_SCORE_BEGIN action", function () {

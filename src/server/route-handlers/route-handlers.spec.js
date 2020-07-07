@@ -256,7 +256,7 @@ describe("Route Handler Component Tests", function () {
     });
   });
 
-  describe.only("Band Modification", function () {
+  describe("Band Modification", function () {
     beforeEach(function () {
       sinon.stub(Band, "exists");
       sinon.stub(BandModification, "exists");
@@ -333,5 +333,7 @@ describe("Route Handler Component Tests", function () {
       );
       res.statusCode.should.equal(200, "status code should be 200");
     });
+
+    it("should finally update the modifying user's array of bands they've modified");
   });
 });

@@ -70,7 +70,9 @@ mongoose.connect(localDbUrl);
       { $inc: { score: modificationValue } }
     );
     await User.findByIdAndUpdate(randomUser.id, {
-      $push: { bandsModified: randomBandId },
+      $push: {
+        bandsModified: { targetBandId: randomBandId, value: modificationValue },
+      },
     });
   }
 })();
