@@ -6,7 +6,7 @@ module.exports = {
     node: true,
     mocha: true,
   },
-  extends: ["eslint:recommended", "plugin:react/recommended", "plugin:flowtype/recommended"],
+  extends: ["eslint:recommended", "plugin:react/recommended"],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -16,9 +16,5 @@ module.exports = {
   },
   plugins: ["react", "flowtype"],
   rules: {},
-  settings: {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": true
-    }
-  }
+  settings: {},
 };
