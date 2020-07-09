@@ -9,27 +9,28 @@ export function* userAuthenticationSaga() {
     let { username, password } = yield take(
       actionTypes.AUTHENTICATE_USER_BEGIN
     );
-    let response = yield call(
-      axios.post,
-      paths.serverUrl + paths.authenticate,
-      {
-        username,
-        password,
-      }
-    );
     try {
-      if (response.status != 200)
-        throw new Error();
-      yield put(
-        actionCreators.authenticateUserSuccess(
-          response.data.userId,
-          response.data.username,
-          response.data.bandsModified
-        )
+      let response = yield call(
+        axios.post,
+        paths.serverUrl + paths.authenticate,
+        {
+          username,
+          password,
+        }
       );
-    }
-    catch (error) {
-      yield put(actionCreators.authenticateUserFailure());
+      if (response.status == 200) {
+        yield put(
+          actionCreators.authenticateUserSuccess(
+            response.data.userId,
+            response.data.username,
+            response.data.bandsModified
+          )
+        );
+      }
+    } catch (err) {
+      yield put(
+        actionCreators.authenticateUserFailure(err.response.data.reason)
+      );
     }
   }
 }

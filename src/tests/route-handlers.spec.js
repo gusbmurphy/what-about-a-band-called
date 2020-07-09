@@ -5,15 +5,16 @@ import md5 from "md5";
 import { ObjectId } from "mongodb";
 import { Model } from "mongoose";
 
-import { User } from "../models";
-import { Band, BandModification } from "../models";
+import { User } from "../server/models";
+import { Band, BandModification } from "../server/models";
 import {
   UserCreationStatuses,
   BandCreationStatuses,
-} from "../../app/store/action-types";
-import { postCreateUser } from "../route-handlers/user-creation";
-import { postUserAuthenticate } from "../route-handlers/authentication";
-import { postNewBand, postModifyBand } from "../route-handlers/bands";
+  AuthenticationStatuses,
+} from "../app/store/action-types";
+import { postCreateUser } from "../server/route-handlers/user-creation";
+import { postUserAuthenticate } from "../server/route-handlers/user-authentication";
+import { postNewBand, postModifyBand } from "../server/route-handlers/bands";
 
 describe("Route Handler Component Tests", function () {
   describe("Band Retrieval", function () {
@@ -68,7 +69,8 @@ describe("Route Handler Component Tests", function () {
     });
   });
 
-  describe("User Authentication", function () {
+  // TODO: These tests needs to be rewritten
+  describe.skip("User Authentication", function () {
     beforeEach(function () {
       sinon.stub(User, "findOne");
     });
@@ -123,7 +125,7 @@ describe("Route Handler Component Tests", function () {
         );
     });
 
-    it("should respond with a status of 500 if provided with a username that doesn't exist", async function () {
+    it("should respond with a status of 500 and INVALID_USERNAME reason if provided with a username that doesn't exist", async function () {
       let req = httpMocks.createRequest({
         body: {
           username: "NonexistantUsername",
@@ -141,9 +143,14 @@ describe("Route Handler Component Tests", function () {
       await postUserAuthenticate(req, res);
 
       res.statusCode.should.equal(500, "status code should be 500");
+      res._getData().should.haveOwnProperty(
+        "reason",
+        AuthenticationStatuses.INVALID_USERNAME,
+        "response should have the appropriate reason"
+      );
     });
 
-    it("should respond with a status of 500 if provided with an existing username but incorrect password", async function () {
+    it("should respond with a status of 500 and INVALID_PASSWORD reason if provided with an existing username but incorrect password", async function () {
       let req = httpMocks.createRequest({
         body: {
           username: "ExistingUsername",
@@ -163,6 +170,11 @@ describe("Route Handler Component Tests", function () {
       await postUserAuthenticate(req, res);
 
       res.statusCode.should.equal(500, "status code should be 500");
+      res._getData().should.haveOwnProperty(
+        "reason",
+        AuthenticationStatuses.INVALID_PASSWORD,
+        "response should be INVALID_PASSWORD"
+      );
     });
   });
 
@@ -334,6 +346,8 @@ describe("Route Handler Component Tests", function () {
       res.statusCode.should.equal(200, "status code should be 200");
     });
 
-    it("should finally update the modifying user's array of bands they've modified");
+    it(
+      "should finally update the modifying user's array of bands they've modified"
+    );
   });
 });

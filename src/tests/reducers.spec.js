@@ -1,7 +1,7 @@
 import "chai/register-should";
 
-import * as reducers from "./reducers";
-import * as actionTypes from "./action-types";
+import * as reducers from "../app/store/reducers";
+import * as actionTypes from "../app/store/action-types";
 import { ObjectId } from "mongodb";
 
 describe("Store Reducer Unit Tests", function () {
@@ -35,16 +35,16 @@ describe("Store Reducer Unit Tests", function () {
           "status should be AUTHENTICATING after recieving begin action"
         );
 
-        // state = reducers.session(state, {
-        //   type: actionTypes.AUTHENTICATE_USER_SUCCESS,
-        //   userId,
-        //   username,
-        //   bandsModified,
-        // });
-        // state.authenticationStatus.should.equal(
-        //   actionTypes.AuthenticationStatuses.AUTHENTICATED,
-        //   "status should be AUTHENTICATED after recieving success action"
-        // );
+        state = reducers.session(state, {
+          type: actionTypes.AUTHENTICATE_USER_SUCCESS,
+          userId,
+          username,
+          bandsModified,
+        });
+        state.authenticationStatus.should.equal(
+          actionTypes.AuthenticationStatuses.AUTHENTICATED,
+          "status should be AUTHENTICATED after recieving success action"
+        );
 
         state.should.haveOwnProperty("userId", userId);
         state.should.haveOwnProperty("username", username);
@@ -113,7 +113,7 @@ describe("Store Reducer Unit Tests", function () {
       });
     });
 
-    describe.only("Band Modifications", function () {
+    describe("Band Modifications", function () {
       it("adds a new entry to the bands modified when there's been a successful band modification action dispatched to the store", function () {
         let modifiedBandId = "bandId";
         let modificationValue = 1;

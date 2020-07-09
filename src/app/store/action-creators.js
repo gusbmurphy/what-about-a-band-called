@@ -81,6 +81,7 @@ export const authenticateUserSuccess = (userId, username, bandsModified) => ({
   bandsModified,
 });
 // TODO: Shouldn't there be a reason here?
-export const authenticateUserFailure = () => ({
+export const authenticateUserFailure = (reason) => ({
   type: actionTypes.AUTHENTICATE_USER_FAILURE,
+  reason
 });

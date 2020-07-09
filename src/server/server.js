@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
-import * as authenticationHandlers from "./route-handlers/authentication";
+import * as authenticationHandlers from "./route-handlers/user-authentication";
 import * as bandHandlers from "./route-handlers/bands";
 import * as userCreationHandlers from "./route-handlers/user-creation";
 // import * as userInfoHandlers from "./route-handlers/users";

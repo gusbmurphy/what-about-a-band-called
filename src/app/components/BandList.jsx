@@ -62,7 +62,6 @@ class UnconnectedBandList extends React.Component {
         {filteredBands.map((band) => (
           <BandListing
             key={band._id}
-            bandId={band._id}
             bandName={band.name}
             bandScore={band.score}
             bandCreatorName={band.ownerName}

@@ -7,17 +7,20 @@ import * as paths from "../../../server/paths";
 export function* userCreationSaga() {
   while (true) {
     let { username, password } = yield take(actionTypes.CREATE_USER_BEGIN);
-    let response = yield call(axios.post, paths.serverUrl + paths.createUser, {
-      username,
-      password,
-    });
     try {
-      if (response.status != 200)
-        throw new Error();
-      yield put(actionCreators.createUserSuccess());
-    }
-    catch (error) {
-      yield put(actionCreators.createUserFailure(response.data.reason));
+      let response = yield call(
+        axios.post,
+        paths.serverUrl + paths.createUser,
+        {
+          username,
+          password,
+        }
+      );
+      if (response.status == 200) {
+        yield put(actionCreators.createUserSuccess());
+      }
+    } catch (error) {
+      yield put(actionCreators.createUserFailure(error.response.data.reason));
     }
   }
 }

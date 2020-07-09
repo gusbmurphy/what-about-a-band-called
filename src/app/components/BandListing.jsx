@@ -94,7 +94,6 @@ export default class BandListing extends React.Component {
 }
 
 BandListing.propTypes = {
-  bandId: PropTypes.string.isRequired,
   bandName: PropTypes.string.isRequired,
   bandScore: PropTypes.number.isRequired,
   bandCreatorName: PropTypes.string.isRequired,
