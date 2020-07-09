@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ListGroupItem from "react-bootstrap/ListGroupItem"
 
 export default class BandListing extends React.Component {
   constructor(props) {
@@ -85,10 +86,10 @@ export default class BandListing extends React.Component {
     };
 
     return (
-      <div className="bandListing">
+      <ListGroupItem className="bandListing">
         {bandName} ({bandScore}) by {bandCreatorName}
         {getButtons()}
-      </div>
+      </ListGroupItem>
     );
   }
 }

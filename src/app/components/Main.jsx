@@ -10,6 +10,8 @@ import { Login } from "./Login";
 import { Navigation } from "./Navigation";
 import { NewUser } from "./NewUser";
 import { TheLists } from "./TheThreeLists";
+import { BigBandTable } from "./BigBandTable";
+import { Landing } from "./Landing";
 
 const AuthenticationGuard = (Component) => ({ match }) => {
   if (
@@ -24,14 +26,13 @@ const AuthenticationGuard = (Component) => ({ match }) => {
 export const Main = () => (
   // TODO: What is the Router's "history" all about?
   <Router history={history}>
-    <h1>What about a band called...</h1>
     <Provider store={store}>
       <Navigation />
-      {/* <Route exact path="/bands" component={BandList} /> */}
+      <Route exact path="/bands" component={BigBandTable} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/new-user" component={NewUser} />
       <Route exact path="/newband" render={AuthenticationGuard(CreateBand)} />
-      <Route exact path="" render={TheLists} />
+      <Route exact path="/" render={Landing} />
     </Provider>
   </Router>
 );

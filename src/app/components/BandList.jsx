@@ -1,13 +1,13 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import { connect } from "react-redux";
-
-import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
 import {
   beginModifyBandScore,
-  requestFetchBands,
+  requestFetchBands
 } from "../store/actions/creators";
+import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
 import BandListing from "./BandListing";
+import ListGroup from "react-bootstrap/ListGroup";
 
 class UnconnectedBandList extends React.Component {
   componentDidMount() {
@@ -58,7 +58,7 @@ class UnconnectedBandList extends React.Component {
     };
 
     return (
-      <div className="bandList">
+      <ListGroup className="bandList">
         {filteredBands.map((band) => (
           <BandListing
             key={band._id}
@@ -70,7 +70,7 @@ class UnconnectedBandList extends React.Component {
             modificationPerformed={getModificationPerformedToBand(band._id)}
           />
         ))}
-      </div>
+      </ListGroup>
     );
   }
 }
