@@ -1,7 +1,7 @@
 import "chai/register-should";
 
 import * as reducers from "../app/store/reducers";
-import * as actionTypes from "../app/store/action-types";
+import * as actionTypes from "../app/store/actions/types";
 import { ObjectId } from "mongodb";
 
 describe("Store Reducer Unit Tests", function () {

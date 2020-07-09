@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { AuthenticationStatuses } from "../store/action-types";
-import { beginAuthenticateUser } from "../store/action-creators";
+import { AuthenticationStatuses } from "../store/actions/types";
+import { beginAuthenticateUser } from "../store/actions/creators";
 
 // const UnconnectedLogin = ({ authenticateUser, authenticationStatus }) => (
 //   <div>

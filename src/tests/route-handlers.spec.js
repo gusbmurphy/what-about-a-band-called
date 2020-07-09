@@ -11,7 +11,7 @@ import {
   UserCreationStatuses,
   BandCreationStatuses,
   AuthenticationStatuses,
-} from "../app/store/action-types";
+} from "../app/store/actions/types";
 import { postCreateUser } from "../server/route-handlers/user-creation";
 import { postUserAuthenticate } from "../server/route-handlers/user-authentication";
 import { postNewBand, postModifyBand } from "../server/route-handlers/bands";

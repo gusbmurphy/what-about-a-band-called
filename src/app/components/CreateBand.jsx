@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { beginBandCreation } from "../store/action-creators";
+import { beginBandCreation } from "../store/actions/creators";
 
 const UnconnectedCreateBand = ({ createBand, session }) => (
   <div>

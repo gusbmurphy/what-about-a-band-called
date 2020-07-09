@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { AuthenticationStatuses, BandSortTypes } from "../store/action-types";
+import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
 import {
   beginModifyBandScore,
   requestFetchBands,
-} from "../store/action-creators";
+} from "../store/actions/creators";
 import BandListing from "./BandListing";
 
 class UnconnectedBandList extends React.Component {

@@ -6,8 +6,8 @@ import axios from "axios";
 
 import * as sagas from "../app/store/sagas";
 import { fetchBands } from "../app/store/sagas/watch-fetch-bands";
-import * as actionCreators from "../app/store/action-creators";
-import * as actionTypes from "../app/store/action-types";
+import * as actionCreators from "../app/store/actions/creators";
+import * as actionTypes from "../app/store/actions/types";
 import * as paths from "../server/paths";
 
 describe("Redux Saga Unit/Component Tests", function () {

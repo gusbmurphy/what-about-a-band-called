@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { beginCreateUser, createUserFailure } from "../store/action-creators";
-import { UserCreationStatuses } from "../store/action-types";
+import { beginCreateUser, createUserFailure } from "../store/actions/creators";
+import { UserCreationStatuses } from "../store/actions/types";
 
 class UnconnectedNewUser extends React.Component {
   render() {

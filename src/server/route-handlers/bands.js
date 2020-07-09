@@ -2,7 +2,7 @@ import { Band, BandModification, User } from "../models";
 import {
   BandCreationStatuses,
   BandSortTypes,
-} from "../../app/store/action-types";
+} from "../../app/store/actions/types";
 
 export async function postBands(req, res) {
   let { maxBands, sortBy } = req.body;

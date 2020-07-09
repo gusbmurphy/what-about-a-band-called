@@ -13,12 +13,12 @@ import {
   AuthenticationStatuses,
   UserCreationStatuses,
   BandSortTypes,
-} from "../app/store/action-types";
+} from "../app/store/actions/types";
 import {
   beginBandCreation,
   createUserFailure,
   requestFetchBands,
-} from "../app/store/action-creators";
+} from "../app/store/actions/creators";
 import { createMockBands } from "../utility/mock-bands";
 import BandListing from "../app/components/BandListing";
 

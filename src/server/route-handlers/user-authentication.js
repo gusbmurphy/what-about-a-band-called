@@ -1,5 +1,5 @@
 import md5 from "md5";
-import { AuthenticationStatuses } from "../../app/store/action-types";
+import { AuthenticationStatuses } from "../../app/store/actions/types";
 import { User } from "../models";
 
 // TODO: What are authentication tokens? Why should we use them?

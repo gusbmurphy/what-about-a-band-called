@@ -5,7 +5,7 @@ import { Redirect } from "react-router";
 
 import { store } from "../store";
 import { history } from "../store/history";
-import { AuthenticationStatuses, BandSortTypes } from "../store/action-types";
+import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
 
 import { Navigation } from "./Navigation";
 import { BandList } from "./BandList";
