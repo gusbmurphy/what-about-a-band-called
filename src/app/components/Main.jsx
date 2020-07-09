@@ -1,17 +1,15 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { Router, Route } from "react-router-dom";
 import { Redirect } from "react-router";
-
+import { Route, Router } from "react-router-dom";
 import { store } from "../store";
+import { AuthenticationStatuses } from "../store/actions/types";
 import { history } from "../store/history";
-import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
-
-import { Navigation } from "./Navigation";
-import { BandList } from "./BandList";
 import { CreateBand } from "./CreateBand";
 import { Login } from "./Login";
+import { Navigation } from "./Navigation";
 import { NewUser } from "./NewUser";
+import { TheLists } from "./TheThreeLists";
 
 const AuthenticationGuard = (Component) => ({ match }) => {
   if (
@@ -33,12 +31,7 @@ export const Main = () => (
       <Route exact path="/login" component={Login} />
       <Route exact path="/new-user" component={NewUser} />
       <Route exact path="/newband" render={AuthenticationGuard(CreateBand)} />
-      <h4>Most Recent Bands</h4>
-      <BandList maxBands={10} sortBy={BandSortTypes.MOST_RECENT} />
-      <h4>Bottom 10 Bands</h4>
-      <BandList maxBands={10} sortBy={BandSortTypes.WORST} />
-      <h4>Top 10 Bands</h4>
-      <BandList maxBands={10} sortBy={BandSortTypes.BEST} />
+      <Route exact path="" render={TheLists} />
     </Provider>
   </Router>
 );
