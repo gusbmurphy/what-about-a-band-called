@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ListGroupItem from "react-bootstrap/ListGroupItem"
+import ListGroupItem from "react-bootstrap/ListGroupItem";
+import { BandModButton } from "./BandModButton";
 
 export default class BandListing extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleModificationClick.bind(this);
+    // this.handleClick = this.handleModificationClick.bind(this);
   }
 
-  handleModificationClick(modValue) {
-    this.props.modifyBand(modValue);
-  }
+  // handleModificationClick(modValue) {
+  //   this.props.modifyBand(modValue);
+  // }
 
   render() {
     let {
@@ -21,68 +22,95 @@ export default class BandListing extends React.Component {
       modificationPerformed,
     } = this.props;
 
-    let incButton = (
-      <button
-        className="incScoreButton"
-        onClick={() => this.handleModificationClick(1)}
-      >
-        +
-      </button>
-    );
-    let decButton = (
-      <button
-        className="decScoreButton"
-        onClick={() => this.handleModificationClick(-1)}
-      >
-        -
-      </button>
-    );
-    let disabledIncButton = (
-      <button className="incScoreButton" disabled>
-        +
-      </button>
-    );
-    let disabledDecButton = (
-      <button className="decScoreButton" disabled>
-        -
-      </button>
-    );
+    // let incButton = (
+    //   <button
+    //     className="incScoreButton"
+    //     onClick={() => this.handleModificationClick(1)}
+    //   >
+    //     +
+    //   </button>
+    // );
+    // let decButton = (
+    //   <button
+    //     className="decScoreButton"
+    //     onClick={() => this.handleModificationClick(-1)}
+    //   >
+    //     -
+    //   </button>
+    // );
+    // let disabledIncButton = (
+    //   <button className="incScoreButton" disabled>
+    //     +
+    //   </button>
+    // );
+    // let disabledDecButton = (
+    //   <button className="decScoreButton" disabled>
+    //     -
+    //   </button>
+    // );
 
     const getButtons = () => {
       if (!userIsAuthenticated) {
-        return (
-          <>
-            {disabledIncButton}
-            {disabledDecButton}
-          </>
-        );
+        <>
+          <BandModButton
+            modValue={1}
+            authorized={false}
+            modifyBand={this.props.modifyBand}
+          />
+          <BandModButton
+            modValue={-1}
+            authorized={false}
+            modifyBand={this.props.modifyBand}
+          />
+        </>;
       }
-
       switch (modificationPerformed) {
         case 1:
           return (
             <>
-              {disabledIncButton}
-              {decButton}
+              <BandModButton
+                modValue={1}
+                authorized={false}
+                modifyBand={this.props.modifyBand}
+              />
+              <BandModButton
+                modValue={-1}
+                authorized={true}
+                modifyBand={this.props.modifyBand}
+              />
             </>
           );
         case -1:
           return (
             <>
-              {incButton}
-              {disabledDecButton}
+              <BandModButton
+                modValue={1}
+                authorized={true}
+                modifyBand={this.props.modifyBand}
+              />
+              <BandModButton
+                modValue={-1}
+                authorized={false}
+                modifyBand={this.props.modifyBand}
+              />
             </>
           );
         default:
-          break;
+          return (
+            <>
+              <BandModButton
+                modValue={1}
+                authorized={true}
+                modifyBand={this.props.modifyBand}
+              />
+              <BandModButton
+                modValue={-1}
+                authorized={true}
+                modifyBand={this.props.modifyBand}
+              />
+            </>
+          );
       }
-
-      return (
-        <>
-          {incButton}
-          {decButton}
-        </>
-      );
     };
 
     return (

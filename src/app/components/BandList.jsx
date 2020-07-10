@@ -8,40 +8,17 @@ import {
 import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
 import BandListing from "./BandListing";
 import ListGroup from "react-bootstrap/ListGroup";
+import { sortAndLimitBands } from "./utility/limit-sort-bands"
 
 class UnconnectedBandList extends React.Component {
   componentDidMount() {
     this.props.requestFetchBands(this.props.maxBands, this.props.sortBy);
   }
 
-  filterBands() {
-    let filteredBands = [...this.props.bands];
-
-    switch (this.props.sortBy) {
-      case BandSortTypes.BEST:
-        filteredBands.sort((a, b) => b.score - a.score);
-        break;
-      case BandSortTypes.MOST_RECENT:
-        filteredBands.sort((a, b) => a.createdOn - b.createdOn);
-        break;
-      case BandSortTypes.WORST:
-        filteredBands.sort((a, b) => a.score - b.score);
-        break;
-      default:
-        break;
-    }
-
-    filteredBands = filteredBands.slice(0, this.props.maxBands);
-
-    return filteredBands;
-  }
-
   render() {
     if (this.props.appIsFetchingBands) {
       return <div className="loadingMessage">Loading bands...</div>;
     }
-
-    let filteredBands = this.filterBands();
 
     const modifyBand = (targetBandId, userId) => {
       return (modificationValue) =>
@@ -57,9 +34,11 @@ class UnconnectedBandList extends React.Component {
       else return null;
     };
 
+    let desiredBands = sortAndLimitBands(this.props.bands, this.props.sortBy, this.props.maxBands);
+
     return (
       <ListGroup className="bandList">
-        {filteredBands.map((band) => (
+        {desiredBands.map((band) => (
           <BandListing
             key={band._id}
             bandName={band.name}
@@ -91,7 +70,7 @@ UnconnectedBandList.propTypes = {
   requestFetchBands: PropTypes.func.isRequired,
   appIsFetchingBands: PropTypes.bool.isRequired,
   maxBands: PropTypes.number.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.oneOf(Object.values(BandSortTypes)).isRequired,
 };
 
 function mapStateToProps(state) {
