@@ -24,18 +24,14 @@ const AuthenticationGuard = (Component) => ({ match }) => {
 
 export const Main = () => (
   // TODO: What is the Router's "history" all about?
-  <Router history={history}>
-    <Provider store={store}>
+  <Provider store={store}>
+    <Router history={history}>
       <Navigation />
-      <Route
-        exact
-        path="/bands"
-        component={BigBandTable}
-      />
+      <Route exact path="/bands" component={BigBandTable} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/new-user" component={NewUser} />
       <Route exact path="/newband" render={AuthenticationGuard(CreateBand)} />
       <Route exact path="/" render={Landing} />
-    </Provider>
-  </Router>
+    </Router>
+  </Provider>
 );

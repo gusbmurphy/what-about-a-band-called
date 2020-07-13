@@ -12,6 +12,7 @@ import Button from "react-bootstrap/Button";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Container from "react-bootstrap/Container";
+import { TheLists } from "./TheThreeLists";
 
 let defaultBandsPerFetch = 20;
 
@@ -21,6 +22,7 @@ class UnconnectedBigBandTable extends React.Component {
     this.state = {
       sortType: BandSortTypes.MOST_RECENT,
       bandsPerFetch: defaultBandsPerFetch,
+      shouldFetchBands: false,
       maxBandsDisplayed: defaultBandsPerFetch,
     };
   }
@@ -29,9 +31,28 @@ class UnconnectedBigBandTable extends React.Component {
     this.props.requestFetchBands(this.state.bandsPerFetch, this.state.sortType);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.maxBandsDisplayed < prevState.maxBandsDisplayed ||
+      this.state.shouldFetchBands
+    ) {
+      this.props.requestFetchBands(
+        this.state.bandsPerFetch,
+        this.state.sortType
+      );
+      this.setState({ shouldFetchBands: false });
+    }
+
+    if (this.state.sortType !== prevState.sortType) {
+      this.setState({
+        maxBandsDisplayed: this.state.bandsPerFetch,
+        shouldFetchBands: true,
+      });
+    }
+  }
+
   setSortType(newType) {
     // TODO: Right now we set the state before the app has finished fetching the bands, how can we avoid that?
-    this.props.requestFetchBands(this.state.bandsPerFetch, this.state.sortType);
     this.setState({ sortType: newType });
   }
 
@@ -41,13 +62,18 @@ class UnconnectedBigBandTable extends React.Component {
         maxBandsDisplayed: state.maxBandsDisplayed + state.bandsPerFetch,
       };
     });
-    this.props.requestFetchBands(this.state.maxBandsDisplayed, this.state.sortType);
+    this.props.requestFetchBands(
+      this.state.maxBandsDisplayed,
+      this.state.sortType
+    );
   }
 
   render() {
-    if (this.props.appIsFetchingBands) {
-      return <h1>were fetching baby</h1>;
-    }
+    // TODO: Should we have some notification that bands are being fetched?
+    // if (this.props.appIsFetchingBands) {
+    //   return <h1>were fetching baby</h1>;
+    // }
+
     let desiredBands = sortAndLimitBands(
       this.props.bands,
       this.state.sortType,
@@ -104,7 +130,7 @@ class UnconnectedBigBandTable extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    appIsFetchingBands: state.bands.pendingFetches > 0 ? true : false,
+    appIsFetchingBands: state.bands.pendingFetches > 0,
     bands: state.bands.items,
     userIsAuthenticated:
       state.session.authenticationStatus == AuthenticationStatuses.AUTHENTICATED
