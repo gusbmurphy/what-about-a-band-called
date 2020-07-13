@@ -3,12 +3,15 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   beginModifyBandScore,
-  requestFetchBands
+  requestFetchBands,
 } from "../store/actions/creators";
 import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
-import BandListing from "./BandListing";
+import BandTableEntry from "./BandTableEntry";
 import ListGroup from "react-bootstrap/ListGroup";
-import { sortAndLimitBands } from "./utility/limit-sort-bands"
+import { sortAndLimitBands } from "./utility/limit-sort-bands";
+import Table from "react-bootstrap/Table";
+import Card from "react-bootstrap/Card";
+import { getPresentationString } from "./utility/get-presentation-string";
 
 class UnconnectedBandList extends React.Component {
   componentDidMount() {
@@ -34,22 +37,31 @@ class UnconnectedBandList extends React.Component {
       else return null;
     };
 
-    let desiredBands = sortAndLimitBands(this.props.bands, this.props.sortBy, this.props.maxBands);
+    let desiredBands = sortAndLimitBands(
+      this.props.bands,
+      this.props.sortBy,
+      this.props.maxBands
+    );
 
     return (
-      <ListGroup className="bandList">
-        {desiredBands.map((band) => (
-          <BandListing
-            key={band._id}
-            bandName={band.name}
-            bandScore={band.score}
-            bandCreatorName={band.ownerName}
-            userIsAuthenticated={this.props.userIsAuthenticated}
-            modifyBand={modifyBand(band._id, this.props.userId)}
-            modificationPerformed={getModificationPerformedToBand(band._id)}
-          />
-        ))}
-      </ListGroup>
+      <Card>
+        <Card.Body>
+          <Card.Title>{getPresentationString(this.props.sortBy)}</Card.Title>
+          <Table className="bandList" size="sm">
+            {desiredBands.map((band) => (
+              <BandTableEntry
+                key={band._id}
+                bandName={band.name}
+                bandScore={band.score}
+                bandCreatorName={band.ownerName}
+                userIsAuthenticated={this.props.userIsAuthenticated}
+                modifyBand={modifyBand(band._id, this.props.userId)}
+                modificationPerformed={getModificationPerformedToBand(band._id)}
+              />
+            ))}
+          </Table>
+        </Card.Body>
+      </Card>
     );
   }
 }

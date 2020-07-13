@@ -9,15 +9,12 @@ export const TheLists = () => (
   <Container>
     <Row>
       <Col>
-        <h4>Most Recent Bands</h4>
         <BandList maxBands={10} sortBy={BandSortTypes.MOST_RECENT} />
       </Col>
       <Col>
-        <h4>Bottom 10 Bands</h4>
         <BandList maxBands={10} sortBy={BandSortTypes.WORST} />
       </Col>
       <Col>
-        <h4>Top 10 Bands</h4>
         <BandList maxBands={10} sortBy={BandSortTypes.BEST} />
       </Col>
     </Row>

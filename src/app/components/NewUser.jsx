@@ -4,26 +4,44 @@ import { connect } from "react-redux";
 
 import { beginCreateUser, createUserFailure } from "../store/actions/creators";
 import { UserCreationStatuses } from "../store/actions/types";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 class UnconnectedNewUser extends React.Component {
   render() {
     let { tryCreateUser, userCreationStatus } = this.props;
 
     return (
-      <div>
-        <h2>Create new user</h2>
-        <form onSubmit={tryCreateUser} className="newUserForm">
-          <input type="text" placeholder="Username" name="username" />
-          <input type="password" placeholder="Password" name="password" />
-          <input
-            type="password"
-            placeholder="Repeat password"
-            name="repeat-password"
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <div className="processAlert">{userCreationStatus}</div>
-      </div>
+      <Container>
+        <Form onSubmit={tryCreateUser}>
+          <Form.Group controlId="formNewUserName">
+            <Form.Label>Username</Form.Label>
+            <Form.Control type="text"/>
+          </Form.Group>
+          <Form.Group controlId="formNewUserPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password"/>
+          </Form.Group>
+          <Form.Group controlId="formNewUserRepeatPassword">
+            <Form.Label>Repeat Password</Form.Label>
+            <Form.Control type="password"/>
+          </Form.Group>
+            {/* <input type="text" placeholder="Username" name="username" />
+            <input type="password" placeholder="Password" name="password" />
+            <input
+              type="password"
+              placeholder="Repeat password"
+              name="repeat-password"
+            />
+            <button type="submit">Submit</button> */}
+          {/* </Form.Group> */}
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+          {/* <div className="processAlert">{userCreationStatus}</div> */}
+        </Form>
+      </Container>
     );
   }
 }

@@ -11,13 +11,17 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Container from "react-bootstrap/Container";
+
+let defaultBandsPerFetch = 20;
 
 class UnconnectedBigBandTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       sortType: BandSortTypes.MOST_RECENT,
-      bandsPerFetch: 20,
+      bandsPerFetch: defaultBandsPerFetch,
+      maxBandsDisplayed: defaultBandsPerFetch,
     };
   }
 
@@ -31,6 +35,15 @@ class UnconnectedBigBandTable extends React.Component {
     this.setState({ sortType: newType });
   }
 
+  loadMore() {
+    this.setState((state) => {
+      return {
+        maxBandsDisplayed: state.maxBandsDisplayed + state.bandsPerFetch,
+      };
+    });
+    this.props.requestFetchBands(this.state.maxBandsDisplayed, this.state.sortType);
+  }
+
   render() {
     if (this.props.appIsFetchingBands) {
       return <h1>were fetching baby</h1>;
@@ -38,7 +51,7 @@ class UnconnectedBigBandTable extends React.Component {
     let desiredBands = sortAndLimitBands(
       this.props.bands,
       this.state.sortType,
-      this.state.bandsPerFetch
+      this.state.maxBandsDisplayed
     );
 
     let sortRadios = [
@@ -47,7 +60,7 @@ class UnconnectedBigBandTable extends React.Component {
       { value: BandSortTypes.MOST_RECENT, name: "Most Recent" },
     ];
     return (
-      <>
+      <Container>
         <ButtonGroup toggle>
           {sortRadios.map((radio, idx) => (
             <ToggleButton
@@ -62,7 +75,7 @@ class UnconnectedBigBandTable extends React.Component {
             </ToggleButton>
           ))}
         </ButtonGroup>
-        <Table>
+        <Table size="sm">
           <tbody>
             {desiredBands.map((band) => (
               <tr key={band._id}>
@@ -81,10 +94,10 @@ class UnconnectedBigBandTable extends React.Component {
             ))}
           </tbody>
         </Table>
-        <Button variant="secondary" block>
+        <Button variant="secondary" block onClick={() => this.loadMore()}>
           Show me more...
         </Button>
-      </>
+      </Container>
     );
   }
 }

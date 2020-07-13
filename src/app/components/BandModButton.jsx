@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 export class BandModButton extends React.Component {
   handleClick() {
-    this.props.modifyBand(this.props.modValue);
+    // this.props.modifyBand(this.props.modValue);
   }
 
   render() {

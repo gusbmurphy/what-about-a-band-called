@@ -1,9 +1,11 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-
-import { AuthenticationStatuses } from "../store/actions/types";
 import { beginAuthenticateUser } from "../store/actions/creators";
+import { AuthenticationStatuses } from "../store/actions/types";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 // const UnconnectedLogin = ({ authenticateUser, authenticationStatus }) => (
 //   <div>
@@ -42,17 +44,35 @@ class UnconnectedLogin extends React.Component {
     let { authenticateUser, authenticationStatus } = this.props;
 
     return (
-      <div>
-        <h2>Please Login</h2>
-        <form onSubmit={authenticateUser} className="loginForm">
-          <input type="text" placeholder="Username" name="username" />
-          <input type="password" placeholder="Password" name="password" />
-          <button type="submit">Login</button>
-        </form>
-        <div className="loginStatus">
-          {this.getStatusText(authenticationStatus)}
-        </div>
-      </div>
+      // <div>
+      //   <h2>Please Login</h2>
+      //   <form onSubmit={authenticateUser} className="loginForm">
+      //     <input type="text" placeholder="Username" name="username" />
+      //     <input type="password" placeholder="Password" name="password" />
+      //     <button type="submit">Login</button>
+      //   </form>
+      //   <div className="loginStatus">
+      //     {this.getStatusText(authenticationStatus)}
+      //   </div>
+      // </div>
+      <Container>
+        <Form>
+          <Form.Group controlId="formBasicUsername">
+            <Form.Label>Username</Form.Label>
+            <Form.Control type="text" />
+            <Form.Text className="text-muted">
+              New user? Create an account <a href="/new-user">here</a>.
+            </Form.Text>
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Container>
     );
   }
 }
