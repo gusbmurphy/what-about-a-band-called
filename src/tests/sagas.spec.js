@@ -9,6 +9,7 @@
 // import * as actionCreators from "../app/store/actions/creators";
 // import * as actionTypes from "../app/store/actions/types";
 // import * as paths from "../server/paths";
+// import { userCreation } from "../app/store/sagas/user-creation-saga.spec";
 
 // describe("Redux Saga Unit/Component Tests", function () {
 //   describe("Band Fetching Saga", function () {
@@ -238,41 +239,6 @@
 //     });
 //   });
 
-//   describe("User Creation Saga", function () {
-//     let generator = cloneableGenerator(sagas.userCreationSaga)();
-
-//     it("waits for a CREATE_USER_BEGIN action", function () {
-//       generator
-//         .next()
-//         .value.should.deep.equal(take(actionTypes.CREATE_USER_BEGIN));
-//     });
-
-//     let username = "username1";
-//     let password = "password1";
-
-//     it("yields a call effect to post to the user creation route with the username and password provided by the begin action", function () {
-//       generator.next({ username, password }).value.should.deep.equal(
-//         call(axios.post, paths.serverUrl + paths.createUser, {
-//           username,
-//           password,
-//         })
-//       );
-//     });
-
-//     it("yields a put effect with a user creation success action if the response status was 200", function () {
-//       let clone = generator.clone();
-//       clone
-//         .next({ status: 200 })
-//         .value.should.deep.equal(put(actionCreators.createUserSuccess()));
-//     });
-
-//     let reason = "reason1";
-
-//     it("yields a put effect with a user creation failure action with a reason if the response status was not 200", function () {
-//       let clone = generator.clone();
-//       clone
-//         .next({ status: 500, data: { reason } })
-//         .value.should.deep.equal(put(actionCreators.createUserFailure(reason)));
-//     });
-//   });
+//   userCreation();
 // });
+
