@@ -1,7 +1,6 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import { connect } from "react-redux";
-
 import { bandActions } from "../store/slices/bands-slice";
 
 const UnconnectedCreateBand = ({ createBand, session }) => (
@@ -28,7 +27,6 @@ UnconnectedCreateBand.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    // bands: state.bands,
     session: state.session,
   };
 }

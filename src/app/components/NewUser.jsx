@@ -1,16 +1,15 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { sessionActions } from "../store/slices/session-slice";
-// import { beginCreateUser, createUserFailure } from "../store/actions/creators";
-import { UserCreationStatuses } from "../store/actions/types";
-import Form from "react-bootstrap/Form";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import { connect } from "react-redux";
+import { UserCreationStatuses } from "../store/actions/types";
+import { sessionActions } from "../store/slices/session-slice";
 
 class UnconnectedNewUser extends React.Component {
   render() {
-    let { tryCreateUser, userCreationStatus } = this.props;
+    let { tryCreateUser } = this.props;
 
     return (
       <Container>
@@ -27,19 +26,9 @@ class UnconnectedNewUser extends React.Component {
             <Form.Label>Repeat Password</Form.Label>
             <Form.Control type="password" />
           </Form.Group>
-          {/* <input type="text" placeholder="Username" name="username" />
-            <input type="password" placeholder="Password" name="password" />
-            <input
-              type="password"
-              placeholder="Repeat password"
-              name="repeat-password"
-            />
-            <button type="submit">Submit</button> */}
-          {/* </Form.Group> */}
           <Button variant="primary" type="submit">
             Submit
           </Button>
-          {/* <div className="processAlert">{userCreationStatus}</div> */}
         </Form>
       </Container>
     );

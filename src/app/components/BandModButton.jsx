@@ -1,10 +1,12 @@
+import PropTypes from "prop-types";
 import React from "react";
 import Button from "react-bootstrap/Button";
-import PropTypes from "prop-types";
 
 export class BandModButton extends React.Component {
   handleClick() {
-    // this.props.modifyBand(this.props.modValue);
+    console.log(
+      '"The button makes a clicking sound... somewhere a door has opened."'
+    );
   }
 
   render() {

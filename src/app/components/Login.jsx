@@ -1,23 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { connect } from "react-redux";
-import { AuthenticationStatuses } from "../store/actions/types";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import { connect } from "react-redux";
+import { AuthenticationStatuses } from "../store/actions/types";
 import { sessionActions } from "../store/slices/session-slice";
-
-// const UnconnectedLogin = ({ authenticateUser, authenticationStatus }) => (
-//   <div>
-//     <h2>Please Login</h2>
-//     <form onSubmit={authenticateUser} className="loginForm">
-//       <input type="text" placeholder="Username" name="username" />
-//       <input type="text" placeholder="Password" name="password" />
-//       <button type="submit">Login</button>
-//     </form>
-//     <div className="loginStatus"></div>
-//   </div>
-// );
 
 class UnconnectedLogin extends React.Component {
   getStatusText(status) {
@@ -41,20 +29,7 @@ class UnconnectedLogin extends React.Component {
   }
 
   render() {
-    let { authenticateUser, authenticationStatus } = this.props;
-
     return (
-      // <div>
-      //   <h2>Please Login</h2>
-      //   <form onSubmit={authenticateUser} className="loginForm">
-      //     <input type="text" placeholder="Username" name="username" />
-      //     <input type="password" placeholder="Password" name="password" />
-      //     <button type="submit">Login</button>
-      //   </form>
-      //   <div className="loginStatus">
-      //     {this.getStatusText(authenticationStatus)}
-      //   </div>
-      // </div>
       <Container>
         <Form>
           <Form.Group controlId="formBasicUsername">

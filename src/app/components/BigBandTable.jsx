@@ -1,19 +1,14 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { connect } from "react-redux";
-// import {
-//   beginModifyBandScore,
-//   requestFetchBands,
-// } from "../store/actions/creators";
-import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
-import { sortAndLimitBands } from "./utility/limit-sort-bands";
-import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import ToggleButton from "react-bootstrap/ToggleButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Container from "react-bootstrap/Container";
-import { TheLists } from "./TheThreeLists";
+import Table from "react-bootstrap/Table";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import { connect } from "react-redux";
+import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
 import { bandActions } from "../store/slices/bands-slice";
+import { sortAndLimitBands } from "./utility/limit-sort-bands";
 
 let defaultBandsPerFetch = 20;
 
@@ -53,7 +48,6 @@ class UnconnectedBigBandTable extends React.Component {
   }
 
   setSortType(newType) {
-    // TODO: Right now we set the state before the app has finished fetching the bands, how can we avoid that?
     this.setState({ sortType: newType });
   }
 
@@ -71,10 +65,6 @@ class UnconnectedBigBandTable extends React.Component {
 
   render() {
     // TODO: Should we have some notification that bands are being fetched?
-    // if (this.props.appIsFetchingBands) {
-    //   return <h1>were fetching baby</h1>;
-    // }
-
     let desiredBands = sortAndLimitBands(
       this.props.bands,
       this.state.sortType,

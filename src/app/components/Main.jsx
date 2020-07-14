@@ -3,14 +3,14 @@ import { Provider } from "react-redux";
 import { Redirect } from "react-router";
 import { Route, Router } from "react-router-dom";
 import { store } from "../store";
-import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
+import { AuthenticationStatuses } from "../store/actions/types";
 import { history } from "../store/history";
+import { BigBandTable } from "./BigBandTable";
 import { CreateBand } from "./CreateBand";
+import { Landing } from "./Landing";
 import { Login } from "./Login";
 import { Navigation } from "./Navigation";
 import { NewUser } from "./NewUser";
-import { BigBandTable } from "./BigBandTable";
-import { Landing } from "./Landing";
 
 const AuthenticationGuard = (Component) => ({ match }) => {
   if (

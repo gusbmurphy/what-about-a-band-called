@@ -1,6 +1,5 @@
-import React from "react";
 import PropTypes from "prop-types";
-import ListGroupItem from "react-bootstrap/ListGroupItem";
+import React from "react";
 import Button from "react-bootstrap/Button";
 
 export default class BandTableEntry extends React.Component {
@@ -94,8 +93,6 @@ export default class BandTableEntry extends React.Component {
         <td>{bandScore}</td>
         <td>{bandName}</td>
         <td className="text-muted">from {bandCreatorName}</td>
-        {/* {bandName} ({bandScore}) by {bandCreatorName}
-        {getButtons()} */}
       </tr>
     );
   }

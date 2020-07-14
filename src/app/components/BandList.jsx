@@ -1,18 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { connect } from "react-redux";
-// import {
-//   beginModifyBandScore,
-//   requestFetchBands,
-// } from "../store/actions/creators";
-import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
-import { bandActions } from "../store/slices/bands-slice"
-import BandTableEntry from "./BandTableEntry";
-import ListGroup from "react-bootstrap/ListGroup";
-import { sortAndLimitBands } from "./utility/limit-sort-bands";
-import Table from "react-bootstrap/Table";
 import Card from "react-bootstrap/Card";
+import Table from "react-bootstrap/Table";
+import { connect } from "react-redux";
+import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
+import { bandActions } from "../store/slices/bands-slice";
+import BandTableEntry from "./BandTableEntry";
 import { getPresentationString } from "./utility/get-presentation-string";
+import { sortAndLimitBands } from "./utility/limit-sort-bands";
 
 class UnconnectedBandList extends React.Component {
   componentDidMount() {
@@ -106,10 +101,16 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addPointsTo: (targetBandId, userId, modificationValue) => {
-      dispatch(bandActions.requestModifyBandScore({targetBandId, userId, modificationValue}));
+      dispatch(
+        bandActions.requestModifyBandScore({
+          targetBandId,
+          userId,
+          modificationValue,
+        })
+      );
     },
     requestFetchBands: (maxBands, sortBy) => {
-      dispatch(bandActions.requestFetchBands({maxBands, sortBy}));
+      dispatch(bandActions.requestFetchBands({ maxBands, sortBy }));
     },
   };
 }

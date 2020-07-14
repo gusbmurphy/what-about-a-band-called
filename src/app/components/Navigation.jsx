@@ -1,7 +1,7 @@
-import { connect } from "react-redux";
 import React from "react";
-import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { connect } from "react-redux";
 
 const UnconnectedNavigation = () => (
   <Navbar>
