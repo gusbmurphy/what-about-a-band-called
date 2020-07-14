@@ -1,14 +1,14 @@
-import "chai/register-should";
-import { cloneableGenerator } from "@redux-saga/testing-utils";
-import { take, put, call, actionChannel } from "redux-saga/effects";
-import { channel } from "redux-saga";
-import axios from "axios";
+// import "chai/register-should";
+// import { cloneableGenerator } from "@redux-saga/testing-utils";
+// import { take, put, call, actionChannel } from "redux-saga/effects";
+// import { channel } from "redux-saga";
+// import axios from "axios";
 
-import * as sagas from "../app/store/sagas";
-import { fetchBands } from "../app/store/sagas/watch-fetch-bands";
-import * as actionCreators from "../app/store/actions/creators";
-import * as actionTypes from "../app/store/actions/types";
-import * as paths from "../server/paths";
+// import * as sagas from "../app/store/sagas";
+// import { fetchBands } from "../app/store/sagas/watch-fetch-bands";
+// import * as actionCreators from "../app/store/actions/creators";
+// import * as actionTypes from "../app/store/actions/types";
+// import * as paths from "../server/paths";
 
 // describe("Redux Saga Unit/Component Tests", function () {
 //   describe("Band Fetching Saga", function () {
