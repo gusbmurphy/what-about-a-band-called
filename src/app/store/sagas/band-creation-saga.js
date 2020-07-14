@@ -3,12 +3,12 @@ import axios from "axios";
 import * as actionCreators from "../actions/creators";
 import * as actionTypes from "../actions/types";
 import * as paths from "../../../server/paths";
+import { bandActions } from "../slices/bands-slice";
 
 export function* bandCreationSaga() {
   while (true) {
-    let { creatingUserId, bandName } = yield take(
-      actionTypes.CREATE_BAND_BEGIN
-    );
+    let { payload } = yield take(bandActions.requestCreateBand.type);
+    let { creatingUserId, bandName } = payload;
     let newBand = {
       creatingUserId,
       bandName,
@@ -19,14 +19,17 @@ export function* bandCreationSaga() {
       newBand
     );
     try {
-      if (response.status != 200)
-        throw new Error();
+      if (response.status != 200) throw new Error();
       newBand._id = response.newBandId;
       newBand.score = 0;
-      yield put(actionCreators.bandCreationSuccess(newBand));
-    }
-    catch (error) {
-      yield put(actionCreators.bandCreationFailure(response.data.reason));
+      let { _id, bandName, creatingUserId, score } = newBand;
+      yield put(
+        bandActions.createBandSuccess({ _id, bandName, creatingUserId, score })
+      );
+    } catch (error) {
+      yield put(
+        bandActions.createBandFailure({ reason: response.data.reason })
+      );
     }
   }
 }

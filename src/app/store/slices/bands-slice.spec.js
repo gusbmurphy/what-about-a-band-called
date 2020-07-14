@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/types";
 import bandsReducer, { bandActions } from "./bands-slice";
 
 
-describe.only("Bands Slice", function () {
+describe("Bands Slice", function () {
   describe("Band Fetching", function () {
     let state;
 
