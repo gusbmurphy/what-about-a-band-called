@@ -48,17 +48,21 @@ class UnconnectedBandList extends React.Component {
         <Card.Body>
           <Card.Title>{getPresentationString(this.props.sortBy)}</Card.Title>
           <Table className="bandList" size="sm">
-            {desiredBands.map((band) => (
-              <BandTableEntry
-                key={band._id}
-                bandName={band.name}
-                bandScore={band.score}
-                bandCreatorName={band.ownerName}
-                userIsAuthenticated={this.props.userIsAuthenticated}
-                modifyBand={modifyBand(band._id, this.props.userId)}
-                modificationPerformed={getModificationPerformedToBand(band._id)}
-              />
-            ))}
+            <tbody>
+              {desiredBands.map((band) => (
+                <BandTableEntry
+                  key={band._id}
+                  bandName={band.name}
+                  bandScore={band.score}
+                  bandCreatorName={band.ownerName}
+                  userIsAuthenticated={this.props.userIsAuthenticated}
+                  modifyBand={modifyBand(band._id, this.props.userId)}
+                  modificationPerformed={getModificationPerformedToBand(
+                    band._id
+                  )}
+                />
+              ))}
+            </tbody>
           </Table>
         </Card.Body>
       </Card>
