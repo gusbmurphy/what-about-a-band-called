@@ -8,7 +8,7 @@ import { bandCreationSaga } from "./band-creation-saga";
 describe.only("Band Creation Saga", function () {
   let generator = cloneableGenerator(bandCreationSaga)();
 
-  it("waits for a CREATE_BAND_BEGIN action", function () {
+  it("waits for a request to creata a band action", function () {
     generator
       .next()
       .value.should.deep.equal(take(bandActions.requestCreateBand.type));

@@ -10,7 +10,7 @@ import { bandActions } from "../slices/bands-slice";
 describe.only("Band Score Modification Saga", function () {
   let generator = cloneableGenerator(bandScoreModificationSaga)();
 
-  it("waits for a MODIFY_BAND_SCORE_BEGIN action", function () {
+  it("waits for a request to modify a band's score action", function () {
     generator
       .next()
       .value.should.deep.equal(take(bandActions.requestModifyBandScore.type));

@@ -1,91 +1,17 @@
 // import "chai/register-should";
 // import { cloneableGenerator } from "@redux-saga/testing-utils";
-// import { take, put, call, actionChannel } from "redux-saga/effects";
-// import { channel } from "redux-saga";
+// import { take, put, call } from "redux-saga/effects";
 // import axios from "axios";
 
 // import * as sagas from "../app/store/sagas";
-// import { fetchBands } from "../app/store/sagas/watch-fetch-bands";
 // import * as actionCreators from "../app/store/actions/creators";
 // import * as actionTypes from "../app/store/actions/types";
 // import * as paths from "../server/paths";
 // import { userCreation } from "../app/store/sagas/user-creation-saga.spec";
+// import { bandFetch } from "../app/store/sagas/watch-fetch-bands-saga.spec";
 
 // describe("Redux Saga Unit/Component Tests", function () {
-//   describe("Band Fetching Saga", function () {
-//     let generator = cloneableGenerator(sagas.watchFetchBandsSaga)();
-
-//     it("creates an action channel for band fetch request actions", function () {
-//       generator
-//         .next()
-//         .value.should.deep.equal(
-//           actionChannel(actionTypes.REQUEST_FETCH_BANDS)
-//         );
-//     });
-
-//     it("passes the maximum bands and sort type from a request into the fetch bands generator", function () {
-//       let maxBands = 30;
-//       let sortBy = "SORTING_TYPE";
-//       let mockChannel = channel();
-//       generator.next(mockChannel).value.should.deep.equal(take(mockChannel));
-//       generator
-//         .next({ maxBands, sortBy })
-//         .value.should.deep.equal(call(fetchBands, maxBands, sortBy));
-//     });
-
-//     describe("Fetch Bands Generator", function () {
-//       let maxBands = 30;
-//       let sortBy = "SORTING_TYPE";
-//       let generator = cloneableGenerator(fetchBands)(maxBands, sortBy);
-
-//       it("yields a call Effect to get bands with the provided requirements", function () {
-//         generator.next().value.should.deep.equal(
-//           call(axios.post, paths.serverUrl + paths.postBands, {
-//             maxBands,
-//             sortBy,
-//           })
-//         );
-//       });
-//       it("dispatches a fetch bands success action with the retrieved bands if the response status is 200", function () {
-//         let clone = generator.clone();
-//         let data = "data";
-//         clone
-//           .next({ status: 200, data })
-//           .value.should.deep.equal(put(actionCreators.fetchBandsSuccess(data)));
-//       });
-//       it("dispatches a fetch bands failure action if the response is not 500", function () {
-//         let clone = generator.clone();
-//         clone
-//           .next({ status: 500 })
-//           .value.should.deep.equal(put(actionCreators.fetchBandsFailure()));
-//       });
-//     });
-
-//     // it("should yield a call Effect to the get bands url", function () {
-//     //   generator
-//     //     .next()
-//     //     .value.should.deep.equal(
-//     //       call(axios.get, paths.serverUrl + paths.postBands)
-//     //     );
-//     // });
-
-//     // it("should dispatch a FETCH_BANDS_FAILURE action if the server response code is not 200", function () {
-//     //   let clone = generator.clone();
-//     //   clone
-//     //     .next({ status: 500 })
-//     //     .value.should.deep.equal(put(actionCreators.fetchBandsFailure()));
-//     // });
-
-//     // it("should dispatch a fetch bands success action with the retrieved bands if there was no server error", function () {
-//     //   let clone = generator.clone();
-//     //   let fakeBands = "FAKEBANDS";
-//     //   clone
-//     //     .next({ status: 200, data: fakeBands })
-//     //     .value.should.deep.equal(
-//     //       put(actionCreators.fetchBandsSuccess(fakeBands))
-//     //     );
-//     // });
-//   });
+//   bandFetch();
 
 //   describe("Band Creation Saga", function () {
 //     let generator = cloneableGenerator(sagas.bandCreationSaga)();
@@ -241,4 +167,5 @@
 
 //   userCreation();
 // });
+
 
