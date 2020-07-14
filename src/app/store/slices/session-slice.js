@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthenticationStatuses, UserCreationStatuses } from "../actions/types";
+import { AuthenticationStatuses, UserCreationStatuses } from "../statuses";
 import { bandActions } from "./bands-slice";
 
 const sessionSlice = createSlice({

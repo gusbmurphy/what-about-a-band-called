@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import { connect } from "react-redux";
-import { UserCreationStatuses } from "../store/actions/types";
+import { UserCreationStatuses } from "../store/statuses";
 import { sessionActions } from "../store/slices/session-slice";
 
 class UnconnectedNewUser extends React.Component {

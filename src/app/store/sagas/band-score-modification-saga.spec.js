@@ -1,11 +1,9 @@
 import { cloneableGenerator } from "@redux-saga/testing-utils";
-import { take, put, call, actionChannel } from "redux-saga/effects";
-import { channel } from "redux-saga";
-import * as actionTypes from "../actions/types";
 import axios from "axios";
-import { bandScoreModificationSaga } from "./band-score-modification-saga";
+import { call, put, take } from "redux-saga/effects";
 import * as paths from "../../../server/paths";
 import { bandActions } from "../slices/bands-slice";
+import { bandScoreModificationSaga } from "./band-score-modification-saga";
 
 describe.only("Band Score Modification Saga", function () {
   let generator = cloneableGenerator(bandScoreModificationSaga)();

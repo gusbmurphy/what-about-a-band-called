@@ -1,4 +1,4 @@
-import { BandSortTypes } from "../../store/actions/types"
+import { BandSortTypes } from "../../store/statuses"
 
 export function sortAndLimitBands(bands, sortBy, limit) {
   let filteredBands = [...bands];

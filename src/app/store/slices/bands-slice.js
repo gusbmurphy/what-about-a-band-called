@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   BandCreationStatuses,
   BandScoreModificationStatuses,
-} from "../actions/types";
+} from "../statuses";
 
 const bandsSlice = createSlice({
   name: "bands",

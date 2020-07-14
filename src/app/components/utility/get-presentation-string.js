@@ -1,12 +1,11 @@
-import * as ActionTypes from "../../store/actions/types";
-
+import { BandSortTypes } from "../../store/statuses"
 export function getPresentationString(status) {
   switch (status) {
-    case ActionTypes.BandSortTypes.BEST:
+    case BandSortTypes.BEST:
       return "Best Bands";
-    case ActionTypes.BandSortTypes.WORST:
+    case BandSortTypes.WORST:
       return "Worst Bands";
-    case ActionTypes.BandSortTypes.MOST_RECENT:
+    case BandSortTypes.MOST_RECENT:
       return "Most Recent Bands";
     default:
       return "???";

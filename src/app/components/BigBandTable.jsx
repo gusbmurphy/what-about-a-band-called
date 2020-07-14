@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import { connect } from "react-redux";
-import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
+import { AuthenticationStatuses, BandSortTypes } from "../store/statuses";
 import { bandActions } from "../store/slices/bands-slice";
 import { sortAndLimitBands } from "./utility/limit-sort-bands";
 

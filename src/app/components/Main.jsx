@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { Redirect } from "react-router";
 import { Route, Router } from "react-router-dom";
 import { store } from "../store";
-import { AuthenticationStatuses } from "../store/actions/types";
+import { AuthenticationStatuses } from "../store/statuses";
 import { history } from "../store/history";
 import { BigBandTable } from "./BigBandTable";
 import { CreateBand } from "./CreateBand";

@@ -1,6 +1,5 @@
-import { take, put, call } from "redux-saga/effects";
 import axios from "axios";
-import * as actionTypes from "../actions/types";
+import { call, put, take } from "redux-saga/effects";
 import * as paths from "../../../server/paths";
 import { sessionActions } from "../slices/session-slice";
 

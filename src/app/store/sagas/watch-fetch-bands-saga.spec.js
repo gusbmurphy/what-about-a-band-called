@@ -1,10 +1,10 @@
 import { cloneableGenerator } from "@redux-saga/testing-utils";
-import { take, put, call, actionChannel } from "redux-saga/effects";
-import { channel } from "redux-saga";
 import axios from "axios";
-import { fetchBands, watchFetchBandsSaga } from "./watch-fetch-bands-saga";
-import { bandActions } from "../slices/bands-slice";
+import { channel } from "redux-saga";
+import { actionChannel, call, put, take } from "redux-saga/effects";
 import * as paths from "../../../server/paths";
+import { bandActions } from "../slices/bands-slice";
+import { fetchBands, watchFetchBandsSaga } from "./watch-fetch-bands-saga";
 
 describe.only("Band Fetching Saga", function () {
   let generator = cloneableGenerator(watchFetchBandsSaga)();

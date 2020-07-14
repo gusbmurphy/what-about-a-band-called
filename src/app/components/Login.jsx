@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import { connect } from "react-redux";
-import { AuthenticationStatuses } from "../store/actions/types";
+import { AuthenticationStatuses } from "../store/statuses";
 import { sessionActions } from "../store/slices/session-slice";
 
 class UnconnectedLogin extends React.Component {

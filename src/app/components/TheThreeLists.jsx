@@ -2,7 +2,7 @@ import React from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import { BandSortTypes } from "../store/actions/types";
+import { BandSortTypes } from "../store/statuses";
 import { BandList } from "./BandList";
 
 export const TheLists = () => (

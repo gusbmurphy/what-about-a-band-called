@@ -1,7 +1,7 @@
 import md5 from "md5";
 
 import { User } from "../models";
-import { UserCreationStatuses } from "../../app/store/actions/types";
+import { UserCreationStatuses } from "../../app/store/statuses";
 
 // TODO: Currently, the React component checks to see if the user has correctly entered their passwords, which displays as an error before the username has been taken, let's make it so they know that the username is taken before the password business
 
