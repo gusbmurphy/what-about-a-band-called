@@ -1,7 +1,5 @@
 import { take, put, call } from "redux-saga/effects";
 import axios from "axios";
-import * as actionCreators from "../actions/creators";
-import * as actionTypes from "../actions/types";
 import * as paths from "../../../server/paths";
 import { bandActions } from "../slices/bands-slice";
 
