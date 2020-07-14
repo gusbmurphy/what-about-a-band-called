@@ -1,8 +1,7 @@
-import bandsReducer from "./bands-slice";
-import { bandActions } from "./bands-slice";
 import { ObjectId } from "mongodb";
+import * as actionTypes from "../actions/types";
+import bandsReducer, { bandActions } from "./bands-slice";
 
-import * as actionTypes from "../actions/types"
 
 describe.only("Bands Slice", function () {
   describe("Band Fetching", function () {
