@@ -8,26 +8,6 @@ import { AuthenticationStatuses } from "../store/statuses";
 import { sessionActions } from "../store/slices/session-slice";
 
 class UnconnectedLogin extends React.Component {
-  getStatusText(status) {
-    switch (status) {
-      case AuthenticationStatuses.AUTHENTICATED:
-        return "Logged in!";
-      case AuthenticationStatuses.AUTHENTICATING:
-        return "Authenticating...";
-      case AuthenticationStatuses.INVALID_USERNAME:
-        return "Username not found.";
-      case AuthenticationStatuses.INVALID_PASSWORD:
-        return "Incorrect password.";
-      case AuthenticationStatuses.NOT_AUTHENTICATED:
-      case AuthenticationStatuses.NOT_TRYING:
-        return "";
-      case AuthenticationStatuses.SERVER_ERROR:
-        return "Server error.";
-      default:
-        return "?";
-    }
-  }
-
   render() {
     return (
       <Container>

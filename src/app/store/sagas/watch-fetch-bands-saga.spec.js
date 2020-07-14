@@ -6,7 +6,7 @@ import * as paths from "../../../server/paths";
 import { bandActions } from "../slices/bands-slice";
 import { fetchBands, watchFetchBandsSaga } from "./watch-fetch-bands-saga";
 
-describe.only("Band Fetching Saga", function () {
+describe("Band Fetching Saga", function () {
   let generator = cloneableGenerator(watchFetchBandsSaga)();
 
   it("creates an action channel for band fetch request actions", function () {

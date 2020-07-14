@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import * as actionTypes from "../actions/types";
 import bandsReducer, { bandActions } from "./bands-slice";
+import { BandCreationStatuses, BandScoreModificationStatuses } from "../statuses";
 
 
 describe("Bands Slice", function () {
@@ -103,14 +103,14 @@ describe("Bands Slice", function () {
       state = bandsReducer(undefined, {});
       state.should.haveOwnProperty(
         "creationStatus",
-        actionTypes.BandCreationStatuses.NOT_TRYING
+        BandCreationStatuses.NOT_TRYING
       );
     });
 
     it("should set the creation status to creating when a request to a create band is recieved", function () {
       state = bandsReducer(state, { type: bandActions.requestCreateBand.type });
       state.creationStatus.should.equal(
-        actionTypes.BandCreationStatuses.CREATING
+        BandCreationStatuses.CREATING
       );
     });
 
@@ -122,7 +122,7 @@ describe("Bands Slice", function () {
         payload: { newBand },
       });
       state.creationStatus.should.equal(
-        actionTypes.BandCreationStatuses.CREATED
+        BandCreationStatuses.CREATED
       );
     });
 
@@ -155,7 +155,7 @@ describe("Bands Slice", function () {
       store.should.haveOwnProperty("scoreModification");
       store.scoreModification.should.haveOwnProperty(
         "status",
-        actionTypes.BandScoreModificationStatuses.NOT_TRYING
+        BandScoreModificationStatuses.NOT_TRYING
       );
       store.scoreModification.should.haveOwnProperty("target", null);
     });
@@ -166,7 +166,7 @@ describe("Bands Slice", function () {
         payload: { target: targetBandId },
       });
       store.scoreModification.status.should.equal(
-        actionTypes.BandScoreModificationStatuses.ATTEMPTING
+        BandScoreModificationStatuses.ATTEMPTING
       );
       store.scoreModification.target.should.equal(targetBandId);
     });
@@ -192,7 +192,7 @@ describe("Bands Slice", function () {
       );
 
       store.scoreModification.status.should.equal(
-        actionTypes.BandScoreModificationStatuses.SUCCESS
+        BandScoreModificationStatuses.SUCCESS
       );
       store.items.should.have.deep.members(
         [modifiedBand],

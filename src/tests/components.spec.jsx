@@ -4,21 +4,13 @@ import { mount } from "enzyme";
 import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-
+import { AuthenticationStatuses, BandSortTypes } from "../app/store/statuses"
 import { BandList } from "../app/components/BandList";
 import { Login } from "../app/components/Login";
 import { NewUser } from "../app/components/NewUser";
 import { CreateBand } from "../app/components/CreateBand";
-import {
-  AuthenticationStatuses,
-  UserCreationStatuses,
-  BandSortTypes,
-} from "../app/store/actions/types";
-import {
-  beginBandCreation,
-  createUserFailure,
-  requestFetchBands,
-} from "../app/store/actions/creators";
+import { bandActions } from "../app/store/slices/bands-slice";
+import { sessionActions } from "../app/store/slices/session-slice";
 import { createMockBands } from "../utility/mock-bands";
 import BandListing from "../app/components/BandListing";
 
@@ -44,7 +36,7 @@ describe("React Component Tests", function () {
 
     describe("Band List", function () {
       it("dispatches a request to fetch bands with the parameters provided to props on mount", function () {
-        storeSpy.calledOnceWith(requestFetchBands(maxBands, sortBy)).should.be
+        storeSpy.calledOnceWith(bandActions.requestFetchBands({maxBands, sortBy})).should.be
           .true;
       });
 

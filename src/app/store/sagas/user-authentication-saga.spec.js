@@ -5,7 +5,7 @@ import * as paths from "../../../server/paths";
 import { sessionActions } from "../slices/session-slice";
 import { userAuthenticationSaga } from "./user-authentication-saga";
 
-describe.only("User Authentication Saga", function () {
+describe("User Authentication Saga", function () {
   let generator = cloneableGenerator(userAuthenticationSaga)();
 
   it("waits for an authenticate user begin action", function () {

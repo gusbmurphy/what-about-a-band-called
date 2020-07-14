@@ -5,7 +5,7 @@ import * as paths from "../../../server/paths";
 import { bandActions } from "../slices/bands-slice";
 import { bandCreationSaga } from "./band-creation-saga";
 
-describe.only("Band Creation Saga", function () {
+describe("Band Creation Saga", function () {
   let generator = cloneableGenerator(bandCreationSaga)();
 
   it("waits for a request to creata a band action", function () {

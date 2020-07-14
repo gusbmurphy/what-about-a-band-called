@@ -1,4 +1,4 @@
-import {AuthenticationStatuses, UserCreationStatuses} from "../actions/types";
+import { AuthenticationStatuses, UserCreationStatuses } from "../statuses";
 import sessionReducer, { sessionActions } from "./session-slice";
 import { bandActions } from "./bands-slice";
 
