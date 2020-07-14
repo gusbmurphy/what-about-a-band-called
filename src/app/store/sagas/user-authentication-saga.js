@@ -1,14 +1,13 @@
 import { take, put, call } from "redux-saga/effects";
 import axios from "axios";
-import * as actionCreators from "../actions/creators";
 import * as actionTypes from "../actions/types";
 import * as paths from "../../../server/paths";
+import { sessionActions } from "../slices/session-slice";
 
 export function* userAuthenticationSaga() {
   while (true) {
-    let { username, password } = yield take(
-      actionTypes.AUTHENTICATE_USER_BEGIN
-    );
+    let { payload } = yield take(sessionActions.requestAuthenticateUser.type);
+    let { username, password } = payload;
     try {
       let response = yield call(
         axios.post,
@@ -18,18 +17,21 @@ export function* userAuthenticationSaga() {
           password,
         }
       );
+      let { userId, bandsModified } = response.data;
       if (response.status == 200) {
         yield put(
-          actionCreators.authenticateUserSuccess(
-            response.data.userId,
-            response.data.username,
-            response.data.bandsModified
-          )
+          sessionActions.authenticateUserSuccess({
+            userId,
+            username,
+            bandsModified,
+          })
         );
       }
     } catch (err) {
       yield put(
-        actionCreators.authenticateUserFailure(err.response.data.reason)
+        sessionActions.authenticateUserFailure({
+          reason: err.response.data.reason,
+        })
       );
     }
   }
