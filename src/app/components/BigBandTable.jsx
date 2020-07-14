@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import {
-  beginModifyBandScore,
-  requestFetchBands,
-} from "../store/actions/creators";
+// import {
+//   beginModifyBandScore,
+//   requestFetchBands,
+// } from "../store/actions/creators";
 import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
 import { sortAndLimitBands } from "./utility/limit-sort-bands";
 import Table from "react-bootstrap/Table";
@@ -13,6 +13,7 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Container from "react-bootstrap/Container";
 import { TheLists } from "./TheThreeLists";
+import { bandActions } from "../store/slices/bands-slice";
 
 let defaultBandsPerFetch = 20;
 
@@ -144,10 +145,16 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addPointsTo: (targetBandId, userId, modificationValue) => {
-      dispatch(beginModifyBandScore(targetBandId, userId, modificationValue));
+      dispatch(
+        bandActions.requestModifyBandScore({
+          targetBandId,
+          userId,
+          modificationValue,
+        })
+      );
     },
     requestFetchBands: (maxBands, sortBy) => {
-      dispatch(requestFetchBands(maxBands, sortBy));
+      dispatch(bandActions.requestFetchBands({ maxBands, sortBy }));
     },
   };
 }

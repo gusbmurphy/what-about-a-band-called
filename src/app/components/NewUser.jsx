@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
-import { beginCreateUser, createUserFailure } from "../store/actions/creators";
+import { sessionActions } from "../store/slices/session-slice";
+// import { beginCreateUser, createUserFailure } from "../store/actions/creators";
 import { UserCreationStatuses } from "../store/actions/types";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -17,17 +17,17 @@ class UnconnectedNewUser extends React.Component {
         <Form onSubmit={tryCreateUser}>
           <Form.Group controlId="formNewUserName">
             <Form.Label>Username</Form.Label>
-            <Form.Control type="text"/>
+            <Form.Control type="text" />
           </Form.Group>
           <Form.Group controlId="formNewUserPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password"/>
+            <Form.Control type="password" />
           </Form.Group>
           <Form.Group controlId="formNewUserRepeatPassword">
             <Form.Label>Repeat Password</Form.Label>
-            <Form.Control type="password"/>
+            <Form.Control type="password" />
           </Form.Group>
-            {/* <input type="text" placeholder="Username" name="username" />
+          {/* <input type="text" placeholder="Username" name="username" />
             <input type="password" placeholder="Password" name="password" />
             <input
               type="password"
@@ -66,12 +66,20 @@ const mapDispatchToProps = (dispatch) => ({
       password.length == 0 ||
       repeatPassword.length == 0
     ) {
-      return dispatch(createUserFailure(UserCreationStatuses.EMPTY_FIELDS));
+      return dispatch(
+        sessionActions.createUserFailure({
+          reason: UserCreationStatuses.EMPTY_FIELDS,
+        })
+      );
     }
     if (password == repeatPassword) {
-      dispatch(beginCreateUser(username, password));
+      dispatch(sessionActions.requestCreateUser({ username, password }));
     } else {
-      dispatch(createUserFailure(UserCreationStatuses.PASSWORDS_DONT_MATCH));
+      dispatch(
+        sessionActions.createUserFailure({
+          reason: UserCreationStatuses.PASSWORDS_DONT_MATCH,
+        })
+      );
     }
   },
 });

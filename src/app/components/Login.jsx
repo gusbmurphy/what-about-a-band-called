@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import { beginAuthenticateUser } from "../store/actions/creators";
 import { AuthenticationStatuses } from "../store/actions/types";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import { sessionActions } from "../store/slices/session-slice";
 
 // const UnconnectedLogin = ({ authenticateUser, authenticationStatus }) => (
 //   <div>
@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
     e.preventDefault();
     let username = e.target["username"].value;
     let password = e.target["password"].value;
-    dispatch(beginAuthenticateUser(username, password));
+    dispatch(sessionActions.requestAuthenticateUser({ username, password }));
   },
 });
 

@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import {
-  beginModifyBandScore,
-  requestFetchBands,
-} from "../store/actions/creators";
+// import {
+//   beginModifyBandScore,
+//   requestFetchBands,
+// } from "../store/actions/creators";
 import { AuthenticationStatuses, BandSortTypes } from "../store/actions/types";
+import { bandActions } from "../store/slices/bands-slice"
 import BandTableEntry from "./BandTableEntry";
 import ListGroup from "react-bootstrap/ListGroup";
 import { sortAndLimitBands } from "./utility/limit-sort-bands";
@@ -105,10 +106,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addPointsTo: (targetBandId, userId, modificationValue) => {
-      dispatch(beginModifyBandScore(targetBandId, userId, modificationValue));
+      dispatch(bandActions.requestModifyBandScore({targetBandId, userId, modificationValue}));
     },
     requestFetchBands: (maxBands, sortBy) => {
-      dispatch(requestFetchBands(maxBands, sortBy));
+      dispatch(bandActions.requestFetchBands({maxBands, sortBy}));
     },
   };
 }
