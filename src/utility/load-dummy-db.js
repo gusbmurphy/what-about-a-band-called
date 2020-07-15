@@ -17,6 +17,7 @@ mongoose.connect(localDbUrl);
     let newUser = new User({
       name: faker.internet.userName(),
       passwordHash: md5(faker.internet.password),
+      email: faker.internet.email(),
       bandsModified: [],
     });
     usersInfo.push({ id: newUser._id, name: newUser.name });

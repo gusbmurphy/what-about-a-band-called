@@ -38,4 +38,5 @@ export const UserCreationStatuses = {
   SUCCESS: "SUCCESS",
   EMPTY_FIELDS: "EMPTY_FIELDS",
   INVALID_EMAIL: "INVALID_EMAIL",
+  EMAIL_TAKEN: "EMAIL_TAKEN",
 };

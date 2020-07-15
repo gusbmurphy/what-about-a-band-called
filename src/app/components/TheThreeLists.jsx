@@ -5,6 +5,8 @@ import Row from "react-bootstrap/Row";
 import { BandSortTypes } from "../store/statuses";
 import { BandList } from "./BandList";
 
+// TODO: Something should display when we have no bands to display!
+
 export const TheLists = () => (
   <Container>
     <Row>

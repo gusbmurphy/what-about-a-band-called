@@ -5,12 +5,19 @@ import { UserCreationStatuses } from "../../app/store/statuses";
 import { postCreateUser } from "./user-creation";
 
 describe.only("User Creation", function () {
-  beforeEach(function () {
-    sinon.stub(User, "exists");
+  let userExistsStub;
+  let existingUsername = "ExistingUsername";
+  let existingEmail = "ExistingEmail";
+
+  before(function () {
+    userExistsStub = sinon.stub(User, "exists");
+    userExistsStub.resolves(false);
+    userExistsStub.withArgs(existingUsername).resolves(true);
+    userExistsStub.withArgs(existingEmail).resolves(true);
   });
 
-  afterEach(function () {
-    User.exists.restore();
+  after(function () {
+    userExistsStub.restore();
   });
 
   it("should respond with a code of 200 when provided with an unused username, unused email, and any password", async function () {
@@ -18,11 +25,10 @@ describe.only("User Creation", function () {
       body: {
         username: "NewUsername",
         password: "AnyPassword",
+        email: "NewEmail",
       },
     });
     let res = httpMocks.createResponse();
-
-    User.exists.resolves(false);
 
     await postCreateUser(req, res);
 
@@ -32,8 +38,9 @@ describe.only("User Creation", function () {
   it("should respond with a code of 409 and corresponding reason when provided with an existing username, and any password", async function () {
     let req = httpMocks.createRequest({
       body: {
-        username: "ExistingUsername",
+        username: existingUsername,
         password: "AnyPassword",
+        email: "NewEmail",
       },
     });
     let res = httpMocks.createResponse();
@@ -51,5 +58,24 @@ describe.only("User Creation", function () {
       );
   });
 
-  it("should respond with a code of 409 and corresponding reason when provided with an existing email address");
+  it("should respond with a code of 409 and corresponding reason when provided with an existing email address", async function () {
+    let req = httpMocks.createRequest({
+      body: {
+        username: "SomeUsername",
+        password: "AnyPassword",
+        email: existingEmail,
+      },
+    });
+    let res = httpMocks.createResponse();
+
+    await postCreateUser(req, res);
+
+    res.statusCode.should.equal(409, "response's status code should be 401");
+    res
+      ._getData()
+      .reason.should.equal(
+        UserCreationStatuses.USERNAME_TAKEN,
+        "response's data should have a 'reason' property equal to the USERNAME_TAKEN constant"
+      );
+  });
 });

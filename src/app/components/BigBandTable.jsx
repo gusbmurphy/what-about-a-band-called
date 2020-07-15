@@ -12,6 +12,8 @@ import { sortAndLimitBands } from "./utility/limit-sort-bands";
 
 let defaultBandsPerFetch = 20;
 
+// TODO: Something should display when we have no bands to display!
+
 class UnconnectedBigBandTable extends React.Component {
   constructor(props) {
     super(props);

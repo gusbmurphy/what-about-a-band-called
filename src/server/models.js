@@ -22,6 +22,7 @@ export const BandModification = mongoose.model(
 let userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   passwordHash: { type: String, required: true },
+  email: { type: String, required: true },
   bandsModified: { type: [{ targetBandId: String, value: Number }], default: [] },
 });
 export const User = mongoose.model("User", userSchema);
