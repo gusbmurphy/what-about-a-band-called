@@ -7,6 +7,7 @@ const sessionSlice = createSlice({
   initialState: {
     authenticationStatus: AuthenticationStatuses.NOT_TRYING,
     userId: null,
+    username: null,
     userCreationStatus: UserCreationStatuses.NOT_TRYING,
     bandsModified: [],
   },

@@ -6,13 +6,14 @@ describe.only("Session Slice", function () {
   describe("Authentication", function () {
     let state;
 
-    it("has a default state where authentication status is 'NOT_TRYING' and userId is null", function () {
+    it("has a default state where authentication status is 'NOT_TRYING' and both userId and username are null", function () {
       state = sessionReducer(undefined, {});
       state.should.haveOwnProperty(
         "authenticationStatus",
         AuthenticationStatuses.NOT_TRYING
       );
       state.should.haveOwnProperty("userId", null);
+      state.should.haveOwnProperty("username", null)
       state.should.haveOwnProperty(
         "userCreationStatus",
         UserCreationStatuses.NOT_TRYING
