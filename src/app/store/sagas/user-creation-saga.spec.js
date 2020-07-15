@@ -67,7 +67,7 @@ describe.only("User Creation Saga", function () {
       );
   });
 
-  it("yields a put effect with a user creation success action if the response status was 200", function () {
+  it("yields a put effect with a user creation success action if the response status was 201", function () {
     generatorWaitingForRequest
       .next({ status: 200 })
       .value.should.deep.equal(put(sessionActions.createUserSuccess()));

@@ -23,6 +23,7 @@ export async function postCreateUser(req, res) {
           .status(500)
           .send({ reason: UserCreationStatuses.SERVER_ERROR });
       }
+      // TODO: Why can't I set this status to 201 or something else? Driving me insane.
       return res.status(200).send();
     });
   }

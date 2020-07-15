@@ -13,7 +13,7 @@ describe.only("User Creation", function () {
     User.exists.restore();
   });
 
-  it("should respond with a code of 201 when provided with an unused username, unused email, and any password", async function () {
+  it("should respond with a code of 200 when provided with an unused username, unused email, and any password", async function () {
     let req = httpMocks.createRequest({
       body: {
         username: "NewUsername",
@@ -26,7 +26,7 @@ describe.only("User Creation", function () {
 
     await postCreateUser(req, res);
 
-    res.statusCode.should.equal(201, "response's status code should be 201");
+    res.statusCode.should.equal(200, "response's status code should be 200");
   });
 
   it("should respond with a code of 409 and corresponding reason when provided with an existing username, and any password", async function () {

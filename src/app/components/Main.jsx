@@ -10,7 +10,7 @@ import { CreateBand } from "./CreateBand";
 import { Landing } from "./Landing";
 import { Login } from "./Login";
 import { Navigation } from "./Navigation";
-import { NewUser } from "./NewUser";
+import { NewUserForm } from "./NewUser";
 
 const AuthenticationGuard = (Component) => ({ match }) => {
   if (
@@ -29,7 +29,7 @@ export const Main = () => (
       <Navigation />
       <Route exact path="/bands" component={BigBandTable} />
       <Route exact path="/login" component={Login} />
-      <Route exact path="/new-user" component={NewUser} />
+      <Route exact path="/new-user" component={NewUserForm} />
       <Route exact path="/newband" render={AuthenticationGuard(CreateBand)} />
       <Route exact path="/" render={Landing} />
     </Router>
