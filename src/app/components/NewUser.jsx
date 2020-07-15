@@ -96,7 +96,7 @@ export class UnconnectedNewUserForm extends React.Component {
             Submit
           </Button>
           {this.props.userCreationStatus == UserCreationStatuses.SUCCESS &&
-          <Alert variant={"success"}>Account created! You may now <a href="/login">log in</a>.</Alert>}
+          <Alert variant="success">Account created! You may now <a href="/login">log in</a>.</Alert>}
         </Form>
       </Container>
     );

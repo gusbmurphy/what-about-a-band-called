@@ -30,6 +30,7 @@ export function* userCreationSaga() {
             {
               username,
               password,
+              email
             }
           );
           if (response.status == 200) {

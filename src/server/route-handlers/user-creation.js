@@ -15,9 +15,10 @@ export async function postCreateUser(req, res) {
 
   let newUser = new User({
     name: username,
-    email,
+    email: email,
     passwordHash: md5(password),
   });
+  
   newUser.save((err) => {
     if (err) {
       console.info("Error in user creation route:\n", err);

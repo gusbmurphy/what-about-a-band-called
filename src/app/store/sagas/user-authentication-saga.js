@@ -27,11 +27,15 @@ export function* userAuthenticationSaga() {
         );
       }
     } catch (err) {
-      yield put(
-        sessionActions.authenticateUserFailure({
-          reason: err.response.data.reason,
-        })
-      );
+      if (err.response) {
+        yield put(
+          sessionActions.authenticateUserFailure({
+            reason: err.response.data.reason,
+          })
+        );
+      } else {
+        console.error(err)
+      }
     }
   }
 }
