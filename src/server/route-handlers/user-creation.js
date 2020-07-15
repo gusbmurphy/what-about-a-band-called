@@ -9,7 +9,7 @@ export async function postCreateUser(req, res) {
   let { username, password } = req.body;
   if (await User.exists({ name: username })) {
     return res
-      .status(401)
+      .status(409)
       .send({ reason: UserCreationStatuses.USERNAME_TAKEN });
   } else {
     let newUser = new User({

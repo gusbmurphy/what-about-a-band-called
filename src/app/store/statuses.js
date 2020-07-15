@@ -37,4 +37,5 @@ export const UserCreationStatuses = {
   SERVER_ERROR: "SERVER_ERROR",
   SUCCESS: "SUCCESS",
   EMPTY_FIELDS: "EMPTY_FIELDS",
+  INVALID_EMAIL: "INVALID_EMAIL",
 };
