@@ -4,15 +4,17 @@ import Navbar from "react-bootstrap/Navbar";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { AuthenticationStatuses } from "../store/statuses";
+import { LinkContainer } from "react-router-bootstrap";
 
+// TODO: Should we have some way for users to log out?
 const UnconnectedNavigation = ({ username, authenticationStatus }) => (
   <Navbar>
-    <Navbar.Brand href="/">wababc?</Navbar.Brand>
-    <Nav.Link href="/bands">Bands</Nav.Link>
+    <LinkContainer to="/"><Navbar.Brand>wababc?</Navbar.Brand></LinkContainer>
+    <LinkContainer to="/bands"><Nav.Link>Bands</Nav.Link></LinkContainer>
     {authenticationStatus == AuthenticationStatuses.AUTHENTICATED ? (
       <Nav.Item>Signed in as {username}</Nav.Item>
     ) : (
-      <Nav.Link href="/login">Login</Nav.Link>
+      <LinkContainer to="/login"><Nav.Link>Login</Nav.Link></LinkContainer>
     )}
   </Navbar>
 );
