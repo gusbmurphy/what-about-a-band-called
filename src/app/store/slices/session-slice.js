@@ -2,15 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AuthenticationStatuses, UserCreationStatuses } from "../statuses";
 import { bandActions } from "./bands-slice";
 
+const initialState = {
+  authenticationStatus: AuthenticationStatuses.NOT_TRYING,
+  userId: null,
+  username: null,
+  userCreationStatus: UserCreationStatuses.NOT_TRYING,
+  bandsModified: [],
+};
+
 const sessionSlice = createSlice({
   name: "session",
-  initialState: {
-    authenticationStatus: AuthenticationStatuses.NOT_TRYING,
-    userId: null,
-    username: null,
-    userCreationStatus: UserCreationStatuses.NOT_TRYING,
-    bandsModified: [],
-  },
+  initialState,
   reducers: {
     // User authentication
     requestAuthenticateUser(state) {
@@ -30,7 +32,7 @@ const sessionSlice = createSlice({
 
     // User logout
     requestLogout(state) {
-      state.authenticationStatus = AuthenticationStatuses.NOT_AUTHENTICATED;
+      return initialState;
     },
 
     // User creation

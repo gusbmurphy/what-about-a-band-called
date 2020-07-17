@@ -13,7 +13,7 @@ describe.only("Session Slice", function () {
         AuthenticationStatuses.NOT_TRYING
       );
       state.should.haveOwnProperty("userId", null);
-      state.should.haveOwnProperty("username", null)
+      state.should.haveOwnProperty("username", null);
       state.should.haveOwnProperty(
         "userCreationStatus",
         UserCreationStatuses.NOT_TRYING
@@ -65,6 +65,27 @@ describe.only("Session Slice", function () {
         reason,
         "authentication status should be set to the reason of the failure"
       );
+    });
+
+    it("returns to the default state once a request to logout is recieved", function () {
+      let defaultState = sessionReducer(undefined, {});
+
+      let userId = "userId";
+      let username = "username";
+      let bandsModified = ["bandmod1", "bandmod2"];
+      let initialState = {
+        authenticationStatus: AuthenticationStatuses.AUTHENTICATED,
+        userId,
+        username,
+        userCreationStatus: UserCreationStatuses.NOT_TRYING,
+        bandsModified,
+      };
+
+      let nextState = sessionReducer(
+        initialState,
+        sessionActions.requestLogout()
+      );
+      nextState.should.deep.equal(defaultState);
     });
   });
 
