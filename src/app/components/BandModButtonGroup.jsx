@@ -1,0 +1,63 @@
+import PropTypes from "prop-types";
+import React from "react";
+import Button from "react-bootstrap/Button";
+import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import {
+  BsCaretDown,
+  BsCaretDownFill,
+  BsCaretUp,
+  BsCaretUpFill,
+} from "react-icons/bs";
+
+export class BandModButtonGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modValue: this.props.modPerformed,
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.modValue != prevState.modValue)
+      // console.log(this.state.modValue)
+      this.props.modifyBand(this.state.modValue);
+  }
+
+  render() {
+    let { userIsAuthorized, modPerformed } = this.props;
+    return (
+      <ToggleButtonGroup
+        name={"modButtons"}
+        value={this.state.modValue}
+        onChange={(val) =>
+          // console.log(val)
+          this.setState({ modValue: this.state.modValue + val })
+        }
+      >
+        <ToggleButton
+          name={"negativeButton"}
+          value={-1}
+          disabled={!userIsAuthorized}
+          checked={modPerformed == -1}
+        >
+          <BsCaretDown />
+        </ToggleButton>
+        <ToggleButton
+          name={"positiveButton"}
+          value={1}
+          disabled={!userIsAuthorized}
+          checked={modPerformed == 1}
+        >
+          <BsCaretUp />
+        </ToggleButton>
+      </ToggleButtonGroup>
+    );
+  }
+}
+
+BandModButtonGroup.propTypes = {
+  userIsAuthorized: PropTypes.bool.isRequired,
+  modifyBand: PropTypes.func,
+  modPerformed: PropTypes.oneOf([1, 0, -1]),
+};

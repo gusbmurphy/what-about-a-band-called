@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { AuthenticationStatuses, BandSortTypes } from "../store/statuses";
 import { bandActions } from "../store/slices/bands-slice";
 import { sortAndLimitBands } from "./utility/limit-sort-bands";
+import { BandModButtonGroup } from "./BandModButtonGroup";
 
 let defaultBandsPerFetch = 20;
 
@@ -65,6 +66,14 @@ class UnconnectedBigBandTable extends React.Component {
     );
   }
 
+  getUserModificationToBand(thisBandId) {
+    let modification = this.props.usersModifications.find(
+      (modification) => modification.targetBandId === thisBandId
+    );
+    if (modification) return modification.value;
+    else return 0;
+  }
+
   render() {
     // TODO: Should we have some notification that bands are being fetched?
     let desiredBands = sortAndLimitBands(
@@ -78,6 +87,8 @@ class UnconnectedBigBandTable extends React.Component {
       { value: BandSortTypes.WORST, name: "Worst" },
       { value: BandSortTypes.MOST_RECENT, name: "Most Recent" },
     ];
+
+    let { userIsAuthenticated } = this.props;
     return (
       <Container>
         <ButtonGroup toggle>
@@ -99,13 +110,12 @@ class UnconnectedBigBandTable extends React.Component {
             {desiredBands.map((band) => (
               <tr key={band._id}>
                 <td>
-                  <Button variant="outline-primary" size="sm">
-                    -
-                  </Button>{" "}
-                  {band.score}{" "}
-                  <Button variant="outline-primary" size="sm">
-                    +
-                  </Button>
+                  <BandModButtonGroup
+                    userIsAuthorized={userIsAuthenticated}
+                    modPerformed={this.getUserModificationToBand(band._id)}
+                    modifyBand={(modValue) => this.props.addPointsTo(band._id, this.props.userId, modValue)}
+                  />
+                  {band.score}
                 </td>
                 <td>{band.name}</td>
                 <td>from {band.ownerName}</td>
@@ -136,11 +146,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addPointsTo: (targetBandId, userId, modificationValue) => {
+    addPointsTo: (targetBandId, modifyingUserId, modificationValue) => {
       dispatch(
         bandActions.requestModifyBandScore({
           targetBandId,
-          userId,
+          modifyingUserId,
           modificationValue,
         })
       );
