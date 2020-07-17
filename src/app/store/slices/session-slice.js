@@ -28,6 +28,11 @@ const sessionSlice = createSlice({
       state.userId = null;
     },
 
+    // User logout
+    requestLogout(state) {
+      state.authenticationStatus = AuthenticationStatuses.NOT_AUTHENTICATED;
+    },
+
     // User creation
     requestCreateUser(state) {
       state.userCreationStatus = UserCreationStatuses.PROCESSING;

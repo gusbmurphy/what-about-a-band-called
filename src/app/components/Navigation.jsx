@@ -5,16 +5,28 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { AuthenticationStatuses } from "../store/statuses";
 import { LinkContainer } from "react-router-bootstrap";
+import { sessionActions } from "../store/slices/session-slice";
 
 // TODO: Should we have some way for users to log out?
-const UnconnectedNavigation = ({ username, authenticationStatus }) => (
+const UnconnectedNavigation = ({ username, authenticationStatus, logout }) => (
   <Navbar>
-    <LinkContainer to="/"><Navbar.Brand>wababc?</Navbar.Brand></LinkContainer>
-    <LinkContainer to="/bands"><Nav.Link>Bands</Nav.Link></LinkContainer>
+    <LinkContainer to="/">
+      <Navbar.Brand>wababc?</Navbar.Brand>
+    </LinkContainer>
+    <LinkContainer to="/bands">
+      <Nav.Link>Bands</Nav.Link>
+    </LinkContainer>
     {authenticationStatus == AuthenticationStatuses.AUTHENTICATED ? (
-      <Nav.Item>Signed in as {username}</Nav.Item>
+      <>
+      <Nav.Item>
+        Signed in as {username}
+      </Nav.Item>
+      <Nav.Link onClick={() => logout()}>Logout</Nav.Link>
+      </>
     ) : (
-      <LinkContainer to="/login"><Nav.Link>Login</Nav.Link></LinkContainer>
+      <LinkContainer to="/login">
+        <Nav.Link>Login</Nav.Link>
+      </LinkContainer>
     )}
   </Navbar>
 );
@@ -22,6 +34,7 @@ const UnconnectedNavigation = ({ username, authenticationStatus }) => (
 UnconnectedNavigation.propTypes = {
   username: PropTypes.string,
   authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses)),
+  logout: PropTypes.func.required,
 };
 
 const mapStateToProps = ({ session }) => ({
@@ -29,4 +42,15 @@ const mapStateToProps = ({ session }) => ({
   username: session.username,
 });
 
-export const Navigation = connect(mapStateToProps)(UnconnectedNavigation);
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => {
+      dispatch(sessionActions.requestLogout());
+    },
+  };
+}
+
+export const Navigation = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UnconnectedNavigation);

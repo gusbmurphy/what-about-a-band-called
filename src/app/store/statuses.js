@@ -27,6 +27,7 @@ export const AuthenticationStatuses = {
   SERVER_ERROR: "SERVER_ERROR",
   USERNAME_NOT_FOUND: "USERNAME_NOT_FOUND",
   INVALID_PASSWORD: "INVALID_PASSWORD",
+  LOGGING_OUT: "LOGGING_OUT"
 };
 
 export const UserCreationStatuses = {
