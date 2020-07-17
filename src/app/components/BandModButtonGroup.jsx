@@ -41,7 +41,7 @@ export class BandModButtonGroup extends React.Component {
           disabled={!userIsAuthorized}
           checked={modPerformed == -1}
         >
-          <BsCaretDown />
+          {this.state.modValue == -1 ? <BsCaretDownFill/> : <BsCaretDown />}
         </ToggleButton>
         <ToggleButton
           name={"positiveButton"}
@@ -49,7 +49,7 @@ export class BandModButtonGroup extends React.Component {
           disabled={!userIsAuthorized}
           checked={modPerformed == 1}
         >
-          <BsCaretUp />
+          {this.state.modValue == 1 ? <BsCaretUpFill/> : <BsCaretUp />}
         </ToggleButton>
       </ToggleButtonGroup>
     );
