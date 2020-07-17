@@ -101,10 +101,11 @@ describe("Band Routes", function () {
     });
   });
 
-  describe("Band Modification", function () {
+  describe.only("Band Modification", function () {
     beforeEach(function () {
       sinon.stub(Band, "exists");
       sinon.stub(BandModification, "exists");
+      sinon.stub(BandModification, "findOne");
       sinon.stub(Band, "findOneAndUpdate");
       sinon.stub(Model.prototype, "save");
     });
@@ -112,11 +113,12 @@ describe("Band Routes", function () {
     afterEach(function () {
       Band.exists.restore();
       BandModification.exists.restore();
+      BandModification.findOne.restore();
       Band.findOneAndUpdate.restore();
       Model.prototype.save.restore();
     });
 
-    it("should respond with a code of 500 if the target band doesn't exist", async function () {
+    it("should respond with a code of 404 if the target band doesn't exist", async function () {
       let req = httpMocks.createRequest({
         body: {
           targetBandId: "nonexistant",
@@ -130,25 +132,46 @@ describe("Band Routes", function () {
 
       await postModifyBand(req, res);
 
-      res.statusCode.should.equal(500, "status code should be 500");
+      res.statusCode.should.equal(404, "status code should be 500");
     });
 
-    it("should respond with a code of 500 if the user has already modified the band", async function () {
+    it("should call BandModification.findOne() to check for existing modifications", async function () {
       let req = httpMocks.createRequest({
         body: {
-          targetBandId: "someband",
+          targetBandId: "whocare",
           modifiyingUserId: "someuser",
           modificationValue: 1,
+        },
+      });
+      Band.exists.resolves(true);
+      let res = httpMocks.createResponse();
+      await postModifyBand(req, res);
+      BandModification.findOne.called.should.be.true;
+    });
+
+    it("should respond with a code of 409 if the user is trying to do a duplicate modification to the band", async function () {
+      let bandId = "someband";
+      let userId = "someuser";
+      let modValue = 1;
+      let req = httpMocks.createRequest({
+        body: {
+          targetBandId: bandId,
+          modifiyingUserId: userId,
+          modificationValue: modValue,
         },
       });
       let res = httpMocks.createResponse();
 
       Band.exists.resolves(true);
-      BandModification.exists.resolves(true);
+      BandModification.findOne.resolves({
+        ownerId: userId,
+        bandId,
+        value: modValue,
+      });
 
       await postModifyBand(req, res);
 
-      res.statusCode.should.equal(500, "status code should be 500");
+      res.statusCode.should.equal(409, "status code should be 409");
     });
 
     it("if the modification is valid, 'Band.findOneAndUpdate()' should be called, and then a BandModification should be saved", async function () {
@@ -162,7 +185,8 @@ describe("Band Routes", function () {
       let res = httpMocks.createResponse();
 
       Band.exists.resolves(true);
-      BandModification.exists.resolves(false);
+      // BandModification.exists.resolves(false);
+      BandModification.findOne.resolves(null);
       Band.findOneAndUpdate.yields(null);
       Model.prototype.save.yields(null);
 
@@ -178,6 +202,10 @@ describe("Band Routes", function () {
       );
       res.statusCode.should.equal(200, "status code should be 200");
     });
+
+    it(
+      'should allow "canceling" a modification if one exists and the request is for the opposite value'
+    );
 
     it(
       "should finally update the modifying user's array of bands they've modified"
