@@ -147,6 +147,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addPointsTo: (targetBandId, modifyingUserId, modificationValue) => {
+      console.log("calling addPointsTo with arguments: ", {targetBandId, modifyingUserId, modificationValue})
       dispatch(
         bandActions.requestModifyBandScore({
           targetBandId,

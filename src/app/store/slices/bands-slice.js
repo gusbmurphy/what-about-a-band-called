@@ -49,12 +49,18 @@ const bandsSlice = createSlice({
       state.scoreModification.target = action.payload.target;
     },
     modifyBandScoreSuccess(state, action) {
-      let targetBandIndex = state.items.findIndex(
-        (band) => band._id === action.payload.modifiedBandId
+      console.log(
+        "Modification action arrived in band reducer as: ",
+        action
       );
-      let targetBand = state.items.splice(targetBandIndex, 1)[0];
-      targetBand.score += action.payload.modificationValue;
-      state.items.push(targetBand);
+      let targetBandIndex = state.items.findIndex(
+        (band) => band._id === action.payload.targetBandId
+      );
+      state.items[targetBandIndex].score += action.payload.modificationValue;
+      // let targetBand = state.items.splice(targetBandIndex, 1)[0];
+      // targetBand.score += action.payload.modificationValue;
+      // console.log("Target band after being modified, but before being pushed", targetBand)
+      // state.items.push(targetBand);
       state.scoreModification.status = BandScoreModificationStatuses.SUCCESS
     },
     modifyBandScoreFailure(state) {

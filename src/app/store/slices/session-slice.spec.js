@@ -132,17 +132,17 @@ describe.only("Session Slice", function () {
 
   describe("Band Modifications", function () {
     it("adds a new entry to the bands modified when there's been a successful band modification action dispatched to the store", function () {
-      let modifiedBandId = "bandId";
+      let targetBandId = "bandId";
       let modificationValue = 1;
       let state = sessionReducer(undefined, {
         type: bandActions.modifyBandScoreSuccess.type,
-        payload: { modifiedBandId, modificationValue },
+        payload: { targetBandId, modificationValue },
       });
 
       state.should.haveOwnProperty("bandsModified");
       state.bandsModified.some(
         (modification) =>
-          modification.targetBandId == modifiedBandId &&
+          modification.targetBandId == targetBandId &&
           modification.value == modificationValue
       ).should.be.true;
     });

@@ -17,6 +17,7 @@ export function* userAuthenticationSaga() {
         }
       );
       let { userId, bandsModified } = response.data;
+      console.log("bandsModified in userAuthenticationSaga: ", bandsModified);
       if (response.status == 200) {
         yield put(
           sessionActions.authenticateUserSuccess({

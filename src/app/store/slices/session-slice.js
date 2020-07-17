@@ -31,7 +31,7 @@ const sessionSlice = createSlice({
     },
 
     // User logout
-    requestLogout(state) {
+    requestLogout() {
       return initialState;
     },
 
@@ -49,8 +49,12 @@ const sessionSlice = createSlice({
   extraReducers: {
     // Band modification
     [bandActions.modifyBandScoreSuccess.type]: (state, action) => {
+      console.log(
+        "Modification action arrived in session reducer as: ",
+        action
+      );
       state.bandsModified.push({
-        targetBandId: action.payload.modifiedBandId,
+        targetBandId: action.payload.targetBandId,
         value: action.payload.modificationValue,
       });
     },

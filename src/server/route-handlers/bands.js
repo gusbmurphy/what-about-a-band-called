@@ -80,7 +80,7 @@ export async function postModifyBand(req, res) {
         User.findByIdAndUpdate(
           modifyingUserId,
           {
-            bandsModified: { $pull: { _id: existingMod._id } },
+            $pull: { bandsModified: { _id: existingMod._id } },
           },
           (err) => {
             if (err) {

@@ -96,7 +96,7 @@ describe("Bands Slice", function () {
     });
   });
 
-  describe("Band Creation", function () {
+  describe.only("Band Creation", function () {
     let state;
 
     it("by default the state has a creation status of not trying", function () {
@@ -140,7 +140,7 @@ describe("Bands Slice", function () {
     });
   });
 
-  describe("Score Modification", function () {
+  describe.only("Score Modification", function () {
     let store;
     let targetBandId = "bandId1";
     let bandScore = 1;
@@ -187,7 +187,7 @@ describe("Bands Slice", function () {
         },
         {
           type: bandActions.modifyBandScoreSuccess.type,
-          payload: { modifiedBandId: targetBandId, modificationValue },
+          payload: { targetBandId, modificationValue },
         }
       );
 
