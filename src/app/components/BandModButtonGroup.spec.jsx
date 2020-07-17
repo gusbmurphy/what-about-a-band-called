@@ -5,7 +5,7 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import React from "react";
 
-describe.only("BandModButtonGroup Presentation", function () {
+describe("BandModButtonGroup Presentation", function () {
   it("has two Bootstrap 'ToggleButtons' in a 'ToggleButtonGroup'", function () {
     let wrapper = shallow(<BandModButtonGroup userIsAuthorized={true} />);
     let group = wrapper.find(ToggleButtonGroup);

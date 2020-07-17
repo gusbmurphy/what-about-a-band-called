@@ -96,7 +96,7 @@ describe("Bands Slice", function () {
     });
   });
 
-  describe.only("Band Creation", function () {
+  describe("Band Creation", function () {
     let state;
 
     it("by default the state has a creation status of not trying", function () {
@@ -140,7 +140,7 @@ describe("Bands Slice", function () {
     });
   });
 
-  describe.only("Score Modification", function () {
+  describe("Score Modification", function () {
     let store;
     let targetBandId = "bandId1";
     let bandScore = 1;

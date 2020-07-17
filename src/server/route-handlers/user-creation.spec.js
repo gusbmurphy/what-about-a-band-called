@@ -4,7 +4,7 @@ import { User } from "../models";
 import { UserCreationStatuses } from "../../app/store/statuses";
 import { postCreateUser } from "./user-creation";
 
-describe.only("User Creation", function () {
+describe("User Creation", function () {
   let userExistsStub;
   let existingUsername = "ExistingUsername";
   let existingEmail = "ExistingEmail";

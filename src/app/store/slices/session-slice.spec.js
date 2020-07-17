@@ -2,7 +2,7 @@ import { AuthenticationStatuses, UserCreationStatuses } from "../statuses";
 import sessionReducer, { sessionActions } from "./session-slice";
 import { bandActions } from "./bands-slice";
 
-describe.only("Session Slice", function () {
+describe("Session Slice", function () {
   describe("Authentication", function () {
     let state;
 

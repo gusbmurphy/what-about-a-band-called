@@ -101,7 +101,7 @@ describe("Band Routes", function () {
     });
   });
 
-  describe.only("Band Modification", function () {
+  describe("Band Modification", function () {
     beforeEach(function () {
       sinon.stub(Band, "exists");
       sinon.stub(BandModification, "exists");
