@@ -35,6 +35,7 @@ describe("Band Score Modification Saga", function () {
         })
       );
   });
+
   it("if the response status is 200, it yields a put effect that the band score modification was successful", function () {
     let clone = generator.clone();
     clone
@@ -45,10 +46,27 @@ describe("Band Score Modification Saga", function () {
         )
       );
   });
+
   it("if the response code was not 200, it puts a failure action", function () {
     let clone = generator.clone();
     clone
       .next({ status: 500 })
       .value.should.deep.equal(put(bandActions.modifyBandScoreFailure()));
   });
+
+  let zeroGenerator = cloneableGenerator(bandScoreModificationSaga)();
+  let undoValue = 1;
+
+  it("if the response code was 200 and the modification value was 0, the success action should have a modification value opposite to the request's 'undoValue'", function () {
+    zeroGenerator.next(); // Wait for request
+    zeroGenerator.next({payload: {
+      targetBandId,
+      modifyingUserId,
+      modificationValue: 0,
+      undoValue
+    }});
+    zeroGenerator.next({ status: 200 }).value.should.deep.equal(
+      put(bandActions.modifyBandScoreSuccess({targetBandId, modificationValue: -undoValue}))
+    );
+  })
 });

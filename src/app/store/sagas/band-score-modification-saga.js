@@ -17,14 +17,22 @@ export function* bandScoreModificationSaga() {
           modificationValue,
         }
       );
-      if (response.status != 200) console.log(response);
-      console.log("bandScoreModificationSaga about to put success with: ", {
-        targetBandId,
-        modificationValue,
-      });
-      yield put(
-        bandActions.modifyBandScoreSuccess({ targetBandId, modificationValue })
-      );
+      if (response.status != 200) throw new Error();
+      if (modificationValue == 0) {
+        yield put(
+          bandActions.modifyBandScoreSuccess({
+            targetBandId,
+            modificationValue: -payload.undoValue,
+          })
+        );
+      } else {
+        yield put(
+          bandActions.modifyBandScoreSuccess({
+            targetBandId,
+            modificationValue,
+          })
+        );
+      }
     } catch (error) {
       yield put(bandActions.modifyBandScoreFailure());
     }

@@ -19,9 +19,13 @@ export class BandModButtonGroup extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.modValue != prevState.modValue)
-      // console.log(this.state.modValue)
-      this.props.modifyBand(this.state.modValue);
+    if (this.state.modValue != prevState.modValue) {
+      if (this.state.modValue == 0) {
+        this.props.modifyBand(0, prevState.modValue);
+      } else {
+        this.props.modifyBand(this.state.modValue);
+      }
+    }
   }
 
   render() {
@@ -41,7 +45,7 @@ export class BandModButtonGroup extends React.Component {
           disabled={!userIsAuthorized}
           checked={modPerformed == -1}
         >
-          {this.state.modValue == -1 ? <BsCaretDownFill/> : <BsCaretDown />}
+          {this.state.modValue == -1 ? <BsCaretDownFill /> : <BsCaretDown />}
         </ToggleButton>
         <ToggleButton
           name={"positiveButton"}
@@ -49,7 +53,7 @@ export class BandModButtonGroup extends React.Component {
           disabled={!userIsAuthorized}
           checked={modPerformed == 1}
         >
-          {this.state.modValue == 1 ? <BsCaretUpFill/> : <BsCaretUp />}
+          {this.state.modValue == 1 ? <BsCaretUpFill /> : <BsCaretUp />}
         </ToggleButton>
       </ToggleButtonGroup>
     );

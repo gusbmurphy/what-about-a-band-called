@@ -113,7 +113,7 @@ class UnconnectedBigBandTable extends React.Component {
                   <BandModButtonGroup
                     userIsAuthorized={userIsAuthenticated}
                     modPerformed={this.getUserModificationToBand(band._id)}
-                    modifyBand={(modValue) => this.props.addPointsTo(band._id, this.props.userId, modValue)}
+                    modifyBand={(modValue, undoValue) => this.props.addPointsTo(band._id, this.props.userId, modValue, undoValue)}
                   />
                   {band.score}
                 </td>
@@ -146,13 +146,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addPointsTo: (targetBandId, modifyingUserId, modificationValue) => {
-      console.log("calling addPointsTo with arguments: ", {targetBandId, modifyingUserId, modificationValue})
+    addPointsTo: (targetBandId, modifyingUserId, modificationValue, undoValue) => {
       dispatch(
         bandActions.requestModifyBandScore({
           targetBandId,
           modifyingUserId,
           modificationValue,
+          undoValue
         })
       );
     },

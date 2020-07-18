@@ -49,10 +49,6 @@ const sessionSlice = createSlice({
   extraReducers: {
     // Band modification
     [bandActions.modifyBandScoreSuccess.type]: (state, action) => {
-      console.log(
-        "Modification action arrived in session reducer as: ",
-        action
-      );
       state.bandsModified.push({
         targetBandId: action.payload.targetBandId,
         value: action.payload.modificationValue,

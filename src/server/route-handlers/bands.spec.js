@@ -203,9 +203,7 @@ describe("Band Routes", function () {
       res.statusCode.should.equal(200, "status code should be 200");
     });
 
-    it(
-      "removes a band modification and updates the band's score if a mod value of 0 is received"
-    );
+    it("removes a band modification and if a mod value of 0 is received");
 
     it(
       "should finally update the modifying user's array of bands they've modified"
