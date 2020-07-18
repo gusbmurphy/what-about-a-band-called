@@ -6,7 +6,6 @@ import { store } from "../store";
 import { AuthenticationStatuses } from "../store/statuses";
 import { history } from "../store/history";
 import { BigBandTable } from "./BigBandTable";
-import { CreateBand } from "./CreateBand";
 import { Landing } from "./Landing";
 import { Login } from "./Login";
 import { Navigation } from "./Navigation";
@@ -31,7 +30,6 @@ export const Main = () => (
         <Route exact path="/bands" component={BigBandTable} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/new-user" component={NewUserForm} />
-        <Route exact path="/newband" render={AuthenticationGuard(CreateBand)} />
         <Route exact path="/" component={Landing} />
       </div>
     </Provider>
