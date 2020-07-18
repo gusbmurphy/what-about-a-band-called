@@ -10,6 +10,8 @@ import {
   BsCaretUpFill,
 } from "react-icons/bs";
 
+// TODO: Logging out will still show the BsCarrets as 'filled' if the user modified those bands
+
 export class BandModButtonGroup extends React.Component {
   constructor(props) {
     super(props);
