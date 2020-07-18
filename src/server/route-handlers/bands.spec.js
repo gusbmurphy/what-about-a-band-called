@@ -204,7 +204,7 @@ describe("Band Routes", function () {
     });
 
     it(
-      'should allow "canceling" a modification if one exists and the request is for the opposite value'
+      "removes a band modification and updates the band's score if a mod value of 0 is received"
     );
 
     it(

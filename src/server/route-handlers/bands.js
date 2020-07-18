@@ -72,11 +72,14 @@ export async function postModifyBand(req, res) {
 
     // Otherwise, if the value is 0, we can delete this modification
     if (modificationValue == 0) {
+      // Delete the modification
       BandModification.findByIdAndDelete(existingMod._id, (err) => {
         if (err) {
           console.info('Error in "/band/modify" route:\n', err);
           return res.status(500).send();
         }
+
+        // Update the user's mods
         User.findByIdAndUpdate(
           modifyingUserId,
           {
@@ -90,6 +93,9 @@ export async function postModifyBand(req, res) {
             return res.status(200).send();
           }
         );
+
+        // Update the band's score
+        Band.findByIdAndUpdate(targetBandId, { $inc: { score: -existingMod.value }})
       });
     }
   } else {

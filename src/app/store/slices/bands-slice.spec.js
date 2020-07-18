@@ -203,5 +203,7 @@ describe("Bands Slice", function () {
         "the store shouldn't contain the original version of the band"
       );
     });
+
+    it("undoes the user's modification if an action with a modification value of 0 is recieved")
   });
 });
