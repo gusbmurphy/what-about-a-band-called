@@ -5,38 +5,121 @@ import { bandActions } from "../store/slices/bands-slice";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
+import { AuthenticationStatuses } from "../store/statuses";
+
+const NoNameAlert = () => (
+  <Alert variant="danger">
+    <Alert.Heading>This MF said &ldquo; &rdquo;</Alert.Heading>
+    <p>Who are you? John Cage XD? Just kidding, don&apos;t know who that is.</p>
+  </Alert>
+);
+
+function BandExistsAlert() {
+  return (
+    <Alert variant="danger">
+      <Alert.Heading>Somebody already thought of that!</Alert.Heading>
+      <p>
+        Going to have to try harder. Maybe read a very complicated book and then
+        think of some reference to that.
+      </p>
+    </Alert>
+  );
+}
+
+function UserNotLoggedInAlert() {
+  return (
+    <Alert variant="warning">
+      <Alert.Heading>You've gotta be signed in!</Alert.Heading>
+      <p>
+        We don&apos;t let just anyone in here. You can{" "}
+        <Alert.Link>make an account here</Alert.Link>, though, if you want.
+      </p>
+    </Alert>
+  );
+}
 
 class UnconnectedCreateBandForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bandName: "",
+      displayBandExistsAlert: false,
+      displayUserNotLoggedIn: false,
+      displayNoNameAlert: false,
+      displayProgess: false,
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    if (
+      this.props.authenticationStatus == AuthenticationStatuses.AUTHENTICATED
+    ) {
+      if (this.state.bandName == "") {
+        this.setState({
+          displayBandExistsAlert: false,
+          displayUserNotLoggedIn: false,
+          displayNoNameAlert: true,
+        });
+      } else {
+        this.props.createBand(this.props.userId, this.state.bandName);
+      }
+    } else {
+      this.setState({
+        displayBandExistsAlert: false,
+        displayUserNotLoggedIn: true,
+        displayNoNameAlert: false,
+      });
+    }
+  }
+
   render() {
-    let { createBand, session } = this.props;
+    let {
+      displayBandExistsAlert,
+      displayNoNameAlert,
+      displayProgess,
+      displayUserNotLoggedIn,
+    } = this.state;
     return (
-      <InputGroup>
-        <FormControl type="text" />
-        <InputGroup.Append>
-          <Button variant="primary">Submit</Button>
-        </InputGroup.Append>
-      </InputGroup>
+      <>
+        <InputGroup>
+          <FormControl
+            type="text"
+            onChange={(e) => this.setState({ bandName: e.target.value })}
+          />
+          <InputGroup.Append>
+            <Button variant="primary" onClick={() => this.handleClick()}>
+              Submit
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
+        {displayUserNotLoggedIn ? <UserNotLoggedInAlert /> : null}
+        {displayNoNameAlert ? <NoNameAlert /> : null}
+        {displayBandExistsAlert ? <BandExistsAlert /> : null}
+      </>
     );
   }
 }
 
 UnconnectedCreateBandForm.propTypes = {
   createBand: PropTypes.func.isRequired,
-  session: PropTypes.shape({
-    userId: PropTypes.string,
-  }),
+  authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses))
+    .isRequired,
+  userId: PropTypes.string,
 };
 
 function mapStateToProps(state) {
   return {
-    session: state.session,
+    authenticationStatus: state.session.authenticationStatus,
+    userId: state.session.userId,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     createBand: (userId, bandName) => {
-      dispatch(bandActions.requestBandCreation({ userId, bandName }));
+      dispatch(bandActions.requestCreateBand({ userId, bandName }));
     },
   };
 }
