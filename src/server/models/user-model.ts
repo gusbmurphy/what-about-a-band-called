@@ -1,22 +1,43 @@
-import { createSchema, Type, typedModel, ExtractDoc, ExtractProps } from "ts-mongoose";
-import { BandSchema } from "./band-model";
+// import { createSchema, Type, typedModel, ExtractDoc, ExtractProps } from "ts-mongoose";
+import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose"
+// import { BandSchema } from "./band-model";
+import mongoose from "mongoose";
 
-const UserBandModRecordSchema = createSchema({
-  targetBandId: Type.ref(Type.objectId({ required: true })).to(
-    "Band",
-    BandSchema
-  ),
-  value: Type.number({ required: true }),
-});
+@modelOptions({ options: {customName: "User"} })
+export class UserClass{
+  @prop({ required: true })
+  public name: string;
+  @prop({ required: true })
+  public passwordHash: string;
+  @prop({ required: true })
+  public email: string;
+  @prop()
+  public bandsModified: UserBandModRecord[];
+}
 
-export const UserSchema = createSchema({
-  name: Type.string({ required: true, unique: true }),
-  passwordHash: Type.string({ required: true }),
-  email: Type.string({ required: true, unique: true }),
-  bandsModified: Type.array().of(UserBandModRecordSchema)
-});
+type UserBandModRecord = {
+  targetBandId: mongoose.Types.ObjectId;
+  value: number;
+}
 
-export const User = typedModel("User", UserSchema);
+export const User = getModelForClass(UserClass);
 
-export type UserDoc = ExtractDoc<typeof UserSchema>;
-export type UserProps = ExtractProps<typeof UserSchema>;
+// const UserBandModRecordSchema = createSchema({
+//   targetBandId: Type.ref(Type.objectId({ required: true })).to(
+//     "Band",
+//     BandSchema
+//   ),
+//   value: Type.number({ required: true }),
+// });
+
+// export const UserSchema = createSchema({
+//   name: Type.string({ required: true, unique: true }),
+//   passwordHash: Type.string({ required: true }),
+//   email: Type.string({ required: true, unique: true }),
+//   bandsModified: Type.array().of(UserBandModRecordSchema)
+// });
+
+// export const User = typedModel("User", UserSchema);
+
+// export type UserDoc = ExtractDoc<typeof UserSchema>;
+// export type UserProps = ExtractProps<typeof UserSchema>;

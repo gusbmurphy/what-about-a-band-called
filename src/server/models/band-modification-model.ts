@@ -1,22 +1,36 @@
-import {
-  createSchema,
-  Type,
-  typedModel,
-  ExtractDoc,
-  ExtractProps,
-} from "ts-mongoose";
-import { BandSchema } from "./band-model";
-import { UserSchema } from "./user-model";
+// import {
+//   createSchema,
+//   Type,
+//   typedModel,
+//   ExtractDoc,
+//   ExtractProps,
+// } from "ts-mongoose";
+// import { BandSchema } from "./band-model";
+// import { UserSchema } from "./user-model";
+import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import mongoose from "mongoose";
 
-export const BandModificationSchema = createSchema({
-  ownerId: Type.ref(Type.objectId({ required: true })).to("User", UserSchema),
-  bandId: Type.ref(Type.objectId({ required: true })).to("Band", BandSchema),
-});
+@modelOptions({ options: { customName: "BandModification" }})
+export class BandModificationClass {
+  @prop({required: true})
+  public ownerId: mongoose.Types.ObjectId;
+  @prop({required: true})
+  public bandId: mongoose.Types.ObjectId;
+  @prop({required: true})
+  public value: number;
+}
 
-export const BandModification = typedModel(
-  "BandModification",
-  BandModificationSchema
-);
+export const BandModification = getModelForClass(BandModificationClass);
 
-export type BandModificationDoc = ExtractDoc<typeof BandModificationSchema>;
-export type BandModificationProps = ExtractProps<typeof BandModificationSchema>;
+// export const BandModificationSchema = createSchema({
+//   ownerId: Type.ref(Type.objectId({ required: true })).to("User", UserSchema),
+//   bandId: Type.ref(Type.objectId({ required: true })).to("Band", BandSchema),
+// });
+
+// export const BandModification = typedModel(
+//   "BandModification",
+//   BandModificationSchema
+// );
+
+// export type BandModificationDoc = ExtractDoc<typeof BandModificationSchema>;
+// export type BandModificationProps = ExtractProps<typeof BandModificationSchema>;
