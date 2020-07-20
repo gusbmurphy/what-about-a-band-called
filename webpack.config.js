@@ -9,7 +9,7 @@ module.exports = {
     publicPath: "/",
   },
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".ts", ".jsx"],
   },
   devServer: {
     historyApiFallback: true,
@@ -17,8 +17,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
-        loader: "babel-loader",
+        test: /\.(t|j)sx?$/,
+        use: { loader: "ts-loader" },
+        exclude: /node_modules/,
+      },
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "source-map-loader",
       },
       {
         test: /\.css$/,
@@ -27,4 +34,5 @@ module.exports = {
     ],
   },
   externals: [{ mongoose: "commonjs mongoose" }],
+  devtool: "source-map",
 };
