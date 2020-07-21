@@ -153,11 +153,11 @@ describe("Bands Slice", function () {
     it("has a default state with an object with status set to not trying and a target of null", function () {
       store = bandsReducer(undefined, {});
       store.should.haveOwnProperty("scoreModification");
-      store.scoreModification.should.haveOwnProperty(
+      store.scoreModificationState.should.haveOwnProperty(
         "status",
         BandScoreModificationStatuses.NOT_TRYING
       );
-      store.scoreModification.should.haveOwnProperty("target", null);
+      store.scoreModificationState.should.haveOwnProperty("target", null);
     });
 
     it("sets the status to attempting and the target correctly when a request to modify band score action is recieved", function () {
@@ -165,10 +165,10 @@ describe("Bands Slice", function () {
         type: bandActions.requestModifyBandScore.type,
         payload: { target: targetBandId },
       });
-      store.scoreModification.status.should.equal(
+      store.scoreModificationState.status.should.equal(
         BandScoreModificationStatuses.ATTEMPTING
       );
-      store.scoreModification.target.should.equal(targetBandId);
+      store.scoreModificationState.target.should.equal(targetBandId);
     });
 
     it("sets the status to success and correctly updates the band in the store when the modification is successful", function () {
@@ -180,7 +180,7 @@ describe("Bands Slice", function () {
       store = bandsReducer(
         {
           items: [targetBand],
-          scoreModification: {
+          scoreModificationState: {
             status: null,
             target: null,
           }
@@ -191,7 +191,7 @@ describe("Bands Slice", function () {
         }
       );
 
-      store.scoreModification.status.should.equal(
+      store.scoreModificationState.status.should.equal(
         BandScoreModificationStatuses.SUCCESS
       );
       store.items.should.have.deep.members(

@@ -34,5 +34,5 @@ module.exports = {
     ],
   },
   externals: [{ mongoose: "commonjs mongoose" }],
-  devtool: "source-map",
+  devtool: "inline-source-map",
 };

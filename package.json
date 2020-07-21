@@ -8,7 +8,7 @@
     "test": "mocha --require @babel/register --require './src/utility/test-setup.js' './src/**/*.spec.js' './src/**/*.spec.jsx' ",
     "start": "webpack",
     "dev": "webpack-dev-server --open",
-    "server": "babel-node src/server/server",
+    "server": "babel-node --extensions \".ts\" src/server/server",
     "start-dev": "concurrently \"npm run server\" \"npm run dev\"",
     "load-dummy-data": "babel-node --extensions \".ts\" src/utility/load-dummy-db",
     "flow": "flow"

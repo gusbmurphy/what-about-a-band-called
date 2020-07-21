@@ -3,6 +3,8 @@ import { call, put, take } from "redux-saga/effects";
 import * as paths from "../../../server/paths";
 import { bandActions } from "../slices/bands-slice";
 
+// TODO: This doesn't work right on the database side!
+
 export function* bandScoreModificationSaga() {
   while (true) {
     let { payload } = yield take(bandActions.requestModifyBandScore.type);

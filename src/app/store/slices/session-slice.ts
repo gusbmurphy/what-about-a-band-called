@@ -1,11 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthenticationStatuses, UserCreationStatuses } from "../statuses";
 import { bandActions } from "./bands-slice";
+import { Types as MongooseTypes } from "mongoose";
 
-const initialState = {
+type SessionBandModification = {
+  targetBandId: MongooseTypes.ObjectId;
+  value: number;
+};
+
+type SessionSliceState = {
+  authenticationStatus: AuthenticationStatuses;
+  userId?: MongooseTypes.ObjectId;
+  username?: string;
+  userCreationStatus: UserCreationStatuses;
+  bandsModified: SessionBandModification[];
+};
+
+const initialState: SessionSliceState = {
   authenticationStatus: AuthenticationStatuses.NOT_TRYING,
-  userId: null,
-  username: null,
+  userId: undefined,
+  username: undefined,
   userCreationStatus: UserCreationStatuses.NOT_TRYING,
   bandsModified: [],
 };
@@ -27,7 +41,7 @@ const sessionSlice = createSlice({
     authenticateUserFailure(state, action) {
       state.authenticationStatus = action.payload.reason;
       // TODO: Is it necessary to reset this to null here?
-      state.userId = null;
+      state.userId = undefined;
     },
 
     // User logout

@@ -3,29 +3,30 @@ import {
   BandCreationStatuses,
   BandScoreModificationStatuses,
 } from "../statuses";
-import { BandProps, BandDoc } from "../../../server/models/band-model";
+import { BandClass } from "../../../server/models/band-model";
+import { Types as MongooseTypes } from "mongoose";
 
-type ScoreModification = {
+type ScoreModificationState = {
   status: BandScoreModificationStatuses;
   // TODO: This needs to refer to a band's ID
-  target?: string;
-}
+  target?: MongooseTypes.ObjectId;
+};
 
 type BandsSliceState = {
   pendingFetches: number;
   creationStatus: BandCreationStatuses;
-  items: BandProps[];
-  scoreModification: ScoreModification;
-}
+  items: BandClass[];
+  scoreModificationState: ScoreModificationState;
+};
 
 let initialState: BandsSliceState = {
   pendingFetches: 0,
   items: [],
   creationStatus: BandCreationStatuses.NOT_TRYING,
-  scoreModification: {
-    status: BandScoreModificationStatuses.NOT_TRYING
-  }
-}
+  scoreModificationState: {
+    status: BandScoreModificationStatuses.NOT_TRYING,
+  },
+};
 
 const bandsSlice = createSlice({
   name: "bands",
@@ -35,8 +36,8 @@ const bandsSlice = createSlice({
     requestFetchBands(state) {
       state.pendingFetches++;
     },
-    fetchBandsSuccess(state, action: PayloadAction<BandProps>) {
-      action.payload.bands.forEach((newBand) => {
+    fetchBandsSuccess(state, action: PayloadAction<BandClass[]>) {
+      action.payload.forEach((newBand) => {
         if (!state.items.some((band) => band._id == newBand._id))
           state.items.push(newBand);
       });
@@ -50,30 +51,40 @@ const bandsSlice = createSlice({
     requestCreateBand(state) {
       state.creationStatus = BandCreationStatuses.CREATING;
     },
-    createBandSuccess(state, action) {
+    createBandSuccess(state, action: PayloadAction<BandClass>) {
       state.creationStatus = BandCreationStatuses.CREATED;
-      state.items.push(action.payload.newBand);
+      state.items.push(action.payload);
     },
-    createBandFailure(state, action) {
-      state.creationStatus = action.payload.reason;
+    createBandFailure(state, action: PayloadAction<BandCreationStatuses>) {
+      state.creationStatus = action.payload;
     },
 
     // Modify band score
-    requestModifyBandScore(state, action) {
-      state.scoreModification.status = BandScoreModificationStatuses.ATTEMPTING;
-      state.scoreModification.target = action.payload.target;
+    requestModifyBandScore(
+      state,
+      action: PayloadAction<{
+        targetBandId: MongooseTypes.ObjectId;
+        modifyingUserId: MongooseTypes.ObjectId;
+        modificationValue: number;
+      }>
+    ) {
+      state.scoreModificationState.status =
+        BandScoreModificationStatuses.ATTEMPTING;
+      state.scoreModificationState.target = action.payload.targetBandId;
     },
     modifyBandScoreSuccess(state, action) {
       let targetBandIndex = state.items.findIndex(
         (band) => band._id === action.payload.targetBandId
       );
       state.items[targetBandIndex].score += action.payload.modificationValue;
-      state.scoreModification.status = BandScoreModificationStatuses.SUCCESS;
+      state.scoreModificationState.status =
+        BandScoreModificationStatuses.SUCCESS;
     },
     modifyBandScoreFailure(state) {
       // TODO: Shouldn't we be getting a reason for the failure here?
-      state.scoreModification.state = BandScoreModificationStatuses.FAILURE;
-      state.scoreModification.target = null;
+      state.scoreModificationState.status =
+        BandScoreModificationStatuses.FAILURE;
+      state.scoreModificationState.target = undefined;
     },
   },
 });

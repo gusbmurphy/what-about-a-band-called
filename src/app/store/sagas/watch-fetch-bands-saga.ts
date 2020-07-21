@@ -2,6 +2,7 @@ import axios from "axios";
 import { actionChannel, call, put, take } from "redux-saga/effects";
 import * as paths from "../../../server/paths";
 import { bandActions } from "../slices/bands-slice";
+import { BandClass } from "../../../server/models/band-model";
 
 export function* watchFetchBandsSaga() {
   let fetchBandsChannel = yield actionChannel(
@@ -21,7 +22,7 @@ export function* fetchBands(maxBands, sortBy) {
       sortBy,
     });
     if (response.status != 200) throw new Error();
-    yield put(bandActions.fetchBandsSuccess({ bands: response.data }));
+    yield put(bandActions.fetchBandsSuccess(response.data));
   } catch (error) {
     yield put(bandActions.fetchBandsFailure());
   }
