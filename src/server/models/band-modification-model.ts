@@ -7,11 +7,11 @@
 // } from "ts-mongoose";
 // import { BandSchema } from "./band-model";
 // import { UserSchema } from "./user-model";
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions, defaultClasses } from "@typegoose/typegoose";
 import mongoose from "mongoose";
 
 @modelOptions({ options: { customName: "BandModification" }})
-export class BandModificationClass {
+export class BandModificationClass extends defaultClasses.Base {
   @prop({required: true})
   public ownerId: mongoose.Types.ObjectId;
   @prop({required: true})

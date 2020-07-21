@@ -12,11 +12,12 @@ let numOfModifications = 500;
 mongoose.connect(localDbUrl);
 
 (async function loadDummyDb() {
-  let usersInfo = [];
+  let usersInfo : {id: mongoose.Types.ObjectId, name: string}[] = [];
   for (let i = 0; i < numOfUsers; i++) {
+    let name = faker.internet.userName();
     let newUser = new User({
-      name: faker.internet.userName(),
-      passwordHash: md5(faker.internet.password),
+      name,
+      passwordHash: md5(faker.internet.password()),
       email: faker.internet.email(),
       bandsModified: [],
     });
@@ -24,7 +25,7 @@ mongoose.connect(localDbUrl);
     await newUser.save();
   }
 
-  let bandIds = [];
+  let bandIds: mongoose.Types.ObjectId[] = [];
   for (let i = 0; i < numOfBands; i++) {
     let randomName = faker.random.word();
     let extraWordsInName = Math.floor(Math.random() * 5);

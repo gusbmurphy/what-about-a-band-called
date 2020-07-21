@@ -79,23 +79,27 @@ export async function postModifyBand(req, res) {
           return res.status(500).send();
         }
 
-        // Update the user's mods
-        User.findByIdAndUpdate(
-          modifyingUserId,
-          {
-            $pull: { bandsModified: { _id: existingMod._id } },
-          },
-          (err) => {
-            if (err) {
-              console.info('Error in "/band/modify" route:\n', err);
-              return res.status(500).send();
+        if (existingMod) {
+          // Update the user's mods
+          User.findByIdAndUpdate(
+            modifyingUserId,
+            {
+              $pull: { bandsModified: { targetBandId: existingMod.bandId } },
+            },
+            (err) => {
+              if (err) {
+                console.info('Error in "/band/modify" route:\n', err);
+                return res.status(500).send();
+              }
+              return res.status(200).send();
             }
-            return res.status(200).send();
-          }
-        );
+          );
 
-        // Update the band's score
-        Band.findByIdAndUpdate(targetBandId, { $inc: { score: -existingMod.value }})
+          // Update the band's score
+          Band.findByIdAndUpdate(targetBandId, {
+            $inc: { score: -existingMod.value },
+          });
+        }
       });
     }
   } else {

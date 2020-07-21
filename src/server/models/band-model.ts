@@ -1,10 +1,10 @@
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import { prop, getModelForClass, modelOptions, defaultClasses } from "@typegoose/typegoose";
 // import { UserSchema } from "./user-model";
 import mongoose from "mongoose";
 
 // TODO: Why are we using public here, is that necessary?
 @modelOptions({ options: { customName: "Band" } })
-export class BandClass {
+export class BandClass extends defaultClasses.Base {
   @prop({ required: true })
   public name: string;
   @prop()

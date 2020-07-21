@@ -1,10 +1,10 @@
 // import { createSchema, Type, typedModel, ExtractDoc, ExtractProps } from "ts-mongoose";
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose"
+import { prop, getModelForClass, modelOptions, defaultClasses } from "@typegoose/typegoose"
 // import { BandSchema } from "./band-model";
 import mongoose from "mongoose";
 
 @modelOptions({ options: {customName: "User"} })
-export class UserClass{
+export class UserClass extends defaultClasses.Base {
   @prop({ required: true })
   public name: string;
   @prop({ required: true })

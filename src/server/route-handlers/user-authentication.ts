@@ -15,17 +15,18 @@ export async function postUserAuthenticate(req, res) {
     if (err) {
       console.info("Error in authentication route:\n", err);
       return res.status(500).send();
-    }
-    if (user.passwordHash === md5(password)) {
-      return res.status(200).send({
-        userId: user._id,
-        username: user.name,
-        bandsModified: user.bandsModified,
-      });
-    } else {
-      return res
-        .status(401)
-        .send({ reason: AuthenticationStatuses.INVALID_PASSWORD });
+    } else if (user) {
+      if (user.passwordHash === md5(password)) {
+        return res.status(200).send({
+          userId: user._id,
+          username: user.name,
+          bandsModified: user.bandsModified,
+        });
+      } else {
+        return res
+          .status(401)
+          .send({ reason: AuthenticationStatuses.INVALID_PASSWORD });
+      }
     }
   });
 }
