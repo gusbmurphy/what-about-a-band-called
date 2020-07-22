@@ -1,24 +1,43 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { AuthenticationStatuses } from "../store/statuses";
 import { sessionActions } from "../store/slices/session-slice";
 
-class UnconnectedLogin extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: "",
-      password: "",
-    };
-  }
+// UnconnectedLogin.propTypes = {
+//   authenticateUser: PropTypes.func,
+//   authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses)),
+// };
+
+const mapStateToProps = ({ session }) => ({
+  authenticationStatus: session.authenticationStatus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  authenticateUser: (username, password) =>
+    dispatch(sessionActions.requestAuthenticateUser({ username, password })),
+});
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+type LoginProps = ConnectedProps<typeof reduxConnector>;
+
+type LoginState = {
+  username: string;
+  password: string;
+};
+
+class UnconnectedLogin extends React.Component<LoginProps, LoginState> {
+  state = {
+    username: "",
+    password: "",
+  };
 
   render() {
-    let { authenticationStatus, authenticateUser } = this.props;
+    const { authenticationStatus, authenticateUser } = this.props;
     return (
       <Container>
         <Form>
@@ -27,7 +46,8 @@ class UnconnectedLogin extends React.Component {
             <Form.Control
               type="text"
               isInvalid={
-                authenticationStatus == AuthenticationStatuses.USERNAME_NOT_FOUND
+                authenticationStatus ==
+                AuthenticationStatuses.USERNAME_NOT_FOUND
               }
               onChange={(e) => this.setState({ username: e.target.value })}
             />
@@ -72,20 +92,6 @@ class UnconnectedLogin extends React.Component {
     );
   }
 }
-
-UnconnectedLogin.propTypes = {
-  authenticateUser: PropTypes.func,
-  authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses)),
-};
-
-const mapStateToProps = ({ session }) => ({
-  authenticationStatus: session.authenticationStatus,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  authenticateUser: (username, password) =>
-    dispatch(sessionActions.requestAuthenticateUser({ username, password })),
-});
 
 export const Login = connect(
   mapStateToProps,

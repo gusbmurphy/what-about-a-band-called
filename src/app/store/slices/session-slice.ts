@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthenticationStatuses, UserCreationStatuses } from "../statuses";
 import { bandActions } from "./bands-slice";
 import { Types as MongooseTypes } from "mongoose";
@@ -29,7 +29,13 @@ const sessionSlice = createSlice({
   initialState,
   reducers: {
     // User authentication
-    requestAuthenticateUser(state) {
+    requestAuthenticateUser(
+      state,
+      action: PayloadAction<{
+        username: string;
+        password: string;
+      }>
+    ) {
       state.authenticationStatus = AuthenticationStatuses.AUTHENTICATING;
     },
     authenticateUserSuccess(state, action) {
