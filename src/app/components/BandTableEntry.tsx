@@ -23,15 +23,6 @@ type BandTableEntryProps = {
 export default class BandTableEntry extends React.Component<
   BandTableEntryProps
 > {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleModificationClick.bind(this);
-  }
-
-  handleModificationClick(modValue): void {
-    this.props.modifyBand(modValue);
-  }
-
   render() {
     const {
       bandName,
