@@ -20,7 +20,7 @@ const defaultBandsPerFetch = 20;
 function mapStateToProps(state: RootState) {
   return {
     appIsFetchingBands: state.bands.pendingFetches > 0,
-    bands: state.bands.items,
+    bands: [...state.bands.items],
     userIsAuthenticated:
       state.session.authenticationStatus == AuthenticationStatuses.AUTHENTICATED
         ? true

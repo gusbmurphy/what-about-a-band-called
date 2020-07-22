@@ -14,7 +14,7 @@ import { Types as MongooseTypes } from "mongoose";
 function mapStateToProps(state: RootState) {
   return {
     appIsFetchingBands: state.bands.pendingFetches > 0 ? true : false,
-    bands: state.bands.items,
+    bands: [...state.bands.items],
     userIsAuthenticated:
       state.session.authenticationStatus == AuthenticationStatuses.AUTHENTICATED
         ? true

@@ -6,6 +6,7 @@
   "scripts": {
     "test-nyc": "nyc --include 'src' --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --exclude 'src/util/test-setup.js' --all mocha --require @babel/register --require './src/util/test-setup.js' './src/**/*.spec.js' './src/**/*.spec.jsx'",
     "test": "mocha --require @babel/register --require './src/utility/test-setup.js' './src/**/*.spec.js' './src/**/*.spec.jsx' ",
+    "test sagas": "mocha --require @babel/register './src/app/store/sagas/*.spec.ts'",
     "start": "webpack",
     "dev": "webpack-dev-server --open",
     "server": "babel-node --extensions \".ts\" src/server/server",
@@ -61,10 +62,12 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@redux-saga/types": "^1.1.0",
     "@reduxjs/toolkit": "^1.4.0",
     "@typegoose/typegoose": "^7.3.0",
     "@types/faker": "^4.1.12",
     "@types/md5": "^2.2.0",
+    "@types/mocha": "^8.0.0",
     "@types/mongoose": "^5.7.32",
     "@types/node": "^14.0.23",
     "@types/react": "^16.9.43",

@@ -16,7 +16,7 @@ export function sortAndLimitBands(
       filteredBands.sort((a, b) => {
         // TODO: What the fuck is happening here?
         // @ts-ignore
-        return Date.parse(a.createdOn) - Date.parse(b.createdOn);
+        return Date.parse(b.createdOn) - Date.parse(a.createdOn);
       });
       break;
     case BandSortTypes.WORST:
@@ -27,6 +27,5 @@ export function sortAndLimitBands(
   }
 
   filteredBands = filteredBands.slice(0, limit);
-
   return filteredBands;
 }
