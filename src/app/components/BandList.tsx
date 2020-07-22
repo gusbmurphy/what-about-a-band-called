@@ -67,10 +67,11 @@ class UnconnectedBandList extends React.Component<BandListProps> {
       targetBandId: MongooseTypes.ObjectId,
       userId?: MongooseTypes.ObjectId
     ) => {
+      // TODO: This doesn't look great...
       if (userId) {
-        return (modificationValue: number) =>
-          this.props.addPointsTo(targetBandId, userId, modificationValue);
-      }
+        return (modValue: number) =>
+          this.props.addPointsTo(targetBandId, userId, modValue);
+      } else return (modValue: number) => null;
     };
 
     const getModificationPerformedToBand = (
