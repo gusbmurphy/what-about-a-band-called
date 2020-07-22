@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { bandActions } from "../store/slices/bands-slice";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
@@ -30,7 +30,7 @@ function BandExistsAlert() {
 function UserNotLoggedInAlert() {
   return (
     <Alert variant="warning">
-      <Alert.Heading>You've gotta be signed in!</Alert.Heading>
+      <Alert.Heading>You&apos;ve gotta be signed in!</Alert.Heading>
       <p>
         We don&apos;t let just anyone in here. You can{" "}
         <Alert.Link>make an account here</Alert.Link>, though, if you want.
@@ -39,18 +39,55 @@ function UserNotLoggedInAlert() {
   );
 }
 
-class UnconnectedCreateBandForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+// UnconnectedCreateBandForm.propTypes = {
+//   createBand: PropTypes.func.isRequired,
+//   authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses))
+//     .isRequired,
+//   userId: PropTypes.string,
+//   username: PropTypes.string,
+// };
+
+function mapStateToProps(state) {
+  return {
+    authenticationStatus: state.session.authenticationStatus,
+    userId: state.session.userId,
+    username: state.session.username,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    createBand: (userId, username, bandName) => {
+      dispatch(
+        bandActions.requestCreateBand({
+          creatingUserId: userId,
+          creatingUsername: username,
+          bandName,
+        })
+      );
+    },
+  };
+}
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+type CreateBandFormProps = ConnectedProps<typeof reduxConnector>;
+
+type CreateBandFormState = {
+  bandName: string;
+  displayBandExistsAlert: boolean;
+  displayUserNotLoggedIn: boolean;
+  displayNoNameAlert: boolean;
+  displayProgess: boolean;
+};
+
+class UnconnectedCreateBandForm extends React.Component<CreateBandFormProps, CreateBandFormState> {
+  state = {
       bandName: "",
       displayBandExistsAlert: false,
       displayUserNotLoggedIn: false,
       displayNoNameAlert: false,
       displayProgess: false,
     };
-    this.handleClick = this.handleClick.bind(this);
-  }
 
   handleClick() {
     if (
@@ -63,7 +100,11 @@ class UnconnectedCreateBandForm extends React.Component {
           displayNoNameAlert: true,
         });
       } else {
-        this.props.createBand(this.props.userId, this.state.bandName);
+        this.props.createBand(
+          this.props.userId,
+          this.props.username,
+          this.state.bandName
+        );
       }
     } else {
       this.setState({
@@ -75,7 +116,7 @@ class UnconnectedCreateBandForm extends React.Component {
   }
 
   render() {
-    let {
+    const {
       displayBandExistsAlert,
       displayNoNameAlert,
       displayProgess,
@@ -100,28 +141,6 @@ class UnconnectedCreateBandForm extends React.Component {
       </>
     );
   }
-}
-
-UnconnectedCreateBandForm.propTypes = {
-  createBand: PropTypes.func.isRequired,
-  authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses))
-    .isRequired,
-  userId: PropTypes.string,
-};
-
-function mapStateToProps(state) {
-  return {
-    authenticationStatus: state.session.authenticationStatus,
-    userId: state.session.userId,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    createBand: (userId, bandName) => {
-      dispatch(bandActions.requestCreateBand({ userId, bandName }));
-    },
-  };
 }
 
 export const CreateBandForm = connect(
