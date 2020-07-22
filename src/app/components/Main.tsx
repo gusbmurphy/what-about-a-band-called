@@ -11,15 +11,15 @@ import { Login } from "./Login";
 import { Navigation } from "./Navigation";
 import { NewUserForm } from "./NewUser";
 
-const AuthenticationGuard = (Component) => ({ match }) => {
-  if (
-    store.getState().session.authenticationStatus !==
-    AuthenticationStatuses.AUTHENTICATED
-  ) {
-    return <Redirect to="/" />;
-  }
-  return <Component match={match} />;
-};
+// const AuthenticationGuard = (Component) => ({ match }) => {
+//   if (
+//     store.getState().session.authenticationStatus !==
+//     AuthenticationStatuses.AUTHENTICATED
+//   ) {
+//     return <Redirect to="/" />;
+//   }
+//   return <Component match={match} />;
+// };
 
 export const Main = () => (
   // TODO: What is the Router's "history" all about?
