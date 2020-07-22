@@ -34,18 +34,20 @@ function mapDispatchToProps(dispatch) {
   return {
     addPointsTo: (
       targetBandId: MongooseTypes.ObjectId,
-      modifyingUserId: MongooseTypes.ObjectId,
       modificationValue: number,
+      modifyingUserId?: MongooseTypes.ObjectId,
       undoValue?: number
     ) => {
-      dispatch(
-        bandActions.requestModifyBandScore({
-          targetBandId,
-          modifyingUserId,
-          modificationValue,
-          undoValue,
-        })
-      );
+      if (modifyingUserId) {
+        dispatch(
+          bandActions.requestModifyBandScore({
+            targetBandId,
+            modifyingUserId,
+            modificationValue,
+            undoValue,
+          })
+        );
+      }
     },
     requestFetchBands: (maxBands: number, sortBy: BandSortTypes) => {
       dispatch(bandActions.requestFetchBands({ maxBands, sortBy }));
@@ -166,6 +168,7 @@ class UnconnectedBigBandTable extends React.Component<
     ];
 
     const { userIsAuthenticated } = this.props;
+
     return (
       <Container>
         <ButtonGroup toggle>
@@ -180,9 +183,12 @@ class UnconnectedBigBandTable extends React.Component<
                 e.preventDefault();
                 // TODO: Figure out what's going on with this type casting
                 const currentTarget = e.currentTarget as typeof e.currentTarget & {
-                  value: BandSortTypes;
+                  value: string;
                 };
-                this.setSortType(currentTarget.value);
+                console.log("currentTarget", currentTarget)
+                const sortTypeAsNumber: number = parseInt(currentTarget.value)
+                console.log("sortTypeAsNumber", sortTypeAsNumber)
+                this.setSortType(sortTypeAsNumber);
               }}
             >
               {radio.name}
@@ -192,7 +198,7 @@ class UnconnectedBigBandTable extends React.Component<
         <Table size="sm">
           <tbody>
             {desiredBands.map((band) => (
-              <tr key={band._id}>
+              <tr key={String(band._id)}>
                 <td>
                   <BandModButtonGroup
                     userIsAuthorized={userIsAuthenticated}
@@ -200,8 +206,8 @@ class UnconnectedBigBandTable extends React.Component<
                     modifyBand={(modValue, undoValue) =>
                       this.props.addPointsTo(
                         band._id,
-                        this.props.userId,
                         modValue,
+                        this.props.userId,
                         undoValue
                       )
                     }

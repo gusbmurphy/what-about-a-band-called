@@ -18,7 +18,7 @@ import {
 
 type BandModButtonGroupProps = {
   userIsAuthorized: boolean;
-  modifyBand: (modValue: number, undoValue?: number) => void;
+  modifyBand?: (modValue: number, undoValue?: number) => void;
   modPerformed: number;
 };
 
@@ -41,9 +41,9 @@ export class BandModButtonGroup extends React.Component<
   ) {
     if (this.state.modValue != prevState.modValue) {
       if (this.state.modValue == 0) {
-        this.props.modifyBand(0, prevState.modValue);
+        if (this.props.modifyBand) this.props.modifyBand(0, prevState.modValue);
       } else {
-        this.props.modifyBand(this.state.modValue);
+        if (this.props.modifyBand) this.props.modifyBand(this.state.modValue);
       }
     }
   }
