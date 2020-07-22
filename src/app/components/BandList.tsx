@@ -99,7 +99,7 @@ class UnconnectedBandList extends React.Component<BandListProps> {
             <tbody>
               {desiredBands.map((band) => (
                 <BandTableEntry
-                  key={band._id.toHexString()}
+                  key={String(band._id)}
                   bandName={band.name}
                   bandScore={band.score}
                   bandCreatorName={band.ownerName}
