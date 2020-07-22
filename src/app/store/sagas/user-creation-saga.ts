@@ -6,8 +6,8 @@ import { UserCreationStatuses } from "../statuses";
 
 export function* userCreationSaga() {
   while (true) {
-    let { payload } = yield take(sessionActions.requestCreateUser.type);
-    let { email, username, password, repeatPassword } = payload;
+    const { payload } = yield take(sessionActions.requestCreateUser.type);
+    const { email, username, password, repeatPassword } = payload;
 
     if (!emailIsValid(email)) {
       yield put(
@@ -24,7 +24,7 @@ export function* userCreationSaga() {
         );
       } else {
         try {
-          let response = yield call(
+          const response = yield call(
             axios.post,
             paths.serverUrl + paths.createUser,
             {
@@ -49,6 +49,6 @@ export function* userCreationSaga() {
 }
 
 function emailIsValid(email: string): boolean {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }

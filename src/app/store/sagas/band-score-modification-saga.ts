@@ -7,10 +7,10 @@ import { bandActions } from "../slices/bands-slice";
 
 export function* bandScoreModificationSaga() {
   while (true) {
-    let { payload } = yield take(bandActions.requestModifyBandScore.type);
-    let { targetBandId, modifyingUserId, modificationValue } = payload;
+    const { payload } = yield take(bandActions.requestModifyBandScore.type);
+    const { targetBandId, modifyingUserId, modificationValue } = payload;
     try {
-      let response = yield call(
+      const response = yield call(
         axios.post,
         paths.serverUrl + paths.modifyBand,
         {
