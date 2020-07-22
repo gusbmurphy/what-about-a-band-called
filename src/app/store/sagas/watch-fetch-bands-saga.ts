@@ -5,11 +5,12 @@ import { bandActions } from "../slices/bands-slice";
 import { BandClass } from "../../../server/models/band-model";
 
 export function* watchFetchBandsSaga() {
-  let fetchBandsChannel = yield actionChannel(
+  const fetchBandsChannel = yield actionChannel(
     bandActions.requestFetchBands.type
   );
   while (true) {
-    let { maxBands, sortBy } = yield take(fetchBandsChannel);
+    const { payload } = yield take(fetchBandsChannel);
+    const { maxBands, sortBy } = payload;
     yield call(fetchBands, maxBands, sortBy);
   }
 }
