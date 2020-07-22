@@ -2,14 +2,14 @@ const path = require("path");
 
 module.exports = {
   mode: "development",
-  entry: path.resolve(__dirname, "src", "app"),
+  entry: path.resolve(__dirname, "src", "app/index.tsx"),
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
     publicPath: "/",
   },
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".jsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   devServer: {
     historyApiFallback: true,
@@ -17,7 +17,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(t|j)sx?$/,
+        test: /\.ts(x?)$/,
         use: { loader: "ts-loader" },
         exclude: /node_modules/,
       },
@@ -33,6 +33,8 @@ module.exports = {
       },
     ],
   },
-  externals: [{ mongoose: "commonjs mongoose" }],
+  externals: [
+    { mongoose: "commonjs mongoose" },
+  ],
   devtool: "inline-source-map",
 };
