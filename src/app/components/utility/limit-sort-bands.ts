@@ -1,6 +1,7 @@
 import { BandSortTypes } from "../../store/statuses"
+import { BandClass } from "../../../server/models/band-model"
 
-export function sortAndLimitBands(bands, sortBy, limit) {
+export function sortAndLimitBands(bands: BandClass[], sortBy: BandSortTypes, limit: number): BandClass[] {
   let filteredBands = [...bands];
 
   switch (sortBy) {
@@ -8,7 +9,7 @@ export function sortAndLimitBands(bands, sortBy, limit) {
       filteredBands.sort((a, b) => b.score - a.score);
       break;
     case BandSortTypes.MOST_RECENT:
-      filteredBands.sort((a, b) => a.createdOn - b.createdOn);
+      filteredBands.sort((a, b) => a.createdOn.getMilliseconds() - b.createdOn.getMilliseconds());
       break;
     case BandSortTypes.WORST:
       filteredBands.sort((a, b) => a.score - b.score);
