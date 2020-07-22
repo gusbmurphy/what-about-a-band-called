@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   BandCreationStatuses,
   BandScoreModificationStatuses,
+  BandSortTypes,
 } from "../statuses";
 import { BandClass } from "../../../server/models/band-model";
 import { Types as MongooseTypes } from "mongoose";
@@ -19,7 +20,7 @@ type BandsSliceState = {
   scoreModificationState: ScoreModificationState;
 };
 
-let initialState: BandsSliceState = {
+const initialState: BandsSliceState = {
   pendingFetches: 0,
   items: [],
   creationStatus: BandCreationStatuses.NOT_TRYING,
@@ -33,7 +34,13 @@ const bandsSlice = createSlice({
   initialState,
   reducers: {
     // Band fetching
-    requestFetchBands(state) {
+    requestFetchBands(
+      state,
+      action: PayloadAction<{
+        maxBands: number;
+        sortBy: BandSortTypes;
+      }>
+    ) {
       state.pendingFetches++;
     },
     fetchBandsSuccess(state, action: PayloadAction<BandClass[]>) {
@@ -48,7 +55,14 @@ const bandsSlice = createSlice({
     },
 
     // Band creation
-    requestCreateBand(state) {
+    requestCreateBand(
+      state,
+      action: PayloadAction<{
+        creatingUserId: MongooseTypes.ObjectId;
+        bandName: string;
+        creatingUsername: string;
+      }>
+    ) {
       state.creationStatus = BandCreationStatuses.CREATING;
     },
     createBandSuccess(state, action: PayloadAction<BandClass>) {
@@ -66,6 +80,7 @@ const bandsSlice = createSlice({
         targetBandId: MongooseTypes.ObjectId;
         modifyingUserId: MongooseTypes.ObjectId;
         modificationValue: number;
+        undoValue?: number;
       }>
     ) {
       state.scoreModificationState.status =
@@ -73,7 +88,7 @@ const bandsSlice = createSlice({
       state.scoreModificationState.target = action.payload.targetBandId;
     },
     modifyBandScoreSuccess(state, action) {
-      let targetBandIndex = state.items.findIndex(
+      const targetBandIndex = state.items.findIndex(
         (band) => band._id === action.payload.targetBandId
       );
       state.items[targetBandIndex].score += action.payload.modificationValue;

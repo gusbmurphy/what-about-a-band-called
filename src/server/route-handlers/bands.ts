@@ -1,9 +1,10 @@
 import { Band, BandModification, User } from "../models";
 import { BandCreationStatuses, BandSortTypes } from "../../app/store/statuses";
+import { Types as MongooseTypes } from "mongoose";
 
 export async function postBands(req, res) {
-  let { maxBands, sortBy } = req.body;
-  let query = Band.find({});
+  const { maxBands, sortBy } = req.body;
+  const query = Band.find({});
 
   switch (sortBy) {
     case BandSortTypes.BEST:
@@ -30,27 +31,36 @@ export async function postBands(req, res) {
   });
 }
 
+export type NewBandRequestBody = {
+  bandName: string;
+  ownerId: MongooseTypes.ObjectId;
+  ownerName: string;
+};
+
 export async function postNewBand(req, res) {
-  let { bandName, creatingUserId } = req.body;
-  if (await Band.exists({ name: bandName })) {
+  const requestBody: NewBandRequestBody = req.body;
+  console.log(requestBody);
+  if (await Band.exists({ name: requestBody.bandName })) {
     return res.status(500).send({ reason: BandCreationStatuses.BAND_EXISTS });
   }
-  let newBand = new Band({
-    name: bandName,
-    ownerId: creatingUserId,
+  const newBand = new Band({
+    name: requestBody.bandName,
     score: 0,
+    ownerId: requestBody.ownerId,
+    ownerName: requestBody.ownerName,
+    createdOn: new Date(),
   });
   newBand.save((err) => {
     if (err) {
       console.info('Error in "/band/new" route:\n', err);
       return res.status(500).send();
     }
-    return res.status(200).send({ newBandId: newBand._id });
+    return res.status(200).send({ newBand });
   });
 }
 
 export async function postModifyBand(req, res) {
-  let { targetBandId, modifyingUserId, modificationValue } = req.body;
+  const { targetBandId, modifyingUserId, modificationValue } = req.body;
 
   // Check to make sure that the target band exists
   if (!(await Band.exists({ _id: targetBandId }))) {
@@ -58,7 +68,7 @@ export async function postModifyBand(req, res) {
   }
 
   // Check to see if the user has already modified this band
-  let existingMod = await BandModification.findOne({
+  const existingMod = await BandModification.findOne({
     ownerId: modifyingUserId,
     bandId: targetBandId,
   });
@@ -114,7 +124,7 @@ export async function postModifyBand(req, res) {
         }
 
         // Now create the new BandModification entry
-        let modification = new BandModification({
+        const modification = new BandModification({
           ownerId: modifyingUserId,
           bandId: targetBandId,
           value: modificationValue,

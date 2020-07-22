@@ -8,14 +8,17 @@ import * as sagas from "./sagas";
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
 
+const rootReducer = combineReducers({
+  bands: bandsReducer,
+  session: sessionReducer
+});
+export type RootState = ReturnType<typeof rootReducer>;
+
 export const store = configureStore({
-  reducer: combineReducers({
-    bands: bandsReducer,
-    session: sessionReducer
-  }),
+  reducer: rootReducer,
   middleware: middleware,
 });
 
-for (let saga in sagas) {
+for (const saga in sagas) {
   sagaMiddleware.run(sagas[saga]);
 }
