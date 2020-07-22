@@ -10,17 +10,35 @@ import {
   BsCaretUpFill,
 } from "react-icons/bs";
 
+// BandModButtonGroup.propTypes = {
+//   userIsAuthorized: PropTypes.bool.isRequired,
+//   modifyBand: PropTypes.func,
+//   modPerformed: PropTypes.oneOf([1, 0, -1]),
+// };
+
+type BandModButtonGroupProps = {
+  userIsAuthorized: boolean;
+  modifyBand: (modValue: number, undoValue?: number) => void;
+  modPerformed: number;
+};
+
+type BandModButtonGroupState = {
+  modValue: number;
+};
+
 // TODO: Logging out will still show the BsCarrets as 'filled' if the user modified those bands
+export class BandModButtonGroup extends React.Component<
+  BandModButtonGroupProps,
+  BandModButtonGroupState
+> {
+  state = {
+    modValue: this.props.modPerformed,
+  };
 
-export class BandModButtonGroup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modValue: this.props.modPerformed,
-    };
-  }
-
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(
+    prevProps: BandModButtonGroupProps,
+    prevState: BandModButtonGroupState
+  ) {
     if (this.state.modValue != prevState.modValue) {
       if (this.state.modValue == 0) {
         this.props.modifyBand(0, prevState.modValue);
@@ -31,7 +49,7 @@ export class BandModButtonGroup extends React.Component {
   }
 
   render() {
-    let { userIsAuthorized, modPerformed } = this.props;
+    const { userIsAuthorized, modPerformed } = this.props;
     return (
       <ToggleButtonGroup
         name={"modButtons"}
@@ -61,9 +79,3 @@ export class BandModButtonGroup extends React.Component {
     );
   }
 }
-
-BandModButtonGroup.propTypes = {
-  userIsAuthorized: PropTypes.bool.isRequired,
-  modifyBand: PropTypes.func,
-  modPerformed: PropTypes.oneOf([1, 0, -1]),
-};
