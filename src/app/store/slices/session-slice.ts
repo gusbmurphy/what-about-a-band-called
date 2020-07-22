@@ -56,7 +56,15 @@ const sessionSlice = createSlice({
     },
 
     // User creation
-    requestCreateUser(state) {
+    requestCreateUser(
+      state,
+      action: PayloadAction<{
+        email: string;
+        username: string;
+        password: string;
+        repeatPassword: string;
+      }>
+    ) {
       state.userCreationStatus = UserCreationStatuses.PROCESSING;
     },
     createUserSuccess(state) {

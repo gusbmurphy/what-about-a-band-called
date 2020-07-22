@@ -1,23 +1,54 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { UserCreationStatuses } from "../store/statuses";
 import { sessionActions } from "../store/slices/session-slice";
 
-export class UnconnectedNewUserForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      username: "",
-      password: "",
-      repeatPassword: "",
-    };
-  }
+// UnconnectedNewUserForm.propTypes = {
+//   submitForm: PropTypes.func.isRequired,
+//   userCreationStatus: PropTypes.oneOf(Object.values(UserCreationStatuses)),
+// };
+
+const mapStateToProps = ({ session }) => ({
+  userCreationStatus: session.userCreationStatus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  submitForm: (email, username, password, repeatPassword) =>
+    dispatch(
+      sessionActions.requestCreateUser({
+        email,
+        username,
+        password,
+        repeatPassword,
+      })
+    ),
+});
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+type NewUserFormProps = ConnectedProps<typeof reduxConnector>;
+
+type NewUserFormState = {
+  email: string;
+  username: string;
+  password: string;
+  repeatPassword: string;
+};
+
+export class UnconnectedNewUserForm extends React.Component<
+  NewUserFormProps,
+  NewUserFormState
+> {
+  state = {
+    email: "",
+    username: "",
+    password: "",
+    repeatPassword: "",
+  };
 
   // TODO: Wouldn't it be easy to make it so the email is validated as the user types? Maybe on a slight delay? Same with the username and password?
 
@@ -83,7 +114,11 @@ export class UnconnectedNewUserForm extends React.Component {
           <Button
             variant="primary"
             type="button"
-            disabled={this.props.userCreationStatus == UserCreationStatuses.PROCESSING || this.props.userCreationStatus == UserCreationStatuses.SUCCESS}
+            disabled={
+              this.props.userCreationStatus ==
+                UserCreationStatuses.PROCESSING ||
+              this.props.userCreationStatus == UserCreationStatuses.SUCCESS
+            }
             onClick={() =>
               this.props.submitForm(
                 this.state.email,
@@ -95,34 +130,16 @@ export class UnconnectedNewUserForm extends React.Component {
           >
             Submit
           </Button>
-          {this.props.userCreationStatus == UserCreationStatuses.SUCCESS &&
-          <Alert variant="success">Account created! You may now <a href="/login">log in</a>.</Alert>}
+          {this.props.userCreationStatus == UserCreationStatuses.SUCCESS && (
+            <Alert variant="success">
+              Account created! You may now <a href="/login">log in</a>.
+            </Alert>
+          )}
         </Form>
       </Container>
     );
   }
 }
-
-UnconnectedNewUserForm.propTypes = {
-  submitForm: PropTypes.func.isRequired,
-  userCreationStatus: PropTypes.oneOf(Object.values(UserCreationStatuses)),
-};
-
-const mapStateToProps = ({ session }) => ({
-  userCreationStatus: session.userCreationStatus,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  submitForm: (email, username, password, repeatPassword) =>
-    dispatch(
-      sessionActions.requestCreateUser({
-        email,
-        username,
-        password,
-        repeatPassword,
-      })
-    ),
-});
 
 export const NewUserForm = connect(
   mapStateToProps,
