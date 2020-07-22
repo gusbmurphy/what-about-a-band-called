@@ -39,6 +39,15 @@ function UserNotLoggedInAlert() {
   );
 }
 
+function BandCreatedAlert() {
+  return (
+    <Alert variant="success">
+      <Alert.Heading>Name submitted!</Alert.Heading>
+      <p>Now that&apos;s funny.</p>
+    </Alert>
+  );
+}
+
 // UnconnectedCreateBandForm.propTypes = {
 //   createBand: PropTypes.func.isRequired,
 //   authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses))
@@ -78,16 +87,21 @@ type CreateBandFormState = {
   displayUserNotLoggedIn: boolean;
   displayNoNameAlert: boolean;
   displayProgess: boolean;
+  displaySuccess: boolean;
 };
 
-class UnconnectedCreateBandForm extends React.Component<CreateBandFormProps, CreateBandFormState> {
+class UnconnectedCreateBandForm extends React.Component<
+  CreateBandFormProps,
+  CreateBandFormState
+> {
   state = {
-      bandName: "",
-      displayBandExistsAlert: false,
-      displayUserNotLoggedIn: false,
-      displayNoNameAlert: false,
-      displayProgess: false,
-    };
+    bandName: "",
+    displayBandExistsAlert: false,
+    displayUserNotLoggedIn: false,
+    displayNoNameAlert: false,
+    displayProgess: false,
+    displaySuccess: false,
+  };
 
   handleClick() {
     if (
@@ -105,6 +119,13 @@ class UnconnectedCreateBandForm extends React.Component<CreateBandFormProps, Cre
           this.props.username,
           this.state.bandName
         );
+        this.setState({
+          displayBandExistsAlert: false,
+          displayUserNotLoggedIn: false,
+          displayNoNameAlert: false,
+          displayProgess: false,
+          displaySuccess: true,
+        });
       }
     } else {
       this.setState({
@@ -121,6 +142,7 @@ class UnconnectedCreateBandForm extends React.Component<CreateBandFormProps, Cre
       displayNoNameAlert,
       displayProgess,
       displayUserNotLoggedIn,
+      displaySuccess
     } = this.state;
     return (
       <>
@@ -138,6 +160,7 @@ class UnconnectedCreateBandForm extends React.Component<CreateBandFormProps, Cre
         {displayUserNotLoggedIn ? <UserNotLoggedInAlert /> : null}
         {displayNoNameAlert ? <NoNameAlert /> : null}
         {displayBandExistsAlert ? <BandExistsAlert /> : null}
+        {displaySuccess ? <BandCreatedAlert /> : null}
       </>
     );
   }
