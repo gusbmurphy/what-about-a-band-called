@@ -3,8 +3,9 @@ import axios from "axios";
 import * as paths from "../../../server/paths";
 import { sessionActions } from "../slices/session-slice";
 import { UserCreationStatuses } from "../statuses";
+import { SagaIterator } from "redux-saga";
 
-export function* userCreationSaga() {
+export function* userCreationSaga(): SagaIterator {
   while (true) {
     const { payload } = yield take(sessionActions.requestCreateUser.type);
     const { email, username, password, repeatPassword } = payload;

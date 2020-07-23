@@ -21,12 +21,12 @@ describe("Bands Slice", function () {
       state.pendingFetches.should.equal(1);
     });
 
-    let firstBands = [];
+    const firstBands = [];
     for (let i = 0; i < 3; i++) {
       firstBands.push({ _id: new ObjectId() });
     }
 
-    let secondBands = [];
+    const secondBands = [];
     for (let i = 0; i < 3; i++) {
       secondBands.push({ _id: new ObjectId() });
     }
@@ -48,11 +48,11 @@ describe("Bands Slice", function () {
     });
 
     it("does not add objects with duplicate ObjectIds to the array", function () {
-      let moreNewBands = [];
+      const moreNewBands = [];
       for (let i = 0; i < 3; i++) {
         moreNewBands.push({ _id: new ObjectId() });
       }
-      let duplicateBands = [...firstBands];
+      const duplicateBands = [...firstBands];
 
       state = bandsReducer(
         { items: firstBands },
@@ -68,9 +68,9 @@ describe("Bands Slice", function () {
       );
 
       let hasDuplicateEntries = false;
-      let countedEntries = [];
+      const countedEntries = [];
       for (let i = 0; i < state.items.length && !hasDuplicateEntries; i++) {
-        let entry = state.items[i];
+        const entry = state.items[i];
         if (countedEntries.some((band) => band._id == entry._id))
           hasDuplicateEntries = true;
         else countedEntries.push(entry);
@@ -114,7 +114,7 @@ describe("Bands Slice", function () {
       );
     });
 
-    let newBand = "newBand1";
+    const newBand = "newBand1";
 
     it("should set the creation status to created on a success", function () {
       state = bandsReducer(state, {
@@ -131,7 +131,7 @@ describe("Bands Slice", function () {
     });
 
     it("should set the creation status to the reason for failure on a failure", function () {
-      let reason = "failure";
+      const reason = "failure";
       state = bandsReducer(state, {
         type: bandActions.createBandFailure.type,
         payload: { reason },
@@ -142,9 +142,9 @@ describe("Bands Slice", function () {
 
   describe("Score Modification", function () {
     let store;
-    let targetBandId = "bandId1";
-    let bandScore = 1;
-    let targetBand = {
+    const targetBandId = "bandId1";
+    const bandScore = 1;
+    const targetBand = {
       _id: targetBandId,
       name: "bandName1",
       score: bandScore,
@@ -172,9 +172,9 @@ describe("Bands Slice", function () {
     });
 
     it("sets the status to success and correctly updates the band in the store when the modification is successful", function () {
-      let modificationValue = -1;
-      let originalBand = Object.assign({}, targetBand);
-      let modifiedBand = Object.assign({}, targetBand);
+      const modificationValue = -1;
+      const originalBand = Object.assign({}, targetBand);
+      const modifiedBand = Object.assign({}, targetBand);
       modifiedBand.score += modificationValue;
 
       store = bandsReducer(

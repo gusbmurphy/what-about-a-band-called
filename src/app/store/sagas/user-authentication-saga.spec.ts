@@ -6,7 +6,7 @@ import { sessionActions } from "../slices/session-slice";
 import { userAuthenticationSaga } from "./user-authentication-saga";
 
 describe("User Authentication Saga", function () {
-  let generator = cloneableGenerator(userAuthenticationSaga)();
+  const generator = cloneableGenerator(userAuthenticationSaga)();
 
   it("waits for an authenticate user begin action", function () {
     generator
@@ -16,8 +16,8 @@ describe("User Authentication Saga", function () {
       );
   });
 
-  let username = "username1";
-  let password = "password1";
+  const username = "username1";
+  const password = "password1";
 
   it("yields a call effect to post to the authentication route with the username and password from the begin action", function () {
     generator.next({ payload: { username, password } }).value.should.deep.equal(
@@ -28,11 +28,11 @@ describe("User Authentication Saga", function () {
     );
   });
 
-  let userId = "userId1";
-  let bandsModified = ["band1", "band2"];
+  const userId = "userId1";
+  const bandsModified = ["band1", "band2"];
 
   it("if the response status is 200, it yields a put effect that the authentication was successful with the user's id, name, and array of modified bands", function () {
-    let clone = generator.clone();
+    const clone = generator.clone();
     clone
       .next({ status: 200, data: { userId, bandsModified, username } })
       .value.should.deep.equal(
@@ -46,11 +46,11 @@ describe("User Authentication Saga", function () {
       );
   });
 
-  let reason = "reason1";
+  const reason = "reason1";
 
   it("if the axios responds with an error, it puts a failure action with the reason", function () {
-    let clone = generator.clone();
-    clone
+    const clone = generator.clone();
+    clone!
       .throw({ response: { status: 500, data: { reason } } })
       .value.should.deep.equal(
         put(sessionActions.authenticateUserFailure({ reason }))

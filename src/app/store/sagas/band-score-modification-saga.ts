@@ -2,14 +2,16 @@ import axios from "axios";
 import { call, put, take } from "redux-saga/effects";
 import * as paths from "../../../server/paths";
 import { bandActions } from "../slices/bands-slice";
+import { SagaIterator } from "redux-saga";
 
 // TODO: This doesn't work right on the database side!
 
-export function* bandScoreModificationSaga() {
+export function* bandScoreModificationSaga(): SagaIterator {
   while (true) {
     const { payload } = yield take(bandActions.requestModifyBandScore.type);
     const { targetBandId, modifyingUserId, modificationValue } = payload;
     try {
+      console.log("modification value in saga: ", modificationValue);
       const response = yield call(
         axios.post,
         paths.serverUrl + paths.modifyBand,

@@ -2,13 +2,14 @@ import axios from "axios";
 import { call, put, take } from "redux-saga/effects";
 import * as paths from "../../../server/paths";
 import { sessionActions } from "../slices/session-slice";
+import { SagaIterator } from "redux-saga";
 
 export function* userAuthenticationSaga() {
   while (true) {
-    let { payload } = yield take(sessionActions.requestAuthenticateUser.type);
-    let { username, password } = payload;
+    const { payload } = yield take(sessionActions.requestAuthenticateUser.type);
+    const { username, password } = payload;
     try {
-      let response = yield call(
+      const response = yield call(
         axios.post,
         paths.serverUrl + paths.authenticate,
         {
@@ -16,7 +17,7 @@ export function* userAuthenticationSaga() {
           password,
         }
       );
-      let { userId, bandsModified } = response.data;
+      const { userId, bandsModified } = response.data;
       console.log("bandsModified in userAuthenticationSaga: ", bandsModified);
       if (response.status == 200) {
         yield put(

@@ -6,6 +6,7 @@ import { NewBandRequestBody } from "../../../server/route-handlers/bands";
 import { Types as MongooseTypes } from "mongoose";
 import { BandClass } from "../../../server/models/band-model";
 import { BandCreationStatuses } from "../statuses";
+import { SagaIterator } from "redux-saga";
 
 export function* bandCreationSaga() {
   while (true) {
