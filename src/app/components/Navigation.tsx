@@ -26,33 +26,27 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
-type NavigationProps = ConnectedProps<typeof connector> ;
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type NavigationProps = ConnectedProps<typeof connector>;
 
 // TODO: Should we have some way for users to log out?
 const UnconnectedNavigation = (props: NavigationProps) => (
-  <Navbar>
+  <Navbar bg="light" className={"mb-3"}>
     <LinkContainer to="/">
       <Navbar.Brand>wababc?</Navbar.Brand>
     </LinkContainer>
-    <LinkContainer to="/bands">
-      <Nav.Link>Bands</Nav.Link>
-    </LinkContainer>
-    {props.authenticationStatus == AuthenticationStatuses.AUTHENTICATED ? (
-      <>
-      <Nav.Item>
-        Signed in as {props.username}
-      </Nav.Item>
-      <Nav.Link onClick={() => props.logout()}>Logout</Nav.Link>
-      </>
-    ) : (
-      <LinkContainer to="/login">
-        <Nav.Link>Login</Nav.Link>
-      </LinkContainer>
-    )}
+    {/* <Nav.Item className="mr-sm-2"> */}
+      {props.authenticationStatus == AuthenticationStatuses.AUTHENTICATED ? (
+        <>
+          <Nav.Item>Signed in as {props.username}</Nav.Item>
+          <Nav.Link onClick={() => props.logout()}>Logout</Nav.Link>
+        </>
+      ) : (
+        <LinkContainer to="/login">
+          <Nav.Link>Login</Nav.Link>
+        </LinkContainer>
+      )}
+    {/* </Nav.Item> */}
   </Navbar>
 );
 

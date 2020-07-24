@@ -145,10 +145,11 @@ class UnconnectedCreateBandForm extends React.Component<
       displaySuccess
     } = this.state;
     return (
-      <>
+      <div className={"mb-3"}>
         <InputGroup>
           <FormControl
             type="text"
+            placeholder="What about a band called..."
             onChange={(e) => this.setState({ bandName: e.target.value })}
           />
           <InputGroup.Append>
@@ -161,7 +162,7 @@ class UnconnectedCreateBandForm extends React.Component<
         {displayNoNameAlert ? <NoNameAlert /> : null}
         {displayBandExistsAlert ? <BandExistsAlert /> : null}
         {displaySuccess ? <BandCreatedAlert /> : null}
-      </>
+      </div>
     );
   }
 }

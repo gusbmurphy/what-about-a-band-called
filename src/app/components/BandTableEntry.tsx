@@ -40,6 +40,7 @@ export default class BandTableEntry extends React.Component<
             userIsAuthorized={userIsAuthenticated}
             modPerformed={modificationPerformed}
             modifyBand={modifyBand}
+            currentScore={bandScore}
           />
         </td>
         <td>{bandScore}</td>

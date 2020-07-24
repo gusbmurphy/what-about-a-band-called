@@ -20,6 +20,7 @@ type BandModButtonGroupProps = {
   userIsAuthorized: boolean;
   modifyBand?: (modValue: number, undoValue?: number) => void;
   modPerformed: number;
+  currentScore: number;
 };
 
 type BandModButtonGroupState = {

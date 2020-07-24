@@ -3,6 +3,8 @@ import React, { SyntheticEvent } from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Container from "react-bootstrap/Container";
+import Badge from "react-bootstrap/Badge";
+import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import { connect, ConnectedProps } from "react-redux";
@@ -170,60 +172,68 @@ class UnconnectedBigBandTable extends React.Component<
     const { userIsAuthenticated } = this.props;
 
     return (
-      <Container>
-        <ButtonGroup toggle>
-          {sortRadios.map((radio, idx) => (
-            <ToggleButton
-              key={idx}
-              type="radio"
-              value={radio.value}
-              name="sortRadio"
-              checked={radio.value === this.state.sortType}
-              onChange={(e: SyntheticEvent) => {
-                e.preventDefault();
-                // TODO: Figure out what's going on with this type casting
-                const currentTarget = e.currentTarget as typeof e.currentTarget & {
-                  value: string;
-                };
-                console.log("currentTarget", currentTarget)
-                const sortTypeAsNumber: number = parseInt(currentTarget.value)
-                console.log("sortTypeAsNumber", sortTypeAsNumber)
-                this.setSortType(sortTypeAsNumber);
-              }}
-            >
-              {radio.name}
-            </ToggleButton>
-          ))}
-        </ButtonGroup>
-        <Table size="sm">
-          <tbody>
-            {desiredBands.map((band) => (
-              <tr key={String(band._id)}>
-                <td>
-                  <BandModButtonGroup
-                    userIsAuthorized={userIsAuthenticated}
-                    modPerformed={this.getUserModificationToBand(band._id)}
-                    modifyBand={(modValue, undoValue) =>
-                      this.props.addPointsTo(
-                        band._id,
-                        modValue,
-                        this.props.userId,
-                        undoValue
-                      )
-                    }
-                  />
-                  {band.score}
-                </td>
-                <td>{band.name}</td>
-                <td>from {band.ownerName}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <Button variant="secondary" block onClick={() => this.loadMore()}>
-          Show me more...
-        </Button>
-      </Container>
+      <Card>
+        <Card.Header>
+            <ButtonGroup toggle>
+              {sortRadios.map((radio, idx) => (
+                <ToggleButton
+                  key={idx}
+                  type="radio"
+                  value={radio.value}
+                  name="sortRadio"
+                  checked={radio.value === this.state.sortType}
+                  onChange={(e: SyntheticEvent) => {
+                    e.preventDefault();
+                    // TODO: Figure out what's going on with this type casting
+                    const currentTarget = e.currentTarget as typeof e.currentTarget & {
+                      value: string;
+                    };
+                    console.log("currentTarget", currentTarget);
+                    const sortTypeAsNumber: number = parseInt(
+                      currentTarget.value
+                    );
+                    console.log("sortTypeAsNumber", sortTypeAsNumber);
+                    this.setSortType(sortTypeAsNumber);
+                  }}
+                >
+                  {radio.name}
+                </ToggleButton>
+              ))}
+            </ButtonGroup>
+        </Card.Header>
+        <Card.Body>
+          <Table size="sm" striped bordered>
+            <tbody>
+              {desiredBands.map((band) => (
+                <tr key={String(band._id)}>
+                  <td>
+                    <BandModButtonGroup
+                      userIsAuthorized={userIsAuthenticated}
+                      modPerformed={this.getUserModificationToBand(band._id)}
+                      modifyBand={(modValue, undoValue) =>
+                        this.props.addPointsTo(
+                          band._id,
+                          modValue,
+                          this.props.userId,
+                          undoValue
+                        )
+                      }
+                      currentScore={band.score}
+                    />{" "}
+                    <Badge variant="secondary">{band.score}</Badge> {band.name}{" "}
+                    <span className={"font-weight-lighter"}>
+                      from {band.ownerName}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <Button variant="secondary" block onClick={() => this.loadMore()}>
+            Show me more...
+          </Button>
+        </Card.Body>
+      </Card>
     );
   }
 }

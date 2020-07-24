@@ -2,6 +2,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import { connect, ConnectedProps } from "react-redux";
@@ -55,87 +56,92 @@ export class UnconnectedNewUserForm extends React.Component<
   render() {
     return (
       <Container>
-        <Form>
-          <Form.Group controlId="formNewUserEmail">
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type="text"
-              onChange={(e) => this.setState({ email: e.target.value })}
-              isInvalid={
-                this.props.userCreationStatus ==
-                UserCreationStatuses.INVALID_EMAIL
-              }
-            />
-            <Form.Control.Feedback type="invalid">
-              Please enter a valid email address.
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group controlId="formNewUserName">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              onChange={(e) => this.setState({ username: e.target.value })}
-              isInvalid={
-                this.props.userCreationStatus ==
-                UserCreationStatuses.USERNAME_TAKEN
-              }
-            />
-            <Form.Control.Feedback type="invalid">
-              Username is already taken.
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group controlId="formNewUserPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              onChange={(e) => this.setState({ password: e.target.value })}
-              isInvalid={
-                this.props.userCreationStatus ==
-                UserCreationStatuses.PASSWORDS_DONT_MATCH
-              }
-            />
-          </Form.Group>
-          <Form.Group controlId="formNewUserRepeatPassword">
-            <Form.Label>Repeat Password</Form.Label>
-            <Form.Control
-              type="password"
-              onChange={(e) =>
-                this.setState({ repeatPassword: e.target.value })
-              }
-              isInvalid={
-                this.props.userCreationStatus ==
-                UserCreationStatuses.PASSWORDS_DONT_MATCH
-              }
-            />
-            <Form.Control.Feedback type="invalid">
-              Passwords don&apos;t match.
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Button
-            variant="primary"
-            type="button"
-            disabled={
-              this.props.userCreationStatus ==
-                UserCreationStatuses.PROCESSING ||
-              this.props.userCreationStatus == UserCreationStatuses.SUCCESS
-            }
-            onClick={() =>
-              this.props.submitForm(
-                this.state.email,
-                this.state.username,
-                this.state.password,
-                this.state.repeatPassword
-              )
-            }
-          >
-            Submit
-          </Button>
-          {this.props.userCreationStatus == UserCreationStatuses.SUCCESS && (
-            <Alert variant="success">
-              Account created! You may now <a href="/login">log in</a>.
-            </Alert>
-          )}
-        </Form>
+        <Card style={{ maxWidth: "36rem" }} className="mx-auto">
+          <Card.Body>
+            <Form>
+              <Form.Group controlId="formNewUserEmail">
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control
+                  type="text"
+                  onChange={(e) => this.setState({ email: e.target.value })}
+                  isInvalid={
+                    this.props.userCreationStatus ==
+                    UserCreationStatuses.INVALID_EMAIL
+                  }
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please enter a valid email address.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group controlId="formNewUserName">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  onChange={(e) => this.setState({ username: e.target.value })}
+                  isInvalid={
+                    this.props.userCreationStatus ==
+                    UserCreationStatuses.USERNAME_TAKEN
+                  }
+                />
+                <Form.Control.Feedback type="invalid">
+                  Username is already taken.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group controlId="formNewUserPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  onChange={(e) => this.setState({ password: e.target.value })}
+                  isInvalid={
+                    this.props.userCreationStatus ==
+                    UserCreationStatuses.PASSWORDS_DONT_MATCH
+                  }
+                />
+              </Form.Group>
+              <Form.Group controlId="formNewUserRepeatPassword">
+                <Form.Label>Repeat Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  onChange={(e) =>
+                    this.setState({ repeatPassword: e.target.value })
+                  }
+                  isInvalid={
+                    this.props.userCreationStatus ==
+                    UserCreationStatuses.PASSWORDS_DONT_MATCH
+                  }
+                />
+                <Form.Control.Feedback type="invalid">
+                  Passwords don&apos;t match.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Button
+                variant="primary"
+                type="button"
+                disabled={
+                  this.props.userCreationStatus ==
+                    UserCreationStatuses.PROCESSING ||
+                  this.props.userCreationStatus == UserCreationStatuses.SUCCESS
+                }
+                onClick={() =>
+                  this.props.submitForm(
+                    this.state.email,
+                    this.state.username,
+                    this.state.password,
+                    this.state.repeatPassword
+                  )
+                }
+              >
+                Submit
+              </Button>
+              {this.props.userCreationStatus ==
+                UserCreationStatuses.SUCCESS && (
+                <Alert variant="success">
+                  Account created! You may now <a href="/login">log in</a>.
+                </Alert>
+              )}
+            </Form>
+          </Card.Body>
+        </Card>
       </Container>
     );
   }
