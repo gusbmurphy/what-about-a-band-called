@@ -3,6 +3,8 @@ import createSagaMiddleware from "redux-saga";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import bandsReducer from "./slices/bands-slice";
 import sessionReducer from "./slices/session-slice";
+import userRecordsReducer from "./slices/user-records-slice";
+
 import * as sagas from "./sagas";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -10,7 +12,8 @@ const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
 
 const rootReducer = combineReducers({
   bands: bandsReducer,
-  session: sessionReducer
+  session: sessionReducer,
+  userRecords: userRecordsReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
 

@@ -1,3 +1,9 @@
+export enum UserRecordSortTypes {
+  HIGHEST_SCORE,
+  HIGHEST_AVERAGE_SCORE,
+  MOST_NAMES_CONTRIBUTED
+}
+
 export enum BandCreationStatuses {
   CREATING,
   CREATED,
