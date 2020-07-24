@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserRecordSortTypes } from "../statuses";
 import { Types as MongooseTypes } from "mongoose";
 
-type UserRecord = {
+export type UserRecord = {
   id: MongooseTypes.ObjectId;
   name: string;
-  totalScore: number;
-  namesContributed: number;
-  averageScore: number;
+  totalScore?: number;
+  namesContributed?: number;
+  averageScore?: number;
 };
 
 type UserRecordsSliceState = {

@@ -21,8 +21,8 @@ export class UserClass extends defaultClasses.Base {
   public passwordHash: string;
   @prop({ required: true })
   public email: string;
-  @prop({ ref: () => BandClass, default: [] })
-  public ownBands: Ref<BandClass>[];
+  // @prop({ ref: () => BandClass, default: [] })
+  // public ownBands: Ref<BandClass>[];
   @prop()
   public bandsModified: UserBandModRecord[];
 

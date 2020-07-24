@@ -5,3 +5,4 @@ export const modifyBand = "/band/modify";
 export const newBand = "/band/new";
 export const createUser = "/create-user";
 export const getUsername = "/usernames/get";
+export const getUserRecords = "/users/get";

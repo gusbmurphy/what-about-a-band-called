@@ -43,9 +43,9 @@ mongoose.connect(localDbUrl);
     });
     bandIds.push(newBand._id);
     await newBand.save();
-    await User.findByIdAndUpdate(randomUser.id, {
-      $push: { ownBands: newBand._id },
-    });
+    // await User.findByIdAndUpdate(randomUser.id, {
+    //   $push: { ownBands: newBand._id },
+    // });
   }
 
   for (let i = 0; i < numOfModifications; i++) {

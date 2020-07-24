@@ -55,18 +55,18 @@ export async function postNewBand(req, res) {
       console.info('Error in "/band/new" route:\n', err);
       return res.status(500).send();
     }
-    // Add to the users "ownBands"
-    User.findByIdAndUpdate(
-      requestBody.ownerId,
-      { $push: { ownBands: newBand._id } },
-      (err) => {
-        if (err) {
-          console.info('Error in "/band/new" route:\n', err);
-          return res.status(500).send();
-        }
-        return res.status(200).send({ newBand });
-      }
-    );
+    // // Add to the users "ownBands"
+    // User.findByIdAndUpdate(
+    //   requestBody.ownerId,
+    //   { $push: { ownBands: newBand._id } },
+    //   (err) => {
+    //     if (err) {
+    //       console.info('Error in "/band/new" route:\n', err);
+    //       return res.status(500).send();
+    //     }
+    //     return res.status(200).send({ newBand });
+    //   }
+    // );
   });
 }
 
