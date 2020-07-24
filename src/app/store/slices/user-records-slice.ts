@@ -5,19 +5,19 @@ import { Types as MongooseTypes } from "mongoose";
 export type UserRecord = {
   id: MongooseTypes.ObjectId;
   name: string;
-  totalScore?: number;
-  namesContributed?: number;
-  averageScore?: number;
+  totalScore: number;
+  namesContributed: number;
+  averageScore: number;
 };
 
 type UserRecordsSliceState = {
   pendingFetches: number;
-  userRecords: UserRecord[];
+  items: UserRecord[];
 };
 
 const initialState: UserRecordsSliceState = {
   pendingFetches: 0,
-  userRecords: [],
+  items: [],
 };
 
 const userRecordsSlice = createSlice({
@@ -38,8 +38,8 @@ const userRecordsSlice = createSlice({
       action: PayloadAction<UserRecord[]>
     ) {
       action.payload.forEach((newRecord) => {
-        if (!state.userRecords.some((record) => record.id == newRecord.id))
-          state.userRecords.push(newRecord);
+        if (!state.items.some((record) => record.id == newRecord.id))
+          state.items.push(newRecord);
       });
       state.pendingFetches--;
     },

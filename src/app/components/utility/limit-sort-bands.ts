@@ -14,7 +14,7 @@ export function sortAndLimitBands(
       break;
     case BandSortTypes.MOST_RECENT:
       filteredBands.sort((a, b) => {
-        // TODO: What the fuck is happening here?
+        // TODO: What is happening here?
         // @ts-ignore
         return Date.parse(b.createdOn) - Date.parse(a.createdOn);
       });

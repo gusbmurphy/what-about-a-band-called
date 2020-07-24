@@ -29,7 +29,7 @@ export function* fetchUserRecords(
       { numOfRecords: maxRecords, sortType: sortBy }
     );
     if (response.status != 200) throw new Error();
-    yield put(bandActions.fetchBandsSuccess(response.data));
+    yield put(userRecordsActions.fetchUserRecordsSuccess(response.data));
   } catch (error) {
     yield put(userRecordsActions.fetchUserRecordsFailure());
   }
