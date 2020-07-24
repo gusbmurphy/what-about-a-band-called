@@ -5,17 +5,17 @@ import mongoose from "mongoose";
 import { Band, BandModification, User } from "../server/models";
 import { localDbUrl } from "../server/server";
 
-let numOfUsers = 50;
-let numOfBands = 200;
-let numOfModifications = 500;
+const numOfUsers = 50;
+const numOfBands = 200;
+const numOfModifications = 500;
 
 mongoose.connect(localDbUrl);
 
 (async function loadDummyDb() {
-  let usersInfo : {id: mongoose.Types.ObjectId, name: string}[] = [];
+  const usersInfo: { id: mongoose.Types.ObjectId; name: string }[] = [];
   for (let i = 0; i < numOfUsers; i++) {
-    let name = faker.internet.userName();
-    let newUser = new User({
+    const name = faker.internet.userName();
+    const newUser = new User({
       name,
       passwordHash: md5(faker.internet.password()),
       email: faker.internet.email(),
@@ -25,16 +25,16 @@ mongoose.connect(localDbUrl);
     await newUser.save();
   }
 
-  let bandIds: mongoose.Types.ObjectId[] = [];
+  const bandIds: mongoose.Types.ObjectId[] = [];
   for (let i = 0; i < numOfBands; i++) {
-    let randomName = faker.random.word();
-    let extraWordsInName = Math.floor(Math.random() * 5);
+    const randomName = faker.random.word();
+    const extraWordsInName = Math.floor(Math.random() * 5);
     for (let j = 0; j < extraWordsInName; j++) {
       randomName.concat(" " + faker.random.word());
     }
 
-    let randomUser = usersInfo[Math.floor(Math.random() * numOfUsers)];
-    let newBand = new Band({
+    const randomUser = usersInfo[Math.floor(Math.random() * numOfUsers)];
+    const newBand = new Band({
       name: randomName,
       ownerId: randomUser.id,
       ownerName: randomUser.name,
@@ -43,10 +43,13 @@ mongoose.connect(localDbUrl);
     });
     bandIds.push(newBand._id);
     await newBand.save();
+    await User.findByIdAndUpdate(randomUser.id, {
+      $push: { ownBands: newBand._id },
+    });
   }
 
   for (let i = 0; i < numOfModifications; i++) {
-    let randomUser = usersInfo[Math.floor(Math.random() * numOfUsers)];
+    const randomUser = usersInfo[Math.floor(Math.random() * numOfUsers)];
     let randomBandId = bandIds[Math.floor(Math.random() * numOfBands)];
 
     while (
@@ -58,9 +61,9 @@ mongoose.connect(localDbUrl);
       randomBandId = bandIds[Math.floor(Math.random() * numOfBands)];
     }
 
-    let modificationValue = Math.random() < 0.5 ? -1 : 1;
+    const modificationValue = Math.random() < 0.5 ? -1 : 1;
 
-    let newBandModification = new BandModification({
+    const newBandModification = new BandModification({
       ownerId: randomUser.id,
       bandId: randomBandId,
       value: modificationValue,

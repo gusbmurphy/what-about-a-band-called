@@ -1,6 +1,7 @@
 import { Band, BandModification, User } from "../models";
 import { BandCreationStatuses, BandSortTypes } from "../../app/store/statuses";
 import { Types as MongooseTypes } from "mongoose";
+import { userAuthenticationSaga } from "../../app/store/sagas";
 
 export async function postBands(req, res) {
   const { maxBands, sortBy } = req.body;
@@ -39,7 +40,6 @@ export type NewBandRequestBody = {
 
 export async function postNewBand(req, res) {
   const requestBody: NewBandRequestBody = req.body;
-  console.log(requestBody);
   if (await Band.exists({ name: requestBody.bandName })) {
     return res.status(500).send({ reason: BandCreationStatuses.BAND_EXISTS });
   }
@@ -55,7 +55,18 @@ export async function postNewBand(req, res) {
       console.info('Error in "/band/new" route:\n', err);
       return res.status(500).send();
     }
-    return res.status(200).send({ newBand });
+    // Add to the users "ownBands"
+    User.findByIdAndUpdate(
+      requestBody.ownerId,
+      { $push: { ownBands: newBand._id } },
+      (err) => {
+        if (err) {
+          console.info('Error in "/band/new" route:\n', err);
+          return res.status(500).send();
+        }
+        return res.status(200).send({ newBand });
+      }
+    );
   });
 }
 
@@ -102,7 +113,7 @@ export async function postModifyBand(req, res) {
                 console.info('Error in "/band/modify" route:\n', err);
                 return res.status(500).send();
               }
-              
+
               // Update the band's score
               Band.findByIdAndUpdate(
                 targetBandId,
