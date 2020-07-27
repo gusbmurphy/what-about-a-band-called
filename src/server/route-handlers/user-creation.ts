@@ -3,7 +3,7 @@ import { UserCreationStatuses } from "../../app/store/statuses";
 import { User } from "../models";
 
 export async function postCreateUser(req, res) {
-  let { username, password, email } = req.body;
+  const { username, password, email } = req.body;
   if (await User.exists({ name: username })) {
     return res
       .status(409)
@@ -13,7 +13,7 @@ export async function postCreateUser(req, res) {
     return res.status(409).send({ reason: UserCreationStatuses.EMAIL_TAKEN });
   }
 
-  let newUser = new User({
+  const newUser = new User({
     name: username,
     email: email,
     passwordHash: md5(password),

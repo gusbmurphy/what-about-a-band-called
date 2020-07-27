@@ -5,7 +5,7 @@ import { User } from "../models";
 // TODO: What are authentication tokens? Why should we use them?
 
 export async function postUserAuthenticate(req, res) {
-  let { username, password } = req.body;
+  const { username, password } = req.body;
   if ((await User.exists({ name: username })) == false) {
     return res
       .status(401)
