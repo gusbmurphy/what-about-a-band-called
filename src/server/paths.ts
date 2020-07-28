@@ -1,8 +1,8 @@
-export const serverUrl = "http://localhost:7777";
-export const authenticate = "/authenticate";
-export const postBands = "/bands";
-export const modifyBand = "/band/modify";
-export const newBand = "/band/new";
-export const createUser = "/create-user";
-export const getUsername = "/usernames/get";
-export const getUserRecords = "/users/get";
+export const serverUrl = process.env.NODE_ENV == "production" ? "" : "http://localhost:7777";
+export const authenticate = "/api/authenticate";
+export const postBands = "/api/bands";
+export const modifyBand = "/api/band/modify";
+export const newBand = "/api/band/new";
+export const createUser = "/api/create-user";
+export const getUsername = "/api/usernames/get";
+export const getUserRecords = "/api/users/get";
