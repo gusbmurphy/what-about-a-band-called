@@ -135,6 +135,7 @@ class UnconnectedBigBandTable extends React.Component<
     this.setState({ sortType: newType });
   }
 
+  // TODO: This only works after the second push, very strange
   loadMore() {
     this.setState((state) => {
       return {

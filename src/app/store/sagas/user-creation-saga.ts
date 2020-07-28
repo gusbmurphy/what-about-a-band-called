@@ -8,15 +8,15 @@ import { SagaIterator } from "redux-saga";
 export function* userCreationSaga(): SagaIterator {
   while (true) {
     const { payload } = yield take(sessionActions.requestCreateUser.type);
-    const { email, username, password, repeatPassword } = payload;
+    const { /*email,*/ username, password, repeatPassword } = payload;
 
-    if (!emailIsValid(email)) {
-      yield put(
-        sessionActions.createUserFailure({
-          reason: UserCreationStatuses.INVALID_EMAIL,
-        })
-      );
-    } else {
+    // if (!emailIsValid(email)) {
+    //   yield put(
+    //     sessionActions.createUserFailure({
+    //       reason: UserCreationStatuses.INVALID_EMAIL,
+    //     })
+    //   );
+    // } else {
       if (password !== repeatPassword) {
         yield put(
           sessionActions.createUserFailure({
@@ -31,7 +31,7 @@ export function* userCreationSaga(): SagaIterator {
             {
               username,
               password,
-              email,
+              // email,
             }
           );
           if (response.status == 200) {
@@ -45,7 +45,7 @@ export function* userCreationSaga(): SagaIterator {
           );
         }
       }
-    }
+    // }
   }
 }
 

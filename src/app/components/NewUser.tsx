@@ -19,10 +19,10 @@ const mapStateToProps = ({ session }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  submitForm: (email, username, password, repeatPassword) =>
+  submitForm: (/*email,*/ username, password, repeatPassword) =>
     dispatch(
       sessionActions.requestCreateUser({
-        email,
+        // email,
         username,
         password,
         repeatPassword,
@@ -59,7 +59,7 @@ export class UnconnectedNewUserForm extends React.Component<
         <Card style={{ maxWidth: "36rem" }} className="mx-auto">
           <Card.Body>
             <Form>
-              <Form.Group controlId="formNewUserEmail">
+              {/* <Form.Group controlId="formNewUserEmail">
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
                   type="text"
@@ -72,7 +72,7 @@ export class UnconnectedNewUserForm extends React.Component<
                 <Form.Control.Feedback type="invalid">
                   Please enter a valid email address.
                 </Form.Control.Feedback>
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group controlId="formNewUserName">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
@@ -124,7 +124,7 @@ export class UnconnectedNewUserForm extends React.Component<
                 }
                 onClick={() =>
                   this.props.submitForm(
-                    this.state.email,
+                    // this.state.email,
                     this.state.username,
                     this.state.password,
                     this.state.repeatPassword

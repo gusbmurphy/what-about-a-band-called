@@ -59,7 +59,7 @@ const sessionSlice = createSlice({
     requestCreateUser(
       state,
       action: PayloadAction<{
-        email: string;
+        // email: string;
         username: string;
         password: string;
         repeatPassword: string;
