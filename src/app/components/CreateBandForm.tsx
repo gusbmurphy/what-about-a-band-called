@@ -146,7 +146,7 @@ class UnconnectedCreateBandForm extends React.Component<
     } = this.state;
     return (
       <div className={"mb-3"}>
-        <InputGroup>
+        <InputGroup size="lg">
           <FormControl
             type="text"
             placeholder="What about a band called..."

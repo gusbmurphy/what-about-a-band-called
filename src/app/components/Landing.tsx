@@ -11,9 +11,9 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 
 export const Landing = () => (
   <>
-    <Jumbotron>
+    {/* <Jumbotron>
       <h1 className="landingTitle">What about a band called...</h1>
-    </Jumbotron>
+    </Jumbotron> */}
     <Container>
       <Row className={"mb-5"}>
         <Col md={8}>
