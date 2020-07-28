@@ -19,7 +19,7 @@ import rateLimit from "express-rate-limit";
 import path from "path";
 
 export const localDbUrl = "mongodb://127.0.0.1:27017/wababc";
-const port = process.env.NODE_ENV || 7777;
+const port = process.env.PORT || 7777;
 export const app = express();
 
 const dbUrl = process.env.MONGODB_URI || localDbUrl;
