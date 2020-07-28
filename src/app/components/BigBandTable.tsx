@@ -112,12 +112,14 @@ class UnconnectedBigBandTable extends React.Component<
     prevProps: BigBandTableProps,
     prevState: BigBandTableState
   ) {
+    console.log("this.state.maxBandsDisplayed: ", this.state.maxBandsDisplayed);
+    console.log("prevState.maxBandsDisplayed: ", prevState.maxBandsDisplayed);
     if (
-      this.state.maxBandsDisplayed < prevState.maxBandsDisplayed ||
+      this.state.maxBandsDisplayed > prevState.maxBandsDisplayed ||
       this.state.shouldFetchBands
     ) {
       this.props.requestFetchBands(
-        this.state.bandsPerFetch,
+        this.state.maxBandsDisplayed,
         this.state.sortType
       );
       this.setState({ shouldFetchBands: false });
@@ -142,10 +144,10 @@ class UnconnectedBigBandTable extends React.Component<
         maxBandsDisplayed: state.maxBandsDisplayed + state.bandsPerFetch,
       };
     });
-    this.props.requestFetchBands(
-      this.state.maxBandsDisplayed,
-      this.state.sortType
-    );
+    // this.props.requestFetchBands(
+    //   this.state.maxBandsDisplayed,
+    //   this.state.sortType
+    // );
   }
 
   getUserModificationToBand(thisBandId: MongooseTypes.ObjectId) {
@@ -175,32 +177,32 @@ class UnconnectedBigBandTable extends React.Component<
     return (
       <Card>
         <Card.Header>
-            <ButtonGroup toggle>
-              {sortRadios.map((radio, idx) => (
-                <ToggleButton
-                  key={idx}
-                  type="radio"
-                  value={radio.value}
-                  name="sortRadio"
-                  checked={radio.value === this.state.sortType}
-                  onChange={(e: SyntheticEvent) => {
-                    e.preventDefault();
-                    // TODO: Figure out what's going on with this type casting
-                    const currentTarget = e.currentTarget as typeof e.currentTarget & {
-                      value: string;
-                    };
-                    console.log("currentTarget", currentTarget);
-                    const sortTypeAsNumber: number = parseInt(
-                      currentTarget.value
-                    );
-                    console.log("sortTypeAsNumber", sortTypeAsNumber);
-                    this.setSortType(sortTypeAsNumber);
-                  }}
-                >
-                  {radio.name}
-                </ToggleButton>
-              ))}
-            </ButtonGroup>
+          <ButtonGroup toggle>
+            {sortRadios.map((radio, idx) => (
+              <ToggleButton
+                key={idx}
+                type="radio"
+                value={radio.value}
+                name="sortRadio"
+                checked={radio.value === this.state.sortType}
+                onChange={(e: SyntheticEvent) => {
+                  e.preventDefault();
+                  // TODO: Figure out what's going on with this type casting
+                  const currentTarget = e.currentTarget as typeof e.currentTarget & {
+                    value: string;
+                  };
+                  console.log("currentTarget", currentTarget);
+                  const sortTypeAsNumber: number = parseInt(
+                    currentTarget.value
+                  );
+                  console.log("sortTypeAsNumber", sortTypeAsNumber);
+                  this.setSortType(sortTypeAsNumber);
+                }}
+              >
+                {radio.name}
+              </ToggleButton>
+            ))}
+          </ButtonGroup>
         </Card.Header>
         <Card.Body>
           <Table size="sm" striped bordered>
