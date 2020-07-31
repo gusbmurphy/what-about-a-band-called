@@ -71,8 +71,9 @@ class UnconnectedUserRecordsList extends React.Component<UserRecordsListProps> {
     return (
       <Table size="sm" striped bordered>
         <tbody>
-          {desiredRecords.map((record) => (
+          {desiredRecords.map((record, index) => (
             <tr key={String(record.id)}>
+              <td>{index + 1}</td>
               <td>
                 {record.name}{" "}
                 <ListEntryBadge
