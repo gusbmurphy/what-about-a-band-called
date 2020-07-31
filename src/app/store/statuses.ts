@@ -25,6 +25,13 @@ export enum BandScoreModificationStatuses {
   NOT_TRYING,
 }
 
+export enum ProfileFetchStatuses {
+  ATTEMPTING,
+  SUCCESS,
+  FAILURE,
+  NOT_TRYING
+}
+
 export enum AuthenticationStatuses {
   AUTHENTICATING,
   AUTHENTICATED,

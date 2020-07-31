@@ -4,6 +4,7 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import bandsReducer from "./slices/bands-slice";
 import sessionReducer from "./slices/session-slice";
 import userRecordsReducer from "./slices/user-records-slice";
+import userProfileReducer from "./slices/user-profile-slice";
 
 import * as sagas from "./sagas";
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   bands: bandsReducer,
   session: sessionReducer,
   userRecords: userRecordsReducer,
+  userProfile: userProfileReducer
 });
 export type RootState = ReturnType<typeof rootReducer>;
 
