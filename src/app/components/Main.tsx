@@ -10,6 +10,7 @@ import { Landing } from "./Landing";
 import { Login } from "./Login";
 import { Navigation } from "./Navigation";
 import { NewUserForm } from "./NewUser";
+import { UserProfile } from "./UserProfile";
 
 // const AuthenticationGuard = (Component) => ({ match }) => {
 //   if (
@@ -31,6 +32,10 @@ export const Main = () => (
         <Route exact path="/login" component={Login} />
         <Route exact path="/new-user" component={NewUserForm} />
         <Route exact path="/" component={Landing} />
+        <Route
+          path="/users/:userId"
+          component={({ match }) => <UserProfile id={match.params.userId} />}
+        />
       </div>
     </Provider>
   </Router>

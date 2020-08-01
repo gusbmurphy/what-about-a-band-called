@@ -9,6 +9,8 @@ import { RootState } from "../store/";
 import { sortAndLimitUserRecords } from "./utility/limit-sort-user-records";
 import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge";
+import { Link } from "react-router-dom";
+import { createUserProfileUrl } from "../components/utility/create-user-profile-url"
 
 function mapStateToProps(state: RootState) {
   return {
@@ -75,7 +77,7 @@ class UnconnectedUserRecordsList extends React.Component<UserRecordsListProps> {
             <tr key={String(record.id)}>
               <td>{index + 1}</td>
               <td>
-                {record.name}{" "}
+                <Link to={createUserProfileUrl(String(record.id))}>{record.name}</Link>{" "}
                 <ListEntryBadge
                   sortType={this.props.sortType}
                   record={record}

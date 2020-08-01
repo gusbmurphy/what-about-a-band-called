@@ -16,7 +16,7 @@ export const Landing = () => (
     </Jumbotron> */}
     <Container>
       <Row className={"mb-5"}>
-        <Col md={8}>
+        <Col md={8} className={"mb-3"}>
           <CreateBandForm />
           <BigBandTable />
         </Col>
