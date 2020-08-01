@@ -11,8 +11,6 @@ import {
 import mongoose from "mongoose";
 import { Band, BandClass } from "./band-model";
 
-// TODO: Add point related instance methods.
-
 @modelOptions({ options: { customName: "User" } })
 export class UserClass extends defaultClasses.Base {
   @prop({ required: true })

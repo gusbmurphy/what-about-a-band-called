@@ -10,6 +10,7 @@ import {
   newBand,
   createUser,
   getUserRecords,
+  getUserProfileEndpoint,
 } from "./paths";
 import { postBands, postModifyBand, postNewBand } from "./route-handlers/bands";
 import { postUserAuthenticate } from "./route-handlers/user-authentication";
@@ -17,6 +18,7 @@ import { postCreateUser } from "./route-handlers/user-creation";
 import { postUserRecords } from "./route-handlers/user-records";
 import rateLimit from "express-rate-limit";
 import path from "path";
+import { getUserProfile } from "./route-handlers/user-profile";
 
 export const localDbUrl = "mongodb://127.0.0.1:27017/wababc";
 const port = process.env.PORT || 7777;
@@ -51,3 +53,4 @@ app.post(modifyBand, postModifyBand);
 app.post(newBand, postNewBand);
 app.post(createUser, postCreateUser);
 app.post(getUserRecords, postUserRecords);
+app.get(getUserProfileEndpoint, getUserProfile);
