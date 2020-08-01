@@ -3,7 +3,7 @@ import { Types as MongooseTypes } from "mongoose";
 import { BandClass } from "../../../server/models/band-model";
 import { ProfileFetchStatuses } from "../statuses";
 
-export type UserProfile = {
+export type UserProfileType = {
   id: MongooseTypes.ObjectId;
   name: string;
   totalScore: number;
@@ -14,7 +14,7 @@ export type UserProfile = {
 
 type UserProfileSliceState = {
   fetchStatus: ProfileFetchStatuses;
-  profile?: UserProfile;
+  profile?: UserProfileType;
 };
 
 const initialState: UserProfileSliceState = {
@@ -36,7 +36,7 @@ const userProfileSlice = createSlice({
     },
     fetchUserProfileSuccess(
       state,
-      action: PayloadAction<{ profile: UserProfile }>
+      action: PayloadAction<{ profile: UserProfileType }>
     ) {
       state.fetchStatus = ProfileFetchStatuses.SUCCESS;
       state.profile = action.payload.profile;
