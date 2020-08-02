@@ -9,9 +9,9 @@ export async function postCreateUser(req, res) {
       .status(409)
       .send({ reason: UserCreationStatuses.USERNAME_TAKEN });
   }
-  if (await User.exists({ email })) {
-    return res.status(409).send({ reason: UserCreationStatuses.EMAIL_TAKEN });
-  }
+  // if (await User.exists({ email })) {
+  //   return res.status(409).send({ reason: UserCreationStatuses.EMAIL_TAKEN });
+  // }
 
   const newUser = new User({
     name: username,
