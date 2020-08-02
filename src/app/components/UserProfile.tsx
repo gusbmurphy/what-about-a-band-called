@@ -85,7 +85,7 @@ class UnconnectedUserProfile extends React.Component<UserProfileProps> {
         </Container>
       );
     } else {
-      return <div>{this.props.fetchStatus}</div>;
+      return null;
     }
   }
 }

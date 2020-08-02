@@ -14,6 +14,8 @@ import { sortAndLimitBands } from "./utility/limit-sort-bands";
 import { BandModButtonGroup } from "./BandModButtonGroup";
 import { RootState } from "../store/";
 import { Types as MongooseTypes } from "mongoose";
+import { createUserProfileUrl } from "./utility/create-user-profile-url";
+import { Link } from "react-router-dom";
 
 const defaultBandsPerFetch = 20;
 
@@ -225,7 +227,7 @@ class UnconnectedBigBandTable extends React.Component<
                     />{" "}
                     <Badge variant="secondary">{band.score}</Badge> {band.name}{" "}
                     <span className={"font-weight-lighter"}>
-                      from {band.ownerName}
+                      from  <Link to={createUserProfileUrl(String(band.ownerId))}>{band.ownerName}</Link>
                     </span>
                   </td>
                 </tr>
