@@ -22,7 +22,6 @@ module.exports = {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   devServer: {
-    writeToDisk: true,
     contentBase: path.join(__dirname, "dist"),
   },
   module: {
