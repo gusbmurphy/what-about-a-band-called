@@ -15,7 +15,7 @@ export async function postCreateUser(req, res) {
 
   const newUser = new User({
     name: username,
-    email: email,
+    // email: email,
     passwordHash: md5(password),
   });
   
