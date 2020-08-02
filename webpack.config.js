@@ -1,28 +1,18 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   mode: "development",
   entry: path.resolve(__dirname, "src", "app/index.tsx"),
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].[contenthash].js",
+    filename: "bundle.js",
     publicPath: "/",
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      title: "What about a band called...",
-      template: "index.html"
-    }),
-  ],
-  devtool: 'inline-source-map',
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -43,6 +33,8 @@ module.exports = {
       },
     ],
   },
-  externals: [{ mongoose: "commonjs mongoose" }],
+  externals: [
+    { mongoose: "commonjs mongoose" },
+  ],
   devtool: "inline-source-map",
 };
