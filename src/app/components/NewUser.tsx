@@ -8,6 +8,7 @@ import Form from "react-bootstrap/Form";
 import { connect, ConnectedProps } from "react-redux";
 import { UserCreationStatuses } from "../store/statuses";
 import { sessionActions } from "../store/slices/session-slice";
+import Spinner from "react-bootstrap/Spinner";
 
 // UnconnectedNewUserForm.propTypes = {
 //   submitForm: PropTypes.func.isRequired,
@@ -54,6 +55,7 @@ export class UnconnectedNewUserForm extends React.Component<
   // TODO: Wouldn't it be easy to make it so the email is validated as the user types? Maybe on a slight delay? Same with the username and password?
 
   render() {
+    const { userCreationStatus } = this.props;
     return (
       <Container>
         <Card style={{ maxWidth: "36rem" }} className="mx-auto">
@@ -137,6 +139,11 @@ export class UnconnectedNewUserForm extends React.Component<
                 UserCreationStatuses.SUCCESS && (
                 <Alert variant="success">
                   Account created! You may now <a href="/login">log in</a>.
+                </Alert>
+              )}
+              {userCreationStatus == UserCreationStatuses.PROCESSING && (
+                <Alert variant="info">
+                  <Spinner animation="border" variant="primary" /> Processing...
                 </Alert>
               )}
             </Form>
