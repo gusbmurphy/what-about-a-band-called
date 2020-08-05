@@ -2,7 +2,7 @@ import { prop, getModelForClass, modelOptions, defaultClasses } from "@typegoose
 // import { UserSchema } from "./user-model";
 import mongoose from "mongoose";
 
-// TODO: Why are we using public here, is that necessary?
+// TODO: We could have some validators in here... 
 @modelOptions({ options: { customName: "Band" } })
 export class BandClass extends defaultClasses.Base {
   @prop({ required: true })

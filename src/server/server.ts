@@ -19,10 +19,14 @@ import { postUserRecords } from "./route-handlers/user-records";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import { getUserProfile } from "./route-handlers/user-profile";
+import session from "express-session";
+import connectStore from "connect-mongo";
+import { env } from "process";
 
 export const localDbUrl = "mongodb://127.0.0.1:27017/wababc";
 const port = process.env.PORT || 7777;
 export const app = express();
+const MongoStore = connectStore(session);
 
 const dbUrl = process.env.MONGODB_URI || localDbUrl;
 mongoose.connect(dbUrl);
@@ -38,8 +42,26 @@ const apiLimiter = rateLimit({
 app.use("/api/", apiLimiter);
 app.use(helmet());
 app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
+app.use(
+  session({
+    name: process.env.SESS_NAME,
+    secret: process.env.SESS_SECRET!,
+    saveUninitialized: false,
+    resave: false,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      collection: "session",
+      ttl: parseInt(process.env.SESS_LIFETIME!) / 1000,
+    }),
+    cookie: {
+      sameSite: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: parseInt(process.env.SESS_LIFETIME!),
+    },
+  })
+);
 
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../../dist")));
   app.get("/*", (req, res) => {
     res.sendFile(path.resolve("dist/index.html"));
