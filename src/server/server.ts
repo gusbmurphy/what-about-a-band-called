@@ -36,6 +36,8 @@ const apiLimiter = rateLimit({
   max: 100,
 });
 app.use("/api/", apiLimiter);
+app.use(helmet());
+app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
 
 if (process.env.NODE_ENV == "production") {
   app.use(express.static(path.resolve(__dirname, "../../dist")));
@@ -44,8 +46,6 @@ if (process.env.NODE_ENV == "production") {
   });
 }
 
-app.use(helmet());
-app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
 // TODO: A lot of these shouldn't really be POSTs, shouldn't they?
 app.post(authenticate, postUserAuthenticate);
 app.post(postBandsPath, postBands);
