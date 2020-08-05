@@ -5,8 +5,8 @@ import { Types as MongooseTypes } from "mongoose";
 
 export async function getUserProfile(req, res) {
   const { userId } = req.params;
-  // console.log("userId in profile route: ", userId);
-  // console.log("type of userId in profile route: ", typeof(userId));
+  console.log("userId in profile route: ", userId);
+  console.log("type of userId in profile route: ", typeof(userId));
   User.findById(new MongooseTypes.ObjectId(userId), async (err, user) => {
     if (err) {
       console.error(err);
