@@ -39,13 +39,6 @@ app.use("/api/", apiLimiter);
 app.use(helmet());
 app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
 
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.resolve(__dirname, "../../dist")));
-  app.get("/*", (req, res) => {
-    res.sendFile(path.resolve("dist/index.html"));
-  });
-}
-
 // TODO: A lot of these shouldn't really be POSTs, shouldn't they?
 app.post(authenticate, postUserAuthenticate);
 app.post(postBandsPath, postBands);
@@ -54,3 +47,10 @@ app.post(newBand, postNewBand);
 app.post(createUser, postCreateUser);
 app.post(getUserRecords, postUserRecords);
 app.get(getUserProfileEndpoint, getUserProfile);
+
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static(path.resolve(__dirname, "../../dist")));
+  app.get("/*", (req, res) => {
+    res.sendFile(path.resolve("dist/index.html"));
+  });
+}
