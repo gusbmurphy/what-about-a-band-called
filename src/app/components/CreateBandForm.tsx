@@ -7,6 +7,7 @@ import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { AuthenticationStatuses } from "../store/statuses";
+import { LinkContainer } from "react-router-bootstrap";
 
 const NoNameAlert = () => (
   <Alert variant="danger">
@@ -33,7 +34,10 @@ function UserNotLoggedInAlert() {
       <Alert.Heading>You&apos;ve gotta be signed in!</Alert.Heading>
       <p>
         We don&apos;t let just anyone in here. You can{" "}
-        <Alert.Link to="/new-user">make an account here</Alert.Link>, though, if you want.
+        <LinkContainer to="/new-user">
+          <Alert.Link>make an account here</Alert.Link>
+        </LinkContainer>
+        , though, if you want.
       </p>
     </Alert>
   );
@@ -134,7 +138,7 @@ class UnconnectedCreateBandForm extends React.Component<
       displayNoNameAlert,
       displayProgess,
       displayUserNotLoggedIn,
-      displaySuccess
+      displaySuccess,
     } = this.state;
     return (
       <div className={"mb-3"}>
