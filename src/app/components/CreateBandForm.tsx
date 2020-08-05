@@ -33,7 +33,7 @@ function UserNotLoggedInAlert() {
       <Alert.Heading>You&apos;ve gotta be signed in!</Alert.Heading>
       <p>
         We don&apos;t let just anyone in here. You can{" "}
-        <Alert.Link>make an account here</Alert.Link>, though, if you want.
+        <Alert.Link to="/new-user">make an account here</Alert.Link>, though, if you want.
       </p>
     </Alert>
   );
@@ -47,14 +47,6 @@ function BandCreatedAlert() {
     </Alert>
   );
 }
-
-// UnconnectedCreateBandForm.propTypes = {
-//   createBand: PropTypes.func.isRequired,
-//   authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses))
-//     .isRequired,
-//   userId: PropTypes.string,
-//   username: PropTypes.string,
-// };
 
 function mapStateToProps(state) {
   return {
