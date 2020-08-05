@@ -1,10 +1,13 @@
 import { User } from "../models/user-model";
 import { Band } from "../models/band-model";
 import { UserProfileType } from "../../app/store/slices/user-profile-slice";
+import { Types as MongooseTypes } from "mongoose";
 
 export async function getUserProfile(req, res) {
   const { userId } = req.params;
-  User.findById(userId, async (err, user) => {
+  // console.log("userId in profile route: ", userId);
+  // console.log("type of userId in profile route: ", typeof(userId));
+  User.findById(new MongooseTypes.ObjectId(userId), async (err, user) => {
     if (err) {
       console.error(err);
       return res.status(500).send();
