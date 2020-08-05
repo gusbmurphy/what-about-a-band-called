@@ -1,13 +1,22 @@
 const path = require("path");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: "development",
+  // mode: "development",
   entry: path.resolve(__dirname, "src", "app/index.tsx"),
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "[name].[contenthash].js",
     publicPath: "/",
   },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: "What About A Band Called",
+      template: "./src/index.html"
+    }),
+  ],
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
@@ -33,8 +42,19 @@ module.exports = {
       },
     ],
   },
-  externals: [
-    { mongoose: "commonjs mongoose" },
-  ],
+  optimization: {
+    moduleIds: "hashed",
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
+    },
+  },
+  externals: [{ mongoose: "commonjs mongoose" }],
   devtool: "inline-source-map",
 };
