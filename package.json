@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A way to share and rank band name ideas.",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "build": "webpack -p",
     "test-nyc": "nyc --include 'src' --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --exclude 'src/util/test-setup.js' --all mocha --require @babel/register --require './src/util/test-setup.js' './src/**/*.spec.js' './src/**/*.spec.jsx'",
