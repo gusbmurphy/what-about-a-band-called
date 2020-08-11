@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthenticationStatuses, UserCreationStatuses } from "../statuses";
 import { bandActions } from "./bands-slice";
-import { Types as MongooseTypes } from "mongoose";
+import { Types as MongooseTypes, STATES } from "mongoose";
 
 type SessionBandModification = {
   targetBandId: MongooseTypes.ObjectId;
@@ -28,6 +28,27 @@ const sessionSlice = createSlice({
   name: "session",
   initialState,
   reducers: {
+    // Session checking
+    requestCheckSession(state) {
+      state.authenticationStatus = AuthenticationStatuses.AUTHENTICATING;
+    },
+    checkSessionSuccess(
+      state,
+      action: PayloadAction<{
+        userId: MongooseTypes.ObjectId;
+        username: string;
+        bandsModified: SessionBandModification[];
+      }>
+    ) {
+      state.authenticationStatus = AuthenticationStatuses.AUTHENTICATED;
+      state.userId = action.payload.userId;
+      state.username = action.payload.username;
+      state.bandsModified = action.payload.bandsModified;
+    },
+    checkSessionFailure(state) {
+      state.authenticationStatus = AuthenticationStatuses.NOT_TRYING;
+    },
+
     // User authentication
     requestAuthenticateUser(
       state,
@@ -38,7 +59,14 @@ const sessionSlice = createSlice({
     ) {
       state.authenticationStatus = AuthenticationStatuses.AUTHENTICATING;
     },
-    authenticateUserSuccess(state, action) {
+    authenticateUserSuccess(
+      state,
+      action: PayloadAction<{
+        userId: MongooseTypes.ObjectId;
+        username: string;
+        bandsModified: SessionBandModification[];
+      }>
+    ) {
       state.authenticationStatus = AuthenticationStatuses.AUTHENTICATED;
       state.userId = action.payload.userId;
       state.username = action.payload.username;

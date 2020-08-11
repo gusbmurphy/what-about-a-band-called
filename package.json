@@ -13,7 +13,7 @@
     "test-sagas": "mocha --require ts-node/register './src/app/store/sagas/*.spec.ts'",
     "start": "npm run server",
     "dev": "webpack-dev-server --open",
-    "server": "nodemon --exec babel-node --extensions \".ts\" src/server/server",
+    "server": "nodemon -e js,ts --exec babel-node --extensions \".ts\" src/server/server",
     "start-dev": "concurrently \"npm run server\" \"npm run dev\"",
     "load-dummy-data": "babel-node --extensions \".ts\" src/utility/load-dummy-db"
   },

@@ -15,7 +15,8 @@ export function* userAuthenticationSaga() {
         {
           username,
           password,
-        }
+        },
+        { withCredentials: true }
       );
       const { userId, bandsModified } = response.data;
       console.log("bandsModified in userAuthenticationSaga: ", bandsModified);

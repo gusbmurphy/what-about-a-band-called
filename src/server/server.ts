@@ -11,7 +11,7 @@ import {
   createUser,
   getUserRecords,
   getUserProfileEndpoint,
-  checkSession
+  checkSession,
 } from "./paths";
 import { postBands, postModifyBand, postNewBand } from "./route-handlers/bands";
 import { postUserAuthenticate } from "./route-handlers/user-authentication";
@@ -23,7 +23,14 @@ import path from "path";
 import { getUserProfile } from "./route-handlers/user-profile";
 import session from "express-session";
 import connectStore from "connect-mongo";
-import { dbUrl, port, sessionSecret, sessionName, sessionLifetime } from "./config";
+import {
+  dbUrl,
+  port,
+  sessionSecret,
+  sessionName,
+  sessionLifetime,
+  acceptableOrigin
+} from "./config";
 
 export const app = express();
 const MongoStore = connectStore(session);
@@ -40,7 +47,15 @@ const apiLimiter = rateLimit({
 });
 app.use("/api/", apiLimiter);
 app.use(helmet());
-app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
+app.use(
+  cors({
+    origin: acceptableOrigin,
+    methods: ["GET", "POST"],
+    credentials: true,
+  }),
+  bodyParser.urlencoded({ extended: true }),
+  bodyParser.json()
+);
 app.use(
   session({
     name: sessionName,

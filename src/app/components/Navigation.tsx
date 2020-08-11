@@ -23,32 +23,44 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(sessionActions.requestLogout());
     },
+    checkSession: () => {
+      dispatch(sessionActions.requestCheckSession());
+    },
   };
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type NavigationProps = ConnectedProps<typeof connector>;
 
-// TODO: Should we have some way for users to log out?
-const UnconnectedNavigation = (props: NavigationProps) => (
-  <Navbar bg="light" className={"mb-3"}>
-    <LinkContainer to="/">
-      <Navbar.Brand>wababc?</Navbar.Brand>
-    </LinkContainer>
-    {/* <Nav.Item className="mr-sm-2"> */}
-      {props.authenticationStatus == AuthenticationStatuses.AUTHENTICATED ? (
-        <>
-          <Nav.Item>Signed in as {props.username}</Nav.Item>
-          <Nav.Link onClick={() => props.logout()}>Logout</Nav.Link>
-        </>
-      ) : (
-        <LinkContainer to="/login">
-          <Nav.Link>Login</Nav.Link>
+class UnconnectedNavigation extends React.Component<NavigationProps> {
+  componentDidMount() {
+    if (this.props.authenticationStatus == AuthenticationStatuses.NOT_TRYING)
+      this.props.checkSession();
+  }
+
+  render() {
+    return (
+      <Navbar bg="light" className={"mb-3"}>
+        <LinkContainer to="/">
+          <Navbar.Brand>wababc?</Navbar.Brand>
         </LinkContainer>
-      )}
-    {/* </Nav.Item> */}
-  </Navbar>
-);
+        {/* <Nav.Item className="mr-sm-2"> */}
+        {this.props.authenticationStatus ==
+        AuthenticationStatuses.AUTHENTICATED ? (
+          <>
+            <Nav.Item>Signed in as {this.props.username}</Nav.Item>
+            <Nav.Link onClick={() => this.props.logout()}>Logout</Nav.Link>
+          </>
+        ) : (
+          <LinkContainer to="/login">
+            <Nav.Link>Login</Nav.Link>
+          </LinkContainer>
+        )}
+        {/* </Nav.Item> */}
+      </Navbar>
+    );
+  }
+}
 
 export const Navigation = connect(
   mapStateToProps,
