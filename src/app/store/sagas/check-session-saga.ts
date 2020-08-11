@@ -10,7 +10,7 @@ export function* checkSessionSaga(): SagaIterator {
     try {
       const response = yield call(
         axios.get,
-        paths.serverUrl + paths.checkSession,
+        paths.serverUrl + paths.sessionEndpoint,
         { withCredentials: true }
       );
       if (response.status == 200) {

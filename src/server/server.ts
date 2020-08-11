@@ -11,13 +11,14 @@ import {
   createUser,
   getUserRecords,
   getUserProfileEndpoint,
-  checkSession,
+  sessionEndpoint,
 } from "./paths";
 import { postBands, postModifyBand, postNewBand } from "./route-handlers/bands";
 import { postUserAuthenticate } from "./route-handlers/user-authentication";
 import { postCreateUser } from "./route-handlers/user-creation";
 import { postUserRecords } from "./route-handlers/user-records";
 import { checkUserSession } from "./route-handlers/check-user-session";
+import { deleteUserSession } from "./route-handlers/delete-session"
 import rateLimit from "express-rate-limit";
 import path from "path";
 import { getUserProfile } from "./route-handlers/user-profile";
@@ -50,7 +51,7 @@ app.use(helmet());
 app.use(
   cors({
     origin: acceptableOrigin,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE"],
     credentials: true,
   }),
   bodyParser.urlencoded({ extended: true }),
@@ -90,4 +91,5 @@ app.post(newBand, postNewBand);
 app.post(createUser, postCreateUser);
 app.post(getUserRecords, postUserRecords);
 app.get(getUserProfileEndpoint, getUserProfile);
-app.get(checkSession, checkUserSession);
+app.get(sessionEndpoint, checkUserSession);
+app.delete(sessionEndpoint, deleteUserSession);
