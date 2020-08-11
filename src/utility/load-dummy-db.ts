@@ -3,7 +3,7 @@ import * as faker from "faker";
 import mongoose from "mongoose";
 
 import { Band, BandModification, User } from "../server/models";
-import { localDbUrl } from "../server/server";
+import { localDbUrl } from "../server/config";
 
 const numOfUsers = 50;
 const numOfBands = 200;

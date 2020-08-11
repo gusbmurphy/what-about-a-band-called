@@ -11,20 +11,31 @@ import {
   createUser,
   getUserRecords,
   getUserProfileEndpoint,
+  sessionEndpoint,
 } from "./paths";
 import { postBands, postModifyBand, postNewBand } from "./route-handlers/bands";
 import { postUserAuthenticate } from "./route-handlers/user-authentication";
 import { postCreateUser } from "./route-handlers/user-creation";
 import { postUserRecords } from "./route-handlers/user-records";
+import { checkUserSession } from "./route-handlers/check-user-session";
+import { deleteUserSession } from "./route-handlers/delete-session"
 import rateLimit from "express-rate-limit";
 import path from "path";
 import { getUserProfile } from "./route-handlers/user-profile";
+import session from "express-session";
+import connectStore from "connect-mongo";
+import {
+  dbUrl,
+  port,
+  sessionSecret,
+  sessionName,
+  sessionLifetime,
+  acceptableOrigin
+} from "./config";
 
-export const localDbUrl = "mongodb://127.0.0.1:27017/wababc";
-const port = process.env.PORT || 7777;
 export const app = express();
+const MongoStore = connectStore(session);
 
-const dbUrl = process.env.MONGODB_URI || localDbUrl;
 mongoose.connect(dbUrl);
 
 app.listen(port);
@@ -37,7 +48,40 @@ const apiLimiter = rateLimit({
 });
 app.use("/api/", apiLimiter);
 app.use(helmet());
-app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
+app.use(
+  cors({
+    origin: acceptableOrigin,
+    methods: ["GET", "POST", "DELETE"],
+    credentials: true,
+  }),
+  bodyParser.urlencoded({ extended: true }),
+  bodyParser.json()
+);
+app.use(
+  session({
+    name: sessionName,
+    secret: sessionSecret,
+    saveUninitialized: false,
+    resave: false,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      collection: "session",
+      ttl: parseInt(sessionLifetime) / 1000,
+    }),
+    cookie: {
+      sameSite: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: parseInt(sessionLifetime),
+    },
+  })
+);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.resolve(__dirname, "../../dist")));
+  app.get("/*", (req, res) => {
+    res.sendFile(path.resolve("dist/index.html"));
+  });
+}
 
 // TODO: A lot of these shouldn't really be POSTs, shouldn't they?
 app.post(authenticate, postUserAuthenticate);
@@ -47,10 +91,5 @@ app.post(newBand, postNewBand);
 app.post(createUser, postCreateUser);
 app.post(getUserRecords, postUserRecords);
 app.get(getUserProfileEndpoint, getUserProfile);
-
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.resolve(__dirname, "../../dist")));
-  app.get("/*", (req, res) => {
-    res.sendFile(path.resolve("dist/index.html"));
-  });
-}
+app.get(sessionEndpoint, checkUserSession);
+app.delete(sessionEndpoint, deleteUserSession);

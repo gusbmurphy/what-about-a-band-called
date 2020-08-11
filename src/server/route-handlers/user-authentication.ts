@@ -17,6 +17,9 @@ export async function postUserAuthenticate(req, res) {
       return res.status(500).send();
     } else if (user) {
       if (user.passwordHash === md5(password)) {
+        req.session.userId = user._id;
+        console.log("req.session in user authentication: ", req.session);
+        console.log("req.session.id in user authentication: ", req.session.id)
         return res.status(200).send({
           userId: user._id,
           username: user.name,

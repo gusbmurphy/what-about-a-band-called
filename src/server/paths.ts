@@ -9,12 +9,14 @@ export const newBand = "/api/band/new";
 export const createUser = "/api/create-user";
 export const getUsername = "/api/usernames/get";
 export const getUserRecords = "/api/users/get";
+export const sessionEndpoint = "/api/session";
+
 
 const getUserProfileBase = "/api/user-profile";
 export const getUserProfileEndpoint = getUserProfileBase + "/:userId";
 
 export function createGetUserProfileUrl(
-  targetUserId/*: MongooseTypes.ObjectId*/
+  targetUserId /*: MongooseTypes.ObjectId*/
 ): string {
-  return getUserProfileBase + "/" + targetUserId/*.toHexString*/;
+  return getUserProfileBase + "/" + targetUserId /*.toHexString*/;
 }
