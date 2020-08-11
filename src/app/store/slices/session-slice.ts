@@ -79,8 +79,14 @@ const sessionSlice = createSlice({
     },
 
     // User logout
-    requestLogout() {
-      return initialState;
+    requestLogout(state) {
+      state.authenticationStatus = AuthenticationStatuses.LOGGING_OUT;
+    },
+    logoutFailure(state) {
+      state.authenticationStatus = AuthenticationStatuses.SERVER_ERROR;
+    },
+    logoutSuccess(state) {
+      state = initialState;
     },
 
     // User creation
