@@ -54,6 +54,8 @@ export async function postNewBand(req, res) {
     if (err) {
       console.info('Error in "/band/new" route:\n', err);
       return res.status(500).send();
+    } else {
+      return res.status(200).send({newBand});
     }
     // // Add to the users "ownBands"
     // User.findByIdAndUpdate(

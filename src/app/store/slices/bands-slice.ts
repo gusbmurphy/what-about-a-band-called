@@ -66,6 +66,7 @@ const bandsSlice = createSlice({
       state.creationStatus = BandCreationStatuses.CREATING;
     },
     createBandSuccess(state, action: PayloadAction<BandClass>) {
+      console.log("okay whayts up")
       state.creationStatus = BandCreationStatuses.CREATED;
       state.items.push(action.payload);
     },
