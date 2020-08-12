@@ -25,8 +25,8 @@ const ErrorAlert = () => (
 
 const NoNameAlert = () => (
   <Alert variant="warning">
-    <Alert.Heading>This MF said &ldquo; &rdquo;</Alert.Heading>
-    <p>Who are you? John Cage XD? Just kidding, don&apos;t know who that is.</p>
+    <Alert.Heading>This MF said &ldquo;     &rdquo;</Alert.Heading>
+    <p>Who are you, John Cage? 😭😭😭 Just kidding, don&apos;t know who that is.</p>
   </Alert>
 );
 
