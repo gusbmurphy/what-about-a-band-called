@@ -13,8 +13,8 @@ export function* checkSessionSaga(): SagaIterator {
         paths.serverUrl + paths.sessionEndpoint,
         { withCredentials: true }
       );
+      console.log(response);
       if (response.status == 200) {
-        console.log("response in check-session-saga: ", response);
         const { userId, username, bandsModified } = response.data;
         yield put(
           sessionActions.checkSessionSuccess({
