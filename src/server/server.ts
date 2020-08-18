@@ -76,6 +76,9 @@ app.use(
   })
 );
 
+app.get(getUserProfileEndpoint, getUserProfile);
+app.get(sessionEndpoint, checkUserSession);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../../dist")));
   app.get("/*", (req, res) => {
@@ -90,6 +93,4 @@ app.post(modifyBand, postModifyBand);
 app.post(newBand, postNewBand);
 app.post(createUser, postCreateUser);
 app.post(getUserRecords, postUserRecords);
-app.get(getUserProfileEndpoint, getUserProfile);
-app.get(sessionEndpoint, checkUserSession);
 app.delete(sessionEndpoint, deleteUserSession);
