@@ -1,7 +1,7 @@
 import { Types as MongooseTypes } from "mongoose";
 
 export const serverUrl =
-  process.env.NODE_ENV == "production" ? "" : "http://localhost:7777";
+  process.env.NODE_ENV == "production" ? "https://whataboutabandcalled.com" : "http://localhost:7777";
 export const authenticate = "/api/authenticate";
 export const postBands = "/api/bands";
 export const modifyBand = "/api/band/modify";
