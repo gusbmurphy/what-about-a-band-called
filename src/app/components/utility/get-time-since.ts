@@ -4,7 +4,7 @@ const msInDay = msInHour * 24;
 const msInYear = msInDay * 365;
 
 export function getTimeSince(date: Date): string {
-  const elapsedTime = Date.now() - date.getMilliseconds();
+  const elapsedTime = Date.now() - date.getTime();
   if (elapsedTime < msInMinute) {
     return "1m";
   }
