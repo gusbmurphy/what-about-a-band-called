@@ -25,7 +25,7 @@ export async function postBands(req, res) {
 
   query.exec((err, bands) => {
     if (err) {
-      console.info('Error in "/bands/get" route:\n', err);
+      // console.info('Error in "/bands/get" route:\n', err);
       return res.status(500).send();
     }
     return res.status(200).send(bands);
@@ -52,7 +52,7 @@ export async function postNewBand(req, res) {
   });
   newBand.save((err) => {
     if (err) {
-      console.info('Error in "/band/new" route:\n', err);
+      // console.info('Error in "/band/new" route:\n', err);
       return res.status(500).send();
     } else {
       return res.status(200).send({newBand});
@@ -99,7 +99,7 @@ export async function postModifyBand(req, res) {
       // Delete the modification
       BandModification.findByIdAndDelete(existingMod._id, (err) => {
         if (err) {
-          console.info('Error in "/band/modify" route:\n', err);
+          // console.info('Error in "/band/modify" route:\n', err);
           return res.status(500).send();
         }
 
@@ -112,7 +112,7 @@ export async function postModifyBand(req, res) {
             },
             (err) => {
               if (err) {
-                console.info('Error in "/band/modify" route:\n', err);
+                // console.info('Error in "/band/modify" route:\n', err);
                 return res.status(500).send();
               }
 
@@ -124,7 +124,7 @@ export async function postModifyBand(req, res) {
                 },
                 (err) => {
                   if (err) {
-                    console.info('Error in "/band/modify" route:\n', err);
+                    // console.info('Error in "/band/modify" route:\n', err);
                     return res.status(500).send();
                   }
                   return res.status(200).send();
@@ -142,7 +142,7 @@ export async function postModifyBand(req, res) {
       { $inc: { score: modificationValue } },
       (err) => {
         if (err) {
-          console.info('Error in "/band/modify" route:\n', err);
+          // console.info('Error in "/band/modify" route:\n', err);
           return res.status(500).send();
         }
 
@@ -154,7 +154,7 @@ export async function postModifyBand(req, res) {
         });
         modification.save((err) => {
           if (err) {
-            console.info('Error in "/band/modify" route:\n', err);
+            // console.info('Error in "/band/modify" route:\n', err);
             return res.status(500).send();
           }
 
@@ -171,7 +171,7 @@ export async function postModifyBand(req, res) {
             },
             (err) => {
               if (err) {
-                console.info('Error in "/band/modify" route:\n', err);
+                // console.info('Error in "/band/modify" route:\n', err);
                 return res.status(500).send();
               }
               return res.status(200).send();
