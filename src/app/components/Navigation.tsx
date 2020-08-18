@@ -52,9 +52,14 @@ class UnconnectedNavigation extends React.Component<NavigationProps> {
             <Nav.Link onClick={() => this.props.logout()}>Logout</Nav.Link>
           </>
         ) : (
-          <LinkContainer to="/login">
-            <Nav.Link>Login</Nav.Link>
-          </LinkContainer>
+          <>
+            <LinkContainer to="/login">
+              <Nav.Link>Login</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/new-user">
+              <Nav.Link>Create Account</Nav.Link>
+            </LinkContainer>
+          </>
         )}
         {/* </Nav.Item> */}
       </Navbar>
