@@ -11,11 +11,11 @@ export function* fetchProfileSaga(): SagaIterator {
     const { payload } = yield take(
       userProfileActions.requestFetchUserProfile.type
     );
-    console.log(payload);
+    // console.log(payload);
     const targetId = payload.targetId;
-    console.log(targetId);
+    // console.log(targetId);
     try {
-      console.log(createGetUserProfileUrl(targetId));
+      // console.log(createGetUserProfileUrl(targetId));
       const response = yield call(
         axios.get,
         paths.serverUrl + createGetUserProfileUrl(targetId)

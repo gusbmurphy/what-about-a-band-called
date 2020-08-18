@@ -11,7 +11,7 @@ import { SagaIterator } from "redux-saga";
 export function* bandCreationSaga() {
   while (true) {
     const { payload } = yield take(bandActions.requestCreateBand.type);
-    console.log("Saga payload: ", payload);
+    // console.log("Saga payload: ", payload);
     const { creatingUserId, bandName, creatingUsername } = payload;
     // let newBand = {
     //   creatingUserId,
@@ -23,15 +23,15 @@ export function* bandCreationSaga() {
       ownerName: creatingUsername,
     };
     try {
-      console.log("HEre!")
+      // console.log("HEre!")
       const response = yield call(
         axios.post,
         paths.serverUrl + paths.newBand,
         requestBody
       );
-      console.log("response in bandcreationsaga: ", response)
+      // console.log("response in bandcreationsaga: ", response)
       if (response.status == 200) {
-        console.log("now im here!")
+        // console.log("now im here!")
         const newBand: BandClass = response.data.newBand;
         yield put(bandActions.createBandSuccess(newBand));
       }

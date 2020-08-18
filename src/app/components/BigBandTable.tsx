@@ -114,8 +114,8 @@ class UnconnectedBigBandTable extends React.Component<
     prevProps: BigBandTableProps,
     prevState: BigBandTableState
   ) {
-    console.log("this.state.maxBandsDisplayed: ", this.state.maxBandsDisplayed);
-    console.log("prevState.maxBandsDisplayed: ", prevState.maxBandsDisplayed);
+    // console.log("this.state.maxBandsDisplayed: ", this.state.maxBandsDisplayed);
+    // console.log("prevState.maxBandsDisplayed: ", prevState.maxBandsDisplayed);
     if (
       this.state.maxBandsDisplayed > prevState.maxBandsDisplayed ||
       this.state.shouldFetchBands
@@ -193,11 +193,11 @@ class UnconnectedBigBandTable extends React.Component<
                   const currentTarget = e.currentTarget as typeof e.currentTarget & {
                     value: string;
                   };
-                  console.log("currentTarget", currentTarget);
+                  // console.log("currentTarget", currentTarget);
                   const sortTypeAsNumber: number = parseInt(
                     currentTarget.value
                   );
-                  console.log("sortTypeAsNumber", sortTypeAsNumber);
+                  // console.log("sortTypeAsNumber", sortTypeAsNumber);
                   this.setSortType(sortTypeAsNumber);
                 }}
               >

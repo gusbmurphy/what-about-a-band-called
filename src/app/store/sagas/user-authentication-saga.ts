@@ -19,7 +19,7 @@ export function* userAuthenticationSaga() {
         { withCredentials: true }
       );
       const { userId, bandsModified } = response.data;
-      console.log("bandsModified in userAuthenticationSaga: ", bandsModified);
+      // console.log("bandsModified in userAuthenticationSaga: ", bandsModified);
       if (response.status == 200) {
         yield put(
           sessionActions.authenticateUserSuccess({

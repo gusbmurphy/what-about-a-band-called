@@ -11,7 +11,7 @@ export function* bandScoreModificationSaga(): SagaIterator {
     const { payload } = yield take(bandActions.requestModifyBandScore.type);
     const { targetBandId, modifyingUserId, modificationValue } = payload;
     try {
-      console.log("modification value in saga: ", modificationValue);
+      // console.log("modification value in saga: ", modificationValue);
       const response = yield call(
         axios.post,
         paths.serverUrl + paths.modifyBand,

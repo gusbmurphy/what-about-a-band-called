@@ -95,7 +95,7 @@ export async function postModifyBand(req, res) {
 
     // Otherwise, if the value is 0, we can delete this modification
     if (modificationValue == 0) {
-      console.log("in the mod 0 realm");
+      // console.log("in the mod 0 realm");
       // Delete the modification
       BandModification.findByIdAndDelete(existingMod._id, (err) => {
         if (err) {
