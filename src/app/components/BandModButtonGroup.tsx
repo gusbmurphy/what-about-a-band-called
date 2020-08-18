@@ -80,3 +80,16 @@ export class BandModButtonGroup extends React.Component<
     );
   }
 }
+
+export const PlaceholderBandModButtonGroup = () => {
+  return (
+    <ToggleButtonGroup name={"placeHolderModButtons"}>
+      <ToggleButton disabled={true} value={1}>
+        <BsCaretDown />
+      </ToggleButton>
+      <ToggleButton disabled={true} value={2}>
+        <BsCaretUp />
+      </ToggleButton>
+    </ToggleButtonGroup>
+  );
+};

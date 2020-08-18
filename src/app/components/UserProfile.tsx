@@ -57,7 +57,7 @@ class UnconnectedUserProfile extends React.Component<UserProfileProps> {
                         Total score: <b>{profile.totalScore}</b>
                       </div>
                       <div>
-                        Average score: <b>{profile.averageScore}</b>
+                        Average score: <b>{profile.averageScore.toFixed(2)}</b>
                       </div>
                       <div>
                         Names contributed: <b>{profile.namesContributed}</b>

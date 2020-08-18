@@ -188,15 +188,6 @@ class UnconnectedCreateBandForm extends React.Component<
           this.props.username,
           this.state.bandName
         );
-        // this.setState({
-        //   displayBandExistsAlert: false,
-        //   displayUserNotLoggedIn: false,
-        //   displayNoNameAlert: false,
-        //   displayProgess: false,
-        //   displaySuccess: true,
-        //   lastSuccesfulName: this.state.bandName,
-        //   bandName: "",
-        // });
       }
     } else {
       this.setState({
@@ -227,7 +218,6 @@ class UnconnectedCreateBandForm extends React.Component<
             value={this.state.bandName}
           />
           <InputGroup.Append>
-            {/* TODO: disable this button when submitting */}
             {displayProgess ? (
               <Button variant="primary" disabled>
                 <Spinner
@@ -243,9 +233,6 @@ class UnconnectedCreateBandForm extends React.Component<
                 Submit
               </Button>
             )}
-            {/* <Button variant="primary" onClick={() => this.handleClick()}>
-              Submit
-            </Button> */}
           </InputGroup.Append>
         </InputGroup>
         {displayUserNotLoggedIn ? <UserNotLoggedInAlert /> : null}

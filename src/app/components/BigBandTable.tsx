@@ -11,11 +11,15 @@ import { connect, ConnectedProps } from "react-redux";
 import { AuthenticationStatuses, BandSortTypes } from "../store/statuses";
 import { bandActions } from "../store/slices/bands-slice";
 import { sortAndLimitBands } from "./utility/limit-sort-bands";
-import { BandModButtonGroup } from "./BandModButtonGroup";
+import {
+  BandModButtonGroup,
+  PlaceholderBandModButtonGroup,
+} from "./BandModButtonGroup";
 import { RootState } from "../store/";
 import { Types as MongooseTypes } from "mongoose";
 import { createUserProfileUrl } from "./utility/create-user-profile-url";
 import { Link } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
 
 const defaultBandsPerFetch = 20;
 
@@ -69,36 +73,10 @@ type BigBandTableState = {
   maxBandsDisplayed: number;
 };
 
-// UnconnectedBigBandTable.propTypes = {
-//   bands: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       _id: PropTypes.string,
-//       name: PropTypes.string,
-//       ownerId: PropTypes.string,
-//       score: PropTypes.number,
-//     })
-//   ),
-//   userIsAuthenticated: PropTypes.bool.isRequired,
-//   userId: PropTypes.string,
-//   usersModifications: PropTypes.array,
-//   addPointsTo: PropTypes.func.isRequired,
-//   requestFetchBands: PropTypes.func.isRequired,
-//   appIsFetchingBands: PropTypes.bool.isRequired,
-// };
-
 class UnconnectedBigBandTable extends React.Component<
   BigBandTableProps,
   BigBandTableState
 > {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     sortType: BandSortTypes.MOST_RECENT,
-  //     bandsPerFetch: defaultBandsPerFetch,
-  //     shouldFetchBands: false,
-  //     maxBandsDisplayed: defaultBandsPerFetch,
-  //   };
-  // }
   state = {
     sortType: BandSortTypes.MOST_RECENT,
     bandsPerFetch: defaultBandsPerFetch,
@@ -114,8 +92,6 @@ class UnconnectedBigBandTable extends React.Component<
     prevProps: BigBandTableProps,
     prevState: BigBandTableState
   ) {
-    // console.log("this.state.maxBandsDisplayed: ", this.state.maxBandsDisplayed);
-    // console.log("prevState.maxBandsDisplayed: ", prevState.maxBandsDisplayed);
     if (
       this.state.maxBandsDisplayed > prevState.maxBandsDisplayed ||
       this.state.shouldFetchBands
@@ -139,17 +115,12 @@ class UnconnectedBigBandTable extends React.Component<
     this.setState({ sortType: newType });
   }
 
-  // TODO: This only works after the second push, very strange
   loadMore() {
     this.setState((state) => {
       return {
         maxBandsDisplayed: state.maxBandsDisplayed + state.bandsPerFetch,
       };
     });
-    // this.props.requestFetchBands(
-    //   this.state.maxBandsDisplayed,
-    //   this.state.sortType
-    // );
   }
 
   getUserModificationToBand(thisBandId: MongooseTypes.ObjectId) {
@@ -193,11 +164,9 @@ class UnconnectedBigBandTable extends React.Component<
                   const currentTarget = e.currentTarget as typeof e.currentTarget & {
                     value: string;
                   };
-                  // console.log("currentTarget", currentTarget);
                   const sortTypeAsNumber: number = parseInt(
                     currentTarget.value
                   );
-                  // console.log("sortTypeAsNumber", sortTypeAsNumber);
                   this.setSortType(sortTypeAsNumber);
                 }}
               >
@@ -209,29 +178,43 @@ class UnconnectedBigBandTable extends React.Component<
         <Card.Body>
           <Table size="sm" striped bordered>
             <tbody>
-              {desiredBands.map((band) => (
-                <tr key={String(band._id)}>
-                  <td>
-                    <BandModButtonGroup
-                      userIsAuthorized={userIsAuthenticated}
-                      modPerformed={this.getUserModificationToBand(band._id)}
-                      modifyBand={(modValue, undoValue) =>
-                        this.props.addPointsTo(
-                          band._id,
-                          modValue,
-                          this.props.userId,
-                          undoValue
-                        )
-                      }
-                      currentScore={band.score}
-                    />{" "}
-                    <Badge variant="secondary">{band.score}</Badge> {band.name}{" "}
-                    <span className={"font-weight-lighter"}>
-                      from  <Link to={createUserProfileUrl(String(band.ownerId))}>{band.ownerName}</Link>
-                    </span>
-                  </td>
-                </tr>
-              ))}
+              {this.props.appIsFetchingBands ? (
+                <>
+                  {getEntryPlaceholders(defaultBandsPerFetch)}
+                </>
+              ) : (
+                <>
+                  {desiredBands.map((band) => (
+                    <tr key={String(band._id)}>
+                      <td>
+                        <BandModButtonGroup
+                          userIsAuthorized={userIsAuthenticated}
+                          modPerformed={this.getUserModificationToBand(
+                            band._id
+                          )}
+                          modifyBand={(modValue, undoValue) =>
+                            this.props.addPointsTo(
+                              band._id,
+                              modValue,
+                              this.props.userId,
+                              undoValue
+                            )
+                          }
+                          currentScore={band.score}
+                        />{" "}
+                        <Badge variant="secondary">{band.score}</Badge>{" "}
+                        {band.name}{" "}
+                        <span className={"font-weight-lighter"}>
+                          from{" "}
+                          <Link to={createUserProfileUrl(String(band.ownerId))}>
+                            {band.ownerName}
+                          </Link>
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              )}
             </tbody>
           </Table>
           <Button variant="secondary" block onClick={() => this.loadMore()}>
@@ -242,6 +225,25 @@ class UnconnectedBigBandTable extends React.Component<
     );
   }
 }
+
+function getEntryPlaceholders(numOfPlaceholders: number): JSX.Element[] {
+  const placeholders: JSX.Element[] = [];
+  for (let i = 0; i < numOfPlaceholders; i++) {
+    placeholders.push(BandTableEntryPlaceholder());
+  }
+  return placeholders;
+}
+
+const BandTableEntryPlaceholder = () => {
+  return (
+    <tr>
+      <td>
+        <PlaceholderBandModButtonGroup />{" "}
+        <Spinner animation="border" variant="primary" size="sm" />
+      </td>
+    </tr>
+  );
+};
 
 export const BigBandTable = connect(
   mapStateToProps,
