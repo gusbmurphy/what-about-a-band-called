@@ -57,7 +57,7 @@ export class UnconnectedNewUserForm extends React.Component<
   render() {
     const { userCreationStatus } = this.props;
     return (
-      <Container>
+      <Container className={"mb-5"}>
         <Card style={{ maxWidth: "36rem" }} className="mx-auto">
           <Card.Body>
             <Form>

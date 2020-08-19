@@ -43,7 +43,7 @@ class UnconnectedUserProfile extends React.Component<UserProfileProps> {
     const { profile } = this.props;
     if (profile) {
       return (
-        <Container>
+        <Container className={"mb-5"}>
           <Card>
             <Card.Header>
               <h5>{profile.name}</h5>

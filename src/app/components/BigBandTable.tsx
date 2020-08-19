@@ -179,9 +179,7 @@ class UnconnectedBigBandTable extends React.Component<
           <Table size="sm" striped bordered>
             <tbody>
               {this.props.appIsFetchingBands ? (
-                <>
-                  {getEntryPlaceholders(defaultBandsPerFetch)}
-                </>
+                <>{getEntryPlaceholders(defaultBandsPerFetch)}</>
               ) : (
                 <>
                   {desiredBands.map((band) => (

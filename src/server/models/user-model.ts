@@ -11,6 +11,14 @@ import {
 import mongoose from "mongoose";
 import { Band, BandClass } from "./band-model";
 
+@modelOptions({ options: { customName: "UserBandModRecord" } })
+export class UserBandModRecord {
+  @prop()
+  public targetBandId: mongoose.Types.ObjectId;
+  @prop()
+  public value: number;
+}
+
 @modelOptions({ options: { customName: "User" } })
 export class UserClass extends defaultClasses.Base {
   @prop({ required: true })
@@ -21,7 +29,7 @@ export class UserClass extends defaultClasses.Base {
   public email: string;
   // @prop({ ref: () => BandClass, default: [] })
   // public ownBands: Ref<BandClass>[];
-  @prop()
+  @prop({ type: UserBandModRecord })
   public bandsModified: UserBandModRecord[];
 
   public async getTotalScore(this: DocumentType<UserClass>): Promise<number> {
@@ -46,11 +54,6 @@ export class UserClass extends defaultClasses.Base {
     return Band.count({ ownerId: this._id });
   }
 }
-
-type UserBandModRecord = {
-  targetBandId: mongoose.Types.ObjectId;
-  value: number;
-};
 
 export const User = getModelForClass(UserClass);
 
