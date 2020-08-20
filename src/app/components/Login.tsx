@@ -10,11 +10,6 @@ import { AuthenticationStatuses } from "../store/statuses";
 import { sessionActions } from "../store/slices/session-slice";
 import Spinner from "react-bootstrap/Spinner";
 
-// UnconnectedLogin.propTypes = {
-//   authenticateUser: PropTypes.func,
-//   authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses)),
-// };
-
 const mapStateToProps = ({ session }) => ({
   authenticationStatus: session.authenticationStatus,
 });

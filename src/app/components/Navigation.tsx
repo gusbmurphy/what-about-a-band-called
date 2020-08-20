@@ -2,16 +2,9 @@ import React from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { connect, ConnectedProps } from "react-redux";
-// import PropTypes from "prop-types";
 import { AuthenticationStatuses } from "../store/statuses";
 import { LinkContainer } from "react-router-bootstrap";
 import { sessionActions } from "../store/slices/session-slice";
-
-// UnconnectedNavigation.propTypes = {
-//   username: PropTypes.string,
-//   authenticationStatus: PropTypes.oneOf(Object.values(AuthenticationStatuses)),
-//   logout: PropTypes.func.isRequired,
-// };
 
 const mapStateToProps = ({ session }) => ({
   authenticationStatus: session.authenticationStatus,
@@ -44,7 +37,6 @@ class UnconnectedNavigation extends React.Component<NavigationProps> {
         <LinkContainer to="/">
           <Navbar.Brand>wababc?</Navbar.Brand>
         </LinkContainer>
-        {/* <Nav.Item className="mr-sm-2"> */}
         {this.props.authenticationStatus ==
         AuthenticationStatuses.AUTHENTICATED ? (
           <>
@@ -61,7 +53,6 @@ class UnconnectedNavigation extends React.Component<NavigationProps> {
             </LinkContainer>
           </>
         )}
-        {/* </Nav.Item> */}
       </Navbar>
     );
   }
