@@ -7,7 +7,7 @@ import { AuthenticationStatuses } from "../store/statuses";
 import { history } from "../store/history";
 import { BigBandTable } from "./BigBandTable";
 import { Landing } from "./Landing";
-import { Login } from "./Login";
+import { LoginForm } from "./Login";
 import { Navigation } from "./Navigation";
 import { NewUserForm } from "./NewUser";
 import { UserProfile } from "./UserProfile";
@@ -29,7 +29,7 @@ export const Main = () => (
       <div>
         <Navigation />
         <Route exact path="/bands" component={BigBandTable} />
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/login" component={LoginForm} />
         <Route exact path="/new-user" component={NewUserForm} />
         <Route exact path="/" component={Landing} />
         <Route
