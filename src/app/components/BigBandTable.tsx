@@ -160,7 +160,6 @@ class UnconnectedBigBandTable extends React.Component<
                 checked={radio.value === this.state.sortType}
                 onChange={(e: SyntheticEvent) => {
                   e.preventDefault();
-                  // TODO: Figure out what's going on with this type casting
                   const currentTarget = e.currentTarget as typeof e.currentTarget & {
                     value: string;
                   };
