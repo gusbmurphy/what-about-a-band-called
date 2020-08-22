@@ -9,7 +9,7 @@ import { BigBandTable } from "./BigBandTable";
 import { Landing } from "./Landing";
 import { LoginForm } from "./Login";
 import { Navigation } from "./Navigation";
-import { NewUserForm } from "./NewUser";
+import { NewUserForm } from "./NewUserForm";
 import { UserProfile } from "./UserProfile";
 
 // const AuthenticationGuard = (Component) => ({ match }) => {
