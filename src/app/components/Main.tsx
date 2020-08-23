@@ -34,7 +34,7 @@ export const Main = () => (
         <Route exact path="/" component={Landing} />
         <Route
           path="/users/:userId"
-          component={({ match }) => <UserProfile id={match.params.userId} />}
+          component={({ match }) => <UserProfile userId={match.params.userId} />}
         />
       </div>
     </Provider>

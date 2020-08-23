@@ -25,7 +25,7 @@ export function Navigation(): JSX.Element {
   useEffect(() => {
     if (authenticationStatus == AuthenticationStatuses.NOT_TRYING)
       checkSession();
-  });
+  }, []);
 
   return (
     <Navbar bg="light" className={"mb-3"}>
