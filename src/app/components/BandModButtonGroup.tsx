@@ -1,8 +1,6 @@
-import PropTypes from "prop-types";
-import React from "react";
-import Button from "react-bootstrap/Button";
-import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import React, { useEffect, useRef, useState } from "react";
 import ToggleButton from "react-bootstrap/ToggleButton";
+import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import {
   BsCaretDown,
   BsCaretDownFill,
@@ -10,78 +8,63 @@ import {
   BsCaretUpFill,
 } from "react-icons/bs";
 
-// BandModButtonGroup.propTypes = {
-//   userIsAuthorized: PropTypes.bool.isRequired,
-//   modifyBand: PropTypes.func,
-//   modPerformed: PropTypes.oneOf([1, 0, -1]),
-// };
-
-type BandModButtonGroupProps = {
+// TODO: Logging out will still show the BsCarrets as 'filled' if the user modified those bands
+export function BandModButtonGroup({
+  userIsAuthorized,
+  modifyBand,
+  modPerformed,
+}: {
   userIsAuthorized: boolean;
   modifyBand?: (modValue: number, undoValue?: number) => void;
   modPerformed: number;
-  currentScore: number;
-};
+}): JSX.Element {
+  const [modValue, setModValue] = useState(modPerformed);
+  const prevModValue = usePrevious(modValue);
 
-type BandModButtonGroupState = {
-  modValue: number;
-};
-
-// TODO: Logging out will still show the BsCarrets as 'filled' if the user modified those bands
-export class BandModButtonGroup extends React.Component<
-  BandModButtonGroupProps,
-  BandModButtonGroupState
-> {
-  state = {
-    modValue: this.props.modPerformed,
-  };
-
-  componentDidUpdate(
-    prevProps: BandModButtonGroupProps,
-    prevState: BandModButtonGroupState
-  ) {
-    if (this.state.modValue != prevState.modValue) {
-      if (this.state.modValue == 0) {
-        if (this.props.modifyBand) this.props.modifyBand(0, prevState.modValue);
-      } else {
-        if (this.props.modifyBand) this.props.modifyBand(this.state.modValue);
-      }
+  useEffect(() => {
+    if (modValue == 0) {
+      // TODO: This act of checking if modifyBand exists seems bad, can we do better?
+      if (modifyBand) modifyBand(0, prevModValue);
+    } else {
+      if (modifyBand) modifyBand(modValue);
     }
-  }
+  }, [modValue]);
 
-  render() {
-    const { userIsAuthorized, modPerformed } = this.props;
-    return (
-      <ToggleButtonGroup
-        name={"modButtons"}
-        value={this.state.modValue}
-        onChange={(val) =>
-          // console.log(val)
-          this.setState({ modValue: this.state.modValue + val })
-        }
+  return (
+    <ToggleButtonGroup
+      name={"modButtons"}
+      value={modValue}
+      onChange={(val) => setModValue(modValue + val)}
+    >
+      <ToggleButton
+        name={"negativeButton"}
+        value={-1}
+        disabled={!userIsAuthorized}
+        checked={modPerformed == -1}
       >
-        <ToggleButton
-          name={"negativeButton"}
-          value={-1}
-          disabled={!userIsAuthorized}
-          checked={modPerformed == -1}
-        >
-          {this.state.modValue == -1 ? <BsCaretDownFill /> : <BsCaretDown />}
-        </ToggleButton>
-        <ToggleButton
-          name={"positiveButton"}
-          value={1}
-          disabled={!userIsAuthorized}
-          checked={modPerformed == 1}
-        >
-          {this.state.modValue == 1 ? <BsCaretUpFill /> : <BsCaretUp />}
-        </ToggleButton>
-      </ToggleButtonGroup>
-    );
-  }
+        {modValue == -1 ? <BsCaretDownFill /> : <BsCaretDown />}
+      </ToggleButton>
+      <ToggleButton
+        name={"positiveButton"}
+        value={1}
+        disabled={!userIsAuthorized}
+        checked={modPerformed == 1}
+      >
+        {modValue == 1 ? <BsCaretUpFill /> : <BsCaretUp />}
+      </ToggleButton>
+    </ToggleButtonGroup>
+  );
 }
 
-export const PlaceholderBandModButtonGroup = () => {
+function usePrevious(value: any) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+export function PlaceholderBandModButtonGroup(): JSX.Element {
   return (
     <ToggleButtonGroup name={"placeHolderModButtons"}>
       <ToggleButton disabled={true} value={1}>
@@ -92,4 +75,4 @@ export const PlaceholderBandModButtonGroup = () => {
       </ToggleButton>
     </ToggleButtonGroup>
   );
-};
+}

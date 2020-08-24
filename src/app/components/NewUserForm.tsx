@@ -47,7 +47,7 @@ export function NewUserForm(): JSX.Element {
     (state: RootState) => state.session.userCreationStatus
   );
 
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
