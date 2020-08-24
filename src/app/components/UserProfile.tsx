@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTimeSince } from "../components/utility/get-time-since";
 import { RootState } from "../store";
 import { userProfileActions } from "../store/slices/user-profile-slice";
+import BandTable from "./BandTable";
 
 export function UserProfile({
   userId,
@@ -27,7 +28,7 @@ export function UserProfile({
 
   useEffect(() => {
     fetchProfile();
-  });
+  }, []);
 
   return (
     <Container className={"mb-5"}>
@@ -53,19 +54,7 @@ export function UserProfile({
                       </div>
                     </Col>
                     <Col md={8}>
-                      <Table size="sm" striped bordered>
-                        <tbody>
-                          {profile.bands.map((band) => (
-                            <tr key={String(band._id)}>
-                              <td>
-                                <Badge variant="secondary">{band.score}</Badge>{" "}
-                                <b>{band.name}</b> (created{" "}
-                                {getTimeSince(new Date(band.createdOn))} ago)
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </Table>
+                      <BandTable bands={profile.bands} defaultNumToDisplay={10} />
                     </Col>
                   </Row>
                 </Card.Body>

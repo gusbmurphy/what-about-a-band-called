@@ -5,7 +5,7 @@ import { Route, Router } from "react-router-dom";
 import { store } from "../store";
 import { AuthenticationStatuses } from "../store/statuses";
 import { history } from "../store/history";
-import { BigBandTable } from "./BigBandTable";
+import { ControlledBandTable } from "./ControlledBandTable";
 import { Landing } from "./Landing";
 import { LoginForm } from "./Login";
 import { Navigation } from "./Navigation";
@@ -28,7 +28,7 @@ export const Main = () => (
     <Provider store={store}>
       <div>
         <Navigation />
-        <Route exact path="/bands" component={BigBandTable} />
+        <Route exact path="/bands" component={ControlledBandTable} />
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/new-user" component={NewUserForm} />
         <Route exact path="/" component={Landing} />

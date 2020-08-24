@@ -1,6 +1,6 @@
 import React from "react";
 import { CreateBandForm } from "./CreateBandForm";
-import { BigBandTable } from "./BigBandTable";
+import { ControlledBandTable } from "./ControlledBandTable";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -16,7 +16,7 @@ export function Landing() {
         <Row className={"mb-5"}>
           <Col md={8} className={"mb-3"}>
             <CreateBandForm />
-            <BigBandTable />
+            <ControlledBandTable />
           </Col>
           <Col md={4}>
             <Card className={"mb-3"}>
