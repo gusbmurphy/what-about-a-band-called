@@ -11,6 +11,7 @@ import { LoginForm } from "./Login";
 import { Navigation } from "./Navigation";
 import { NewUserForm } from "./NewUserForm";
 import { UserProfile } from "./UserProfile";
+import { About } from "./About";
 
 // const AuthenticationGuard = (Component) => ({ match }) => {
 //   if (
@@ -31,6 +32,7 @@ export const Main = () => (
         <Route exact path="/bands" component={ControlledBandTable} />
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/new-user" component={NewUserForm} />
+        <Route exact path="/about" component={About} />
         <Route exact path="/" component={Landing} />
         <Route
           path="/users/:userId"

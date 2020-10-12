@@ -45,6 +45,9 @@ export function Navigation(): JSX.Element {
           <LinkContainer to="/new-user">
             <Nav.Link>Create Account</Nav.Link>
           </LinkContainer>
+          <LinkContainer to="/about">
+            <Nav.Link>About</Nav.Link>
+          </LinkContainer>
         </>
       )}
     </Navbar>
