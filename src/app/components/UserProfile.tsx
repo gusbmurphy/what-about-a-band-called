@@ -1,50 +1,40 @@
-import React from "react";
-import { RootState } from "../store";
-import { connect, ConnectedProps } from "react-redux";
 import { Types as MongooseTypes } from "mongoose";
-import {
-  UserProfileType,
-  userProfileActions,
-} from "../store/slices/user-profile-slice";
-import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import React, { useEffect } from "react";
 import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/esm/Table";
+import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/esm/Badge";
+import Container from "react-bootstrap/esm/Container";
+import Table from "react-bootstrap/esm/Table";
+import Row from "react-bootstrap/Row";
+import { useDispatch, useSelector } from "react-redux";
 import { getTimeSince } from "../components/utility/get-time-since";
+import { RootState } from "../store";
+import { userProfileActions } from "../store/slices/user-profile-slice";
+import BandTable from "./BandTable";
 
-function mapStateToProps(state: RootState) {
-  return {
-    fetchStatus: state.userProfile.fetchStatus,
-    profile: state.userProfile.profile,
-  };
-}
+export function UserProfile({
+  userId,
+}: {
+  userId: MongooseTypes.ObjectId;
+}): JSX.Element {
+  const { profile } = useSelector(
+    (state: RootState) => state.userProfile
+  );
 
-function mapDispatchToProps(dispatch) {
-  return {
-    requestFetchProfile: (targetId: MongooseTypes.ObjectId) => {
-      dispatch(userProfileActions.requestFetchUserProfile({ targetId }));
-    },
-  };
-}
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
-type UserProfileProps = ConnectedProps<typeof reduxConnector> & {
-  id: MongooseTypes.ObjectId;
-};
-
-class UnconnectedUserProfile extends React.Component<UserProfileProps> {
-  componentDidMount() {
-    this.props.requestFetchProfile(this.props.id);
+  const dispatch = useDispatch();
+  function fetchProfile() {
+    dispatch(userProfileActions.requestFetchUserProfile({ targetId: userId }));
   }
 
-  render() {
-    const { profile } = this.props;
-    if (profile) {
-      return (
-        <Container className={"mb-5"}>
-          <Card>
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  return (
+    <Container className={"mb-5"}>
+      <Card>
+        {profile ? (
+          <>
             <Card.Header>
               <h5>{profile.name}</h5>
             </Card.Header>
@@ -64,30 +54,17 @@ class UnconnectedUserProfile extends React.Component<UserProfileProps> {
                       </div>
                     </Col>
                     <Col md={8}>
-                      <Table size="sm" striped bordered>
-                        <tbody>
-                          {profile.bands.map((band) => (
-                            <tr key={String(band._id)}>
-                              <td>
-                                <Badge variant="secondary">{band.score}</Badge>{" "}
-                                <b>{band.name}</b> (created {getTimeSince(new Date(band.createdOn))} ago)
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </Table>
+                      <BandTable bands={profile.bands} defaultNumToDisplay={10} />
                     </Col>
                   </Row>
                 </Card.Body>
               </Card>
             </Card.Body>
-          </Card>
-        </Container>
-      );
-    } else {
-      return null;
-    }
-  }
+          </>
+        ) : (
+          <p>Loading</p>
+        )}
+      </Card>
+    </Container>
+  );
 }
-
-export const UserProfile = reduxConnector(UnconnectedUserProfile);
