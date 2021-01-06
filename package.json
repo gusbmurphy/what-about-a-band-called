@@ -87,7 +87,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/webpack-env": "^1.15.2",
     "autoprefixer": "^9.8.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-plugin-transform-typescript-metadata": "^0.3.0",
     "bootstrap": "^4.5.0",
     "connect-mongo": "^3.2.0",
