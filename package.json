@@ -54,7 +54,7 @@
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "html-webpack-plugin": "^4.3.0",
-    "jsdom": "^16.2.2",
+    "jsdom": "^16.5.0",
     "mocha": "^8.0.1",
     "mongodb": "^3.5.9",
     "node-mocks-http": "^1.8.1",
