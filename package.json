@@ -55,7 +55,7 @@
     "faker": "^4.1.0",
     "html-webpack-plugin": "^4.3.0",
     "jsdom": "^16.2.2",
-    "mocha": "^8.0.1",
+    "mocha": "^8.4.0",
     "mongodb": "^3.5.9",
     "node-mocks-http": "^1.8.1",
     "nodemon": "^2.0.4",
